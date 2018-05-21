@@ -247,13 +247,13 @@ protected:
 	double ellipHalfWidth2overEllipHalfHeight2;
 };
 
-class CircularAperture: public Aperture
+class CircularAperture : public Aperture
 {
 public:
 	/**
 	 *  CircularAperture override base constructor
 	 */
-	CircularAperture();
+	CircularAperture(double aper3);
 
 	/**
 	 *  CircularAperture override default constructor
@@ -287,7 +287,7 @@ public:
 	/**
 	 *  RectangularAperture override base constructor
 	 */
-	RectangularAperture();
+	RectangularAperture(double aper1, double aper2);
 
 	/**
 	 *  RectangularAperture override default constructor
@@ -323,7 +323,7 @@ public:
 	/**
 	 *  EllipticalAperture override base constructor
 	 */
-	EllipticalAperture();
+	EllipticalAperture(double aper3, double aper4);
 
 	/**
 	 *  EllipticalAperture override default constructor
@@ -357,9 +357,13 @@ class RectEllipseAperture: public Aperture
 public:
 
 	/**
-	 *  RectEllipseAperture override base constructor
+	 *  RectEllipseAperture empty constructor for collimator override
 	 */
 	RectEllipseAperture();
+	/**
+	 *  RectEllipseAperture override base constructor
+	 */
+	RectEllipseAperture(double aper1, double aper2, double aper3, double aper4);
 
 	/**
 	 *  RectEllipseAperture override default constructor

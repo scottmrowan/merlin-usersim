@@ -61,8 +61,7 @@ pair<AcceleratorModel*,BeamData*> ConstructModel(const string& fname, bool addcu
 	model->ExtractTypedComponents(cavities,"*"); // linac cavities only
 
 	TeslaWakePotentials* wake = new TeslaWakePotentials;
-	Aperture* iris = new CircularAperture(); // TESLA iris aperture
-	iris->setEllipHalfWidth(0.035);
+	Aperture* iris = new CircularAperture(0.035); // TESLA iris aperture
 
 	size_t nCavsPerKlystron = 24;
 	size_t nKlys=0;

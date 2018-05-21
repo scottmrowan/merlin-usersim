@@ -44,9 +44,9 @@ Aperture::Aperture(string type, double s, double aper1, double aper2, double ape
 
 }
 
-CircularAperture::CircularAperture()
+CircularAperture::CircularAperture(double aper3)
 {
-
+	setEllipHalfWidth(aper3);
 }
 
 CircularAperture::CircularAperture(string type, double s, double aper1, double aper2, double aper3, double aper4) :
@@ -79,9 +79,10 @@ inline bool CircularAperture::CheckWithinApertureBoundaries(double x, double y, 
 		return true;
 }
 
-RectangularAperture::RectangularAperture()
+RectangularAperture::RectangularAperture(double aper1, double aper2)
 {
-
+	setRectHalfWidth(aper1);
+	setRectHalfHeight(aper2);
 }
 
 RectangularAperture::RectangularAperture(string type, double s, double aper1, double aper2, double aper3, double aper4) :
@@ -115,9 +116,10 @@ inline bool RectangularAperture::CheckWithinApertureBoundaries(double x, double 
 		return true;
 }
 
-EllipticalAperture::EllipticalAperture()
+EllipticalAperture::EllipticalAperture(double aper3, double aper4)
 {
-
+	setEllipHalfWidth(aper3);
+	setEllipHalfHeight(aper4);
 }
 
 EllipticalAperture::EllipticalAperture(string type, double s, double aper1, double aper2, double aper3, double aper4) :
@@ -153,6 +155,14 @@ inline bool EllipticalAperture::CheckWithinApertureBoundaries(double x, double y
 RectEllipseAperture::RectEllipseAperture()
 {
 
+}
+
+RectEllipseAperture::RectEllipseAperture(double aper1, double aper2, double aper3, double aper4)
+{
+	setRectHalfWidth(aper1);
+	setRectHalfHeight(aper2);
+	setEllipHalfWidth(aper3);
+	setEllipHalfHeight(aper4);
 }
 
 RectEllipseAperture::RectEllipseAperture(string type, double s, double aper1, double aper2, double aper3, double aper4) :

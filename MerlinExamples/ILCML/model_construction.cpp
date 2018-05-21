@@ -50,8 +50,7 @@ pair<AcceleratorModel*,BeamData*> ConstructModel(const string& fname)
 	model->ExtractTypedElements(cavities,"CAV*"); // linac cavities only
 	TeslaWakePotentials* wake = new TeslaWakePotentials;
 
-	Aperture* iris = new CircularAperture(); // TESLA iris aperture
-	iris->setEllipHalfWidth(0.035);
+	Aperture* iris = new CircularAperture(0.035); // TESLA iris aperture
 
 	for(vector<TWRFStructure*>::iterator c = cavities.begin(); c!=cavities.end(); c++)
 	{

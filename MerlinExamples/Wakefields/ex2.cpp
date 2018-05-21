@@ -111,9 +111,7 @@ int main()
 	Collimator* collimator      = new Collimator("aCollimator", collimatorlength, collimatorthick);
 	double aperturewidth  = 1.9*millimeter;
 	double apertureheight = 1.9*millimeter;
-	Aperture* aperture = new RectangularAperture();
-	aperture->setRectHalfWidth(aperturewidth);
-	aperture->setRectHalfHeight(apertureheight);
+	Aperture* aperture = new RectangularAperture(aperturewidth,apertureheight);
 	collimator->SetAperture(aperture);
 
 	double driftlength2 = 1.0*meter;

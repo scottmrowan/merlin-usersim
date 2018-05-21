@@ -119,8 +119,7 @@ Aperture* ConstructAperture(const double& ap_type, MADKeyMap* prmMap)
 		else
 		{
 			//We have a non-zero radius, create the aperture
-			ap = new CircularAperture();
-			ap->setEllipHalfWidth(r);
+			ap = new CircularAperture(r);
 		}
 	}
 
@@ -136,10 +135,7 @@ Aperture* ConstructAperture(const double& ap_type, MADKeyMap* prmMap)
 		}
 		else
 		{
-			ap = new RectangularAperture();
-			ap->setRectHalfWidth(w);
-			ap->setRectHalfHeight(h);
-
+			ap = new RectangularAperture(w,h);
 		}
 	}
 
@@ -158,11 +154,7 @@ Aperture* ConstructAperture(const double& ap_type, MADKeyMap* prmMap)
 		}
 		else
 		{
-			ap = new RectEllipseAperture ();
-			ap->setRectHalfWidth(w);
-			ap->setRectHalfHeight(h);
-			ap->setEllipHalfWidth(a);
-			ap->setEllipHalfHeight(b);
+			ap = new RectEllipseAperture (w,h,a,b);
 		}
 	}
 

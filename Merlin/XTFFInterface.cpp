@@ -498,9 +498,7 @@ void XTFFInterface::ConstructComponent(XTFF_Data& dat)
 		c = mc->AppendComponent(ConstructDrift(dat));
 		if(incApertures)
 		{
-			Aperture* ap = new RectangularAperture;
-			ap->setRectHalfWidth(2 * dat[XGAP]);
-			ap->setRectHalfHeight(2 * dat[YGAP]);
+			Aperture* ap = new RectangularAperture(2 * dat[XGAP],2 * dat[YGAP]);
 			c->SetAperture(ap);
 		}
 	}
@@ -517,8 +515,7 @@ void XTFFInterface::ConstructComponent(XTFF_Data& dat)
 
 	if(c && incApertures && !fequal(dat[APER],0.0))
 	{
-		Aperture* ap = new CircularAperture;
-		ap->setEllipHalfHeight(dat[APER]);
+		Aperture* ap = new CircularAperture(dat[APER]);
 		c->SetAperture(ap);
 	}
 
