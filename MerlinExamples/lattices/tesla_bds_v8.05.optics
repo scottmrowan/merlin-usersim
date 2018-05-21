@@ -1,4 +1,4 @@
-* NAME             KEYWORD          S              L              K0L            K1L            K2L            K3L            TILT           TYPE            
+* NAME             KEYWORD          S              L              ANGLE            K1L            K2L            K3L            TILT           TYPE            
 $ %16s             %16s             %e             %e             %e             %e             %e             %e             %e             %16s            
 @ XIY              %e   -32.7535    
 @ XIX              %e   -50.0317    

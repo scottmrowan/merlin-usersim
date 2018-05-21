@@ -1,4 +1,4 @@
-* NAME             KEYWORD          S              L              KS             K0L            E1             E2             K1L            KS1L           K2L            K3L            TILT           TYPE            
+* NAME             KEYWORD          S              L              KS             ANGLE            E1             E2             K1L            KS1L           K2L            K3L            TILT           TYPE            
 $ %16s             %16s             %e             %e             %e             %e             %e             %e             %e             %e             %e             %e             %e             %16s            
 @ GAMTR            %e    176.470    
 @ ALFA             %e   0.321112E-04
