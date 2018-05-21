@@ -13,6 +13,7 @@
 #include "ParticleBunchTypes.h"
 #include "BeamData.h"
 #include "ParticleBunch.h"
+#include "Particle.h"
 #include "RandomNG.h"
 #include "ParticleDistributionGenerator.h"
 #include "HaloParticleDistributionGenerator.h"
@@ -33,10 +34,10 @@ using namespace std;
 
 struct stats
 {
-	PSvector mean;
-	PSvector std;
-	PSvector min;
-	PSvector max;
+	Particle mean;
+	Particle std;
+	Particle min;
+	Particle max;
 };
 
 // Calculate min, max, mean and std deviation
@@ -45,9 +46,9 @@ stats get_stats(ParticleBunch * pb)
 	stats bunch_stats;
 	bunch_stats.min = pb->GetParticles()[0];
 	bunch_stats.max = pb->GetParticles()[0];
-	bunch_stats.mean = PSvector(0);
-	PSvector sum(0);
-	PSvector sum_sqs(0);
+	bunch_stats.mean = Particle(0);
+	Particle sum(0);
+	Particle sum_sqs(0);
 
 	for (auto & p: *pb)
 	{
@@ -75,8 +76,8 @@ bool are_close(double a, double b, double tol)
 	return fabs(a - b) < tol;
 }
 
-// compare PSvector to values, with tolerance.
-bool are_close(PSvector a, double x, double xp, double y, double yp, double ct, double dp, double tol)
+// compare Particle to values, with tolerance.
+bool are_close(Particle a, double x, double xp, double y, double yp, double ct, double dp, double tol)
 {
 	bool good = true;
 	if (fabs(a.x() - x) > tol)

@@ -269,7 +269,7 @@ int main(int argc, char* argv[])
 			myBunch->Output(bunch_output2);
 		}
 		// Histogramming
-		for (PSvectorArray::iterator ip=myBunch->begin(); ip!=myBunch->end(); ip++)
+		for (ParticleArray::iterator ip=myBunch->begin(); ip!=myBunch->end(); ip++)
 		{
 			double coords[] = {ip->x(), ip->xp(), ip->y()-y_offset, ip->yp(), -ip->dp()};
 			for(int i=0; i<5; i++)
