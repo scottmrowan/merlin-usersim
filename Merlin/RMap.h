@@ -19,7 +19,7 @@
 #include "merlin_config.h"
 #include <cassert>
 #include <vector>
-#include "PSTypes.h"
+#include "PhaseSpaceHeaders.h"
 #include "LinearAlgebra.h"
 #include "utils.h"
 
@@ -44,7 +44,7 @@ public:
 		double val;
 		Rij() {}
 		Rij(int k, int l, double v =0) : i(k),j(l),val(v) {}
-		void Apply(const PSvector& orig,PSvector& res) const
+		void Apply(const Particle& orig,Particle& res) const
 		{
 			res[i]+=val*orig[j];
 		}
@@ -117,7 +117,7 @@ public:
 	/**
 	* Apply to a single PSvector
 	*/
-	PSvector& Apply(PSvector&) const;
+	Particle& Apply(Particle&) const;
 
 	/**
 	* Apply to a covariance (sigma) matrix
@@ -184,7 +184,7 @@ public:
 
 protected:
 
-	void Apply(const PSvector&, PSvector&) const;
+	void Apply(const Particle&, Particle&) const;
 
 	/**
 	* helper function used to map second order moments
@@ -245,7 +245,7 @@ public:
 /**
 * Applies the R2Map to the specified 'plane' of a PSvector
 */
-inline void ApplyR2Map(const R2Map& R, PSvector& X, int plane)
+inline void ApplyR2Map(const R2Map& R, Particle& X, int plane)
 {
 	double *x0 = &X[0]+2*plane;
 	const double x1 = R.r11*x0[0]+R.r12*x0[1];
@@ -259,7 +259,7 @@ inline void ApplyR2Map(const R2Map& R, PSvector& X, int plane)
 */
 inline void ApplyR2Map(const R2Map& R, TPSMoments<2>& S, int plane)
 {
-	ApplyR2Map(R,static_cast<PSvector&>(S),plane);
+	ApplyR2Map(R,static_cast<Particle&>(S),plane);
 
 	const int p = 2*plane;
 
@@ -353,7 +353,7 @@ struct ApplySimpleDrift
 	* Apply to single vector
 	*/
 	explicit ApplySimpleDrift(double len):z(len) {}
-	void Apply(PSvector& x) const
+	void Apply(Particle& x) const
 	{
 		x.x()+=z*x.xp();
 		x.y()+=z*x.yp();
@@ -364,7 +364,7 @@ struct ApplySimpleDrift
 	*/
 	void Apply(TPSMoments<2>& s) const
 	{
-		Apply(static_cast<PSvector&>(s));
+		Apply(static_cast<Particle&>(s));
 		s(0,0)+=z*(2*s(0,1)+z*s(1,1));
 		s(0,1)+=z*s(1,1);
 		s(0,2)+=z*(s(0,3)+s(1,2)+z*s(1,3));
@@ -379,7 +379,7 @@ struct ApplySimpleDrift
 	*/
 	void Apply(TPSMoments<3>& s) const
 	{
-		Apply(static_cast<PSvector&>(s));
+		Apply(static_cast<Particle&>(s));
 		s(0,0)+=z*(2*s(0,1)+z*s(1,1));
 		s(0,1)+=z*s(1,1);
 		s(0,2)+=z*(s(0,3)+s(1,2)+z*s(1,3));
@@ -407,13 +407,13 @@ struct ApplyDriftWithPathLength
 {
 	double s;
 	explicit ApplyDriftWithPathLength(double len):s(len) {}
-	void Apply(PSvector& x) const
+	void Apply(Particle& x) const
 	{
 		x.x()+=s*x.xp();
 		x.y()+=s*x.yp();
 		x.ct()-=s*(x.xp()*x.xp()+x.yp()*x.yp())/2.0;
 	}
-	void operator()(PSvector& x) const
+	void operator()(Particle& x) const
 	{
 		Apply(x);
 	}

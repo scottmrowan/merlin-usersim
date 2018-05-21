@@ -30,7 +30,7 @@ public:
 	/**
 	* Constructs a MuonBunch using the specified momentum, total charge and the particle array. Note that on exit, particles is empty.
 	*/
-	MuonBunch (double P0, double Q, PSvectorArray& particles) : ParticleBunch(P0, Q, particles) {};
+	MuonBunch (double P0, double Q, ParticleArray& particles) : ParticleBunch(P0, Q, particles) {};
 
 	/**
 	* Read phase space vectors from specified input stream.

@@ -10,7 +10,7 @@
 
 #include "merlin_config.h"
 #include "Transform3D.h"
-#include "PSTypes.h"
+#include "PhaseSpaceHeaders.h"
 
 /**
 *	Utility class for performing an arbitrary 3D coordinate
@@ -21,15 +21,15 @@
 *	errors.
 */
 
-class PSvectorTransform3D
+class PhaseSpaceTransform3D
 {
 public:
 
-	PSvectorTransform3D (const Transform3D& tfrm);
+	PhaseSpaceTransform3D (const Transform3D& tfrm);
 
-	PSvector& Apply (PSvector& p) const;
-	PSvectorArray& Apply (PSvectorArray& pv) const;
-	PSvector& operator () (PSvector& p) const;
+	Particle& Apply (Particle& p) const;
+	ParticleArray& Apply (ParticleArray& pv) const;
+	Particle& operator () (Particle& p) const;
 
 private:
 
@@ -37,7 +37,7 @@ private:
 	bool bNoRot;
 };
 
-inline PSvector& PSvectorTransform3D::operator () (PSvector& p) const
+inline Particle& PhaseSpaceTransform3D::operator () (Particle& p) const
 {
 	return Apply(p);
 }

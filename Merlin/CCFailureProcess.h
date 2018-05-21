@@ -106,13 +106,13 @@ public:
 	*  Performs the pre-CC particle kick
 	*  @param[in] M12 Transfer matrix element between two points
 	*/
-	virtual void ApplyPreCCKick(PSvector &p, double V, double M12, bool horizontal);
+	virtual void ApplyPreCCKick(Particle &p, double V, double M12, bool horizontal);
 
 	/**
 	*  Performs the post-CC particle kick
 	*  @param[in] M12 Transfer matrix element between two points
 	*/
-	virtual void ApplyPostCCKick(PSvector &p, double V, double M12, bool horizontal);
+	virtual void ApplyPostCCKick(Particle &p, double V, double M12, bool horizontal);
 
 	/**
 	* Switch on/off Failure

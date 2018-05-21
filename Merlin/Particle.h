@@ -15,7 +15,7 @@
 #include "LinearAlgebra.h"
 
 // Phase space coordinate indices
-typedef int PScoord;
+typedef int PhaseSpaceCoord;
 #define ps_X  0
 #define ps_XP 1
 #define ps_Y  2
@@ -25,14 +25,14 @@ typedef int PScoord;
 
 #define PS_LENGTH 10
 
-class PSvector
+class Particle
 {
 public:
 
-	PSvector ()
+	Particle ()
 	{}
 
-	explicit PSvector (double x)
+	explicit Particle (double x)
 	{
 		std::fill(v,v+PS_LENGTH,x);
 	}
@@ -80,7 +80,7 @@ public:
 	}
 
 	//	Array access.
-	double operator [] (PScoord coord) const
+	double operator [] (PhaseSpaceCoord coord) const
 	{
 		return v[coord];
 	}
@@ -130,7 +130,7 @@ public:
 	/**
 	*	Array access.
 	*/
-	double& operator [] (PScoord coord)
+	double& operator [] (PhaseSpaceCoord coord)
 	{
 		return v[coord];
 	}
@@ -143,12 +143,12 @@ public:
 		return RealVector(v,PS_LENGTH);
 	}
 
-	bool operator == (const PSvector& psv) const
+	bool operator == (const Particle& psv) const
 	{
 		return memcmp(v,psv.v,PS_LENGTH*sizeof(double))==0;
 	}
 
-	bool operator != (const PSvector& psv) const
+	bool operator != (const Particle& psv) const
 	{
 		return memcmp(v,psv.v,PS_LENGTH*sizeof(double))!=0;
 	}
@@ -164,7 +164,7 @@ public:
 	/**
 	*	Arithmetic assignment
 	*/
-	PSvector& operator += (const PSvector& p)
+	Particle& operator += (const Particle& p)
 	{
 		double *q=v;
 		const double *r=p.v;
@@ -175,7 +175,7 @@ public:
 		return *this;
 	}
 
-	PSvector& operator -= (const PSvector& p)
+	Particle& operator -= (const Particle& p)
 	{
 		double *q=v;
 		const double *r=p.v;
@@ -186,7 +186,7 @@ public:
 		return *this;
 	}
 
-	PSvector& operator *= (double x)
+	Particle& operator *= (double x)
 	{
 		for(double *q = v; q!=v+PS_LENGTH; q++)
 		{
@@ -195,7 +195,7 @@ public:
 		return *this;
 	}
 
-	PSvector& operator /= (double x)
+	Particle& operator /= (double x)
 	{
 		for(double *q = v; q!=v+PS_LENGTH; q++)
 		{
@@ -207,15 +207,15 @@ public:
 	/**
 	* binary arithmetic operators
 	*/
-	PSvector operator+(const PSvector& rhs) const
+	Particle operator+(const Particle& rhs) const
 	{
-		PSvector rv(*this);
+		Particle rv(*this);
 		return rv+=rhs;
 	}
 
-	PSvector operator-(const PSvector& rhs) const
+	Particle operator-(const Particle& rhs) const
 	{
-		PSvector rv(*this);
+		Particle rv(*this);
 		return rv-=rhs;
 	}
 
@@ -223,21 +223,21 @@ public:
 	*	Reads the vector as six floating point numbers,
 	*	separated by spaces and terminated by a newline.
 	*/
-	friend std::ostream& operator<<(std::ostream& os, const PSvector& v);
+	friend std::ostream& operator<<(std::ostream& os, const Particle& v);
 
 	/**
 	*	Outputs the vector in row form, space delimited with a
 	*	terminating newline.
 	*/
-	friend std::istream& operator>>(std::istream& is, PSvector& v);
+	friend std::istream& operator>>(std::istream& is, Particle& v);
 
 private:
 	double __attribute__((aligned(16))) v[PS_LENGTH];
 };
 
 /**
-*	A linear array of PSvector objects.
+*	A linear array of particle phase space vector objects.
 */
-typedef std::vector<PSvector> PSvectorArray;
+typedef std::vector<Particle> ParticleArray;
 
 #endif

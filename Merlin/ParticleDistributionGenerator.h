@@ -8,7 +8,7 @@
 #ifndef ParticleDistributionGenerator_h
 #define ParticleDistributionGenerator_h 1
 
-#include "PSvector.h"
+#include "Particle.h"
 #include "RandomNG.h"
 
 inline double RandomGauss(double variance, double cutoff)
@@ -32,7 +32,7 @@ public:
 	/**
 	 * Returns a single PSvector from the distribution
 	 */
-	virtual PSvector GenerateFromDistribution() const = 0;
+	virtual Particle GenerateFromDistribution() const = 0;
 	virtual ~ParticleDistributionGenerator() {};
 };
 
@@ -46,14 +46,14 @@ public:
 	 * @param cutoffs_ Vector of cut off points in the distribution in each coordinate.
 	 * Default zero gives no cut off.
 	 */
-	NormalParticleDistributionGenerator(PSvector cutoffs_ = PSvector(0)): cutoffs(cutoffs_) {};
+	NormalParticleDistributionGenerator(Particle cutoffs_ = Particle(0)): cutoffs(cutoffs_) {};
 	/**
 	 * @param cutoff Cut off point in distribution, same in each coordinate
 	 */
-	NormalParticleDistributionGenerator(double cutoff): cutoffs(PSvector(cutoff)) {};
-	virtual PSvector GenerateFromDistribution() const override;
+	NormalParticleDistributionGenerator(double cutoff): cutoffs(Particle(cutoff)) {};
+	virtual Particle GenerateFromDistribution() const override;
 private:
-	PSvector cutoffs;
+	Particle cutoffs;
 };
 
 /**
@@ -62,7 +62,7 @@ private:
 class UniformParticleDistributionGenerator: public ParticleDistributionGenerator
 {
 public:
-	virtual PSvector GenerateFromDistribution() const override;
+	virtual Particle GenerateFromDistribution() const override;
 };
 
 /**
@@ -71,7 +71,7 @@ public:
 class RingParticleDistributionGenerator: public ParticleDistributionGenerator
 {
 public:
-	virtual PSvector GenerateFromDistribution() const override;
+	virtual Particle GenerateFromDistribution() const override;
 };
 
 #endif

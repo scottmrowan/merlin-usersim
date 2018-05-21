@@ -6,7 +6,7 @@
  */
 
 #include <cmath>
-#include "PSTypes.h"
+#include "PhaseSpaceHeaders.h"
 #include "RandomNG.h"
 #include <fstream>
 #include "utils.h"
@@ -45,7 +45,7 @@ pair<double,double> CoulombScatter(double x, double theta0)
 * @param[in] E0 Reference energy (GeV)
 *
 */
-void ScatterParticle(PSvector& p, double X0, double x, double E0)
+void ScatterParticle(Particle& p, double X0, double x, double E0)
 {
 	static const double MAXDP=1.0-1.0e-7; /// maximum allowed energy loss
 

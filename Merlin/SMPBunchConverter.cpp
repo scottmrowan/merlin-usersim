@@ -7,7 +7,7 @@
 
 #include "ParticleBunch.h"
 #include "SMPBunch.h"
-#include "PSvector.h"
+#include "Particle.h"
 #include "BunchConverter.h"
 #include <iostream>
 #include "TCovMtrx.h"
@@ -50,9 +50,9 @@ ParticleTracking::ParticleBunch* SMPBunchConverter(SMPTracking::SMPBunch*  SB, s
 	int N_ct=set_ct.size();
 	int N_dp=set_dp.size();
 
-	PSvector mean(0);
-	PSvectorArray particles;
-	PSvector p;
+	Particle mean(0);
+	ParticleArray particles;
+	Particle p;
 	for(SMPBunch::const_iterator sp=SB->begin(); sp!=SB->end(); sp++)
 	{
 		const SliceMacroParticle& x = (*sp);
@@ -123,8 +123,8 @@ ParticleTracking::ParticleBunch* SMPBunchConverter(SMPTracking::SMPBunch*  SB, s
 	if(adjust)
 	{
 		mean/=particles.size();
-		PSvector delta = SB->GetCentroid(delta)-mean;
-		for(PSvectorArray::iterator it=particles.begin(); it!=particles.end(); it++)
+		Particle delta = SB->GetCentroid(delta)-mean;
+		for(ParticleArray::iterator it=particles.begin(); it!=particles.end(); it++)
 		{
 			*it+=delta;
 		}

@@ -27,7 +27,7 @@ private:
 		Tijk(int i1, int j1, int k1, double val =0)
 			: Rij(i1,j1,val),k(k1) {}
 
-		void Apply(const PSvector& orig,PSvector& res) const
+		void Apply(const Particle& orig,Particle& res) const
 		{
 			res[i]+=val*orig[j]*orig[k];
 		}
@@ -73,7 +73,7 @@ public:
 	/**
 	* Operating on a PSvector
 	*/
-	PSvector& Apply(PSvector& p) const;
+	Particle& Apply(Particle& p) const;
 
 	/**
 	* Output

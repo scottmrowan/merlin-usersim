@@ -161,7 +161,7 @@ pair<AcceleratorModel*,BeamData*> ConstructModel(const string& fname)
 void Print(string tag, SMPBunch* bunch)
 {
 
-	PSmoments S;
+	PhaseSpaceMoments S;
 	bunch->GetMoments(S);
 	double E = bunch->GetReferenceMomentum();
 	E*=1+S.mean(ps_DP);

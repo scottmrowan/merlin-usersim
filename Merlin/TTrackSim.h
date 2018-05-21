@@ -107,7 +107,6 @@ class TTrackSim : public TrackingSimulation
 public:
 
 	typedef __TYPENAME__ T::bunch_type bunch_type;
-	typedef __TYPENAME__ bunch_type::particle_type particle_type;
 	typedef TTrnsProc<T> transport_process;
 	typedef __TYPENAME__ transport_process::integrator_type integrator_type;
 	typedef __TYPENAME__ T::ISetBase integrator_set_base;
@@ -128,7 +127,7 @@ public:
 	* initial particle.
 	*/
 	TTrackSim (const AcceleratorModel::Beamline& bline,
-	           const particle_type& p, double Pref);
+	           const Particle& p, double Pref);
 
 	/**
 	* Constructor taking the beamline to be tracked and a
@@ -146,7 +145,7 @@ public:
 	* initial particle.
 	*/
 	TTrackSim (const AcceleratorModel::RingIterator& ring,
-	           const particle_type& p, double Pref);
+	           const Particle& p, double Pref);
 
 	/**
 	* Default constructor
@@ -181,7 +180,7 @@ public:
 	/**
 	* Sets the initial particle for single-particle tracking.
 	*/
-	void SetInitialParticle (const particle_type& p, double Pref);
+	void SetInitialParticle (const Particle& p, double Pref);
 
 	/**
 	* Returns a reference to the current tracked bunch.
@@ -225,7 +224,7 @@ TTrackSim<T>::TTrackSim (const AcceleratorModel::Beamline& bline,
 
 template<class T>
 TTrackSim<T>::TTrackSim (const AcceleratorModel::Beamline& bline,
-                         const particle_type& p, double Pref)
+                         const Particle& p, double Pref)
 	: TrackingSimulation(bline),transportProc(new transport_process())
 {
 	SetInitialParticle(p,Pref);
@@ -243,7 +242,7 @@ TTrackSim<T>::TTrackSim (const AcceleratorModel::RingIterator& ring,
 
 template<class T>
 TTrackSim<T>::TTrackSim (const AcceleratorModel::RingIterator& ring,
-                         const particle_type& p, double Pref)
+                         const Particle& p, double Pref)
 	: TrackingSimulation(ring),transportProc(new transport_process())
 {
 	SetInitialParticle(p,Pref);
@@ -259,7 +258,7 @@ TTrackSim<T>::TTrackSim ()
 
 
 template<class T>
-void TTrackSim<T>::SetInitialParticle (const particle_type& p, double Pref)
+void TTrackSim<T>::SetInitialParticle (const Particle& p, double Pref)
 {
 	bunch_type* b = new bunch_type(Pref);
 	b->AddParticle(p);

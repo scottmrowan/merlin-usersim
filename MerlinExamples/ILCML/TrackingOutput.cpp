@@ -19,7 +19,7 @@ using namespace PhysicalConstants;
 namespace
 {
 
-double DispersionCorrectedEmittance(const PSmoments& S)
+double DispersionCorrectedEmittance(const PhaseSpaceMoments& S)
 {
 	double s36 = S(ps_Y,ps_DP);
 	double s46 = S(ps_YP,ps_DP);
@@ -48,7 +48,7 @@ void TrackingOutput::Record(const string& id, const Bunch* bunch)
 	using std::setw;
 	using std::setprecision;
 
-	PSmoments S;
+	PhaseSpaceMoments S;
 	bunch->GetMoments(S);
 
 	double p0 = bunch->GetReferenceMomentum();

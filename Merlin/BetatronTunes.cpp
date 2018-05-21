@@ -22,7 +22,7 @@ using namespace ParticleTracking;
 BetatronTunes::BetatronTunes(AcceleratorModel* aModel, double refMomentum)
 	: theModel(aModel), p0(refMomentum), myHELProcess(nullptr) {}
 
-void BetatronTunes::FindTunes(PSvector& particle, int ntrack, bool diffusion)
+void BetatronTunes::FindTunes(Particle& particle, int ntrack, bool diffusion)
 {
 	vector<double> xData1;
 	xData1.reserve(ntrack * 2);

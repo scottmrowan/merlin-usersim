@@ -14,7 +14,7 @@
 #include "CollimationOutput.h"
 #include "AcceleratorComponent.h"
 #include "ParticleBunch.h"
-#include "PSTypes.h"
+#include "PhaseSpaceHeaders.h"
 
 namespace ParticleTracking
 {

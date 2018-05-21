@@ -95,7 +95,7 @@ void SpinParticleBunch::Output (std::ostream& os) const
 	int oldp=os.precision(10);
 	ios_base::fmtflags oflg = os.setf(ios::scientific,ios::floatfield);
 	vector<SpinVector>::const_iterator sp = spinArray.begin();
-	for(PSvectorArray::const_iterator p = begin(); p!=end(); p++,sp++)
+	for(ParticleArray::const_iterator p = begin(); p!=end(); p++,sp++)
 	{
 		os<<std::setw(24)<<GetReferenceTime();
 		os<<std::setw(24)<<GetReferenceMomentum();
@@ -295,7 +295,7 @@ void SpinParticleProcess::DoProcess(double ds)
 
 	SpinParticleBunch* spinbunch = dynamic_cast<SpinParticleBunch*>(currentBunch);
 	SpinVectorArray::iterator spin = spinbunch->beginSpinArray();
-	for(PSvectorArray::iterator p = spinbunch->begin(); p!=spinbunch->end(); p++,spin++)
+	for(ParticleArray::iterator p = spinbunch->begin(); p!=spinbunch->end(); p++,spin++)
 	{
 		double norm  = SpeedOfLight/brho/(1.0+p->dp());
 		double gamma = P0*(1.0+p->dp())/(ElectronMassMeV*MeV);

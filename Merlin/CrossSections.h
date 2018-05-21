@@ -13,7 +13,7 @@
 
 #include "merlin_config.h"
 
-#include "PSvector.h"
+#include "Particle.h"
 
 #include "Material.h"
 #include "DiffractiveScatter.h"

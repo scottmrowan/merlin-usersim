@@ -10,7 +10,7 @@
 
 #include "AcceleratorModel.h"
 #include "HollowELensProcess.h"
-#include "PSTypes.h"
+#include "PhaseSpaceHeaders.h"
 
 using namespace ParticleTracking;
 
@@ -18,7 +18,7 @@ class BetatronTunes
 {
 public:
 	BetatronTunes(AcceleratorModel* aModel, double refMomentum);
-	void FindTunes(PSvector& particle, int ntrack = 256, bool diffusion = true);
+	void FindTunes(Particle& particle, int ntrack = 256, bool diffusion = true);
 	double Qx, Qy, dQx, dQy;
 
 	double GetQx()

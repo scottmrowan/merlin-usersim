@@ -11,7 +11,7 @@
 #include "merlin_config.h"
 #include <iostream>
 #include "ReferenceParticle.h"
-#include "PSTypes.h"
+#include "PhaseSpaceHeaders.h"
 #include "Space2D.h"
 
 class Transform3D;
@@ -47,15 +47,15 @@ public:
 	*/
 	virtual double GetTotalCharge () const = 0;
 
-	virtual PSmoments& GetMoments (PSmoments& sigma) const = 0;
-	PSmoments GetMoments() const
+	virtual PhaseSpaceMoments& GetMoments (PhaseSpaceMoments& sigma) const = 0;
+	PhaseSpaceMoments GetMoments() const
 	{
-		PSmoments S;
+		PhaseSpaceMoments S;
 		return GetMoments(S);
 	}
-	virtual PSmoments2D& GetProjectedMoments (PScoord u, PScoord v, PSmoments2D& sigma) const = 0;
-	virtual PSvector& GetCentroid (PSvector& p) const = 0;
-	virtual Point2D GetProjectedCentroid (PScoord u, PScoord v) const = 0;
+	virtual PhaseSpaceMoments2D& GetProjectedMoments (PhaseSpaceCoord u, PhaseSpaceCoord v, PhaseSpaceMoments2D& sigma) const = 0;
+	virtual Particle& GetCentroid (Particle& p) const = 0;
+	virtual Point2D GetProjectedCentroid (PhaseSpaceCoord u, PhaseSpaceCoord v) const = 0;
 
 	/**
 	*	Set the reference momentum to the mean (centroid)
@@ -80,7 +80,7 @@ public:
 	*	onto the specified coordinate. The total area of the
 	*	histogram is normalised to unity.
 	*/
-	virtual Histogram& ProjectDistribution (PScoord axis, Histogram& hist) const = 0;
+	virtual Histogram& ProjectDistribution (PhaseSpaceCoord axis, Histogram& hist) const = 0;
 
 	/**
 	*	Apply the specified 3D coordinate transformation to the

@@ -77,7 +77,7 @@ int main()
 	startBunch1->SetCentroid();
 	startBunch2->SetCentroid();
 
-	PSmoments S;
+	PhaseSpaceMoments S;
 	startBunch1->GetMoments(S);
 
 	double E = startBunch1->GetReferenceMomentum();
@@ -103,7 +103,7 @@ int main()
 
 	ParticleBunch* finalBunch1 = tracker->Track(startBunch1);
 
-	PSmoments S2;
+	PhaseSpaceMoments S2;
 	finalBunch1->GetMoments(S2);
 
 	E = finalBunch1->GetReferenceMomentum();
@@ -125,7 +125,7 @@ int main()
 	tracker->AddProcess(couplerWakeProc);
 	ParticleBunch* finalBunch2 = tracker->Track(startBunch2);
 
-	PSmoments S3;
+	PhaseSpaceMoments S3;
 	finalBunch2->GetMoments(S3);
 	E = finalBunch2->GetReferenceMomentum();
 	E*=1+S3.mean(ps_DP);

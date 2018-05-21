@@ -30,9 +30,9 @@ namespace
 
 using namespace ParticleTracking;
 
-void OutputIndexParticles(const PSvectorArray lost_p, const list<size_t>& lost_i, ostream& os)
+void OutputIndexParticles(const ParticleArray lost_p, const list<size_t>& lost_i, ostream& os)
 {
-	PSvectorArray::const_iterator p = lost_p.begin();
+	ParticleArray::const_iterator p = lost_p.begin();
 	list<size_t>::const_iterator ip = lost_i.begin();
 
 	while(p!=lost_p.end())
@@ -210,7 +210,7 @@ void CollimateParticleProcess::DoCollimation ()
 	size_t first_loss = 0;
 	if (is_collimator)
 	{
-		for(PSvectorArray::iterator p = currentBunch->begin(); p!=currentBunch->end(); p++)
+		for(ParticleArray::iterator p = currentBunch->begin(); p!=currentBunch->end(); p++)
 		{
 			if (!ap->CheckWithinApertureBoundaries( (*p).x()-bin_size*(*p).xp(), (*p).y()-bin_size*(*p).yp(), s) )
 			{
@@ -222,7 +222,7 @@ void CollimateParticleProcess::DoCollimation ()
 	}
 	else
 	{
-		for(PSvectorArray::iterator p = currentBunch->begin(); p!=currentBunch->end(); p++)
+		for(ParticleArray::iterator p = currentBunch->begin(); p!=currentBunch->end(); p++)
 		{
 			if (!ap->CheckWithinApertureBoundaries( (*p).x(), (*p).y(), s) )
 			{
@@ -240,7 +240,7 @@ void CollimateParticleProcess::DoCollimation ()
 
 
 	//The array of lost particles
-	PSvectorArray lost;
+	ParticleArray lost;
 	list<size_t>  lost_i;
 
 	list<size_t>::iterator ip;
@@ -257,7 +257,7 @@ void CollimateParticleProcess::DoCollimation ()
 
 	if(is_collimator)
 	{
-		for(PSvectorArray::iterator p = currentBunch->begin(); p!=currentBunch->end();)
+		for(ParticleArray::iterator p = currentBunch->begin(); p!=currentBunch->end();)
 		{
 			(*p).x() -= bin_size * (*p).xp();
 			(*p).y() -= bin_size * (*p).yp();
@@ -265,7 +265,7 @@ void CollimateParticleProcess::DoCollimation ()
 		}
 	}
 
-	for(PSvectorArray::iterator p = currentBunch->begin(); p!=currentBunch->end();)
+	for(ParticleArray::iterator p = currentBunch->begin(); p!=currentBunch->end();)
 	{
 		// If we are collimating at the end of the element, track back a drift
 		// Do not do this at the start of the element.
@@ -379,7 +379,7 @@ void CollimateParticleProcess::DoCollimation ()
 
 				double IntegratedLength = LostParticleTracker->GetIntegratedLength();
 				//Now loop over each particle in turn
-				for(PSvectorArray::iterator p = LostBunch->begin(); p!=LostBunch->end();)
+				for(ParticleArray::iterator p = LostBunch->begin(); p!=LostBunch->end();)
 				{
 					//Check if the particle is outside the aperture
 					//s, is where the integrator will start
@@ -437,7 +437,7 @@ void CollimateParticleProcess::DoCollimation ()
 			{
 				std::cout <<	"POSSIBLE BUG: Leftovers: " << LostBunch->size() << "\t" << currentComponent->GetQualifiedName() << "\t" << \
 				          LostParticleTracker->GetIntegratedLength() << "\t" << length << std::endl;
-				for(PSvectorArray::iterator p = LostBunch->begin(); p!=LostBunch->end(); p++)
+				for(ParticleArray::iterator p = LostBunch->begin(); p!=LostBunch->end(); p++)
 				{
 					(*p).ct() += LostParticleTracker->GetIntegratedLength();
 					if((*p).ct() > length)
@@ -514,7 +514,7 @@ void CollimateParticleProcess::SetNextS ()
 	}
 }
 
-void CollimateParticleProcess::DoOutput (const PSvectorArray& lostb, const list<size_t>& lost_i)
+void CollimateParticleProcess::DoOutput (const ParticleArray& lostb, const list<size_t>& lost_i)
 {
 
 	// Create a file and dump the lost particles
@@ -628,7 +628,7 @@ void CollimateParticleProcess::DoOutput (const PSvectorArray& lostb, const list<
 
 			if(pindex==nullptr)
 			{
-				copy(lostb.begin(),lostb.end(),ostream_iterator<PSvector>(file));
+				copy(lostb.begin(),lostb.end(),ostream_iterator<Particle>(file));
 			}
 			else
 			{

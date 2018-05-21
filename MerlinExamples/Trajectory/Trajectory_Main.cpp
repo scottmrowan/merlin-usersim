@@ -58,7 +58,7 @@ int main()
 	// Here we just add a single particle on the reference trajectory.
 	ParticleBunch* theBunch = new ParticleBunch(BEAMENERGY);
 
-	PSvector p(0);
+	Particle p(0);
 	theBunch->AddParticle(p);
 
 

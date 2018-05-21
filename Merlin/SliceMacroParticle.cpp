@@ -17,7 +17,7 @@ SliceMacroParticle::SliceMacroParticle(double q1)
 	: PSmoments4D(),q(q1)
 {}
 
-SliceMacroParticle::SliceMacroParticle(const PSmoments& S, double z1, double dp1, double q1)
+SliceMacroParticle::SliceMacroParticle(const PhaseSpaceMoments& S, double z1, double dp1, double q1)
 	: PSmoments4D(),q(q1)
 {
 	for(int i=0; i<4; i++)
@@ -44,7 +44,7 @@ SliceMacroParticle::SliceMacroParticle(const PSmoments& S, double z1, double dp1
 
 void SliceMacroParticle::Write(std::ostream& os) const
 {
-	PScoord i,j;
+	PhaseSpaceCoord i,j;
 
 	WR_MP(q);
 	WR_MP(ct());
@@ -69,7 +69,7 @@ void SliceMacroParticle::Write(std::ostream& os) const
 
 void SliceMacroParticle::Read(istream& is)
 {
-	PScoord i,j;
+	PhaseSpaceCoord i,j;
 
 	if(!is)
 	{

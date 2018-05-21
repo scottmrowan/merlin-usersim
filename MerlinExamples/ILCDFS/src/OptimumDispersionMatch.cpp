@@ -25,7 +25,7 @@ using namespace std;
 namespace
 {
 
-double DispersionCorrectedEmittance(const PSmoments& S)
+double DispersionCorrectedEmittance(const PhaseSpaceMoments& S)
 {
 	double s36 = S(ps_Y,ps_DP);
 	double s46 = S(ps_YP,ps_DP);
@@ -61,7 +61,7 @@ void OptimumDispersionMatch(AcceleratorModel* accmdl, BeamData beam0)
 
 	tracker.Track(bunch);
 
-	PSmoments S;
+	PhaseSpaceMoments S;
 	bunch->GetMoments(S);
 	double p0 = bunch->GetReferenceMomentum();
 	p0*=1+S.mean(ps_DP);

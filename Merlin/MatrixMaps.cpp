@@ -6,15 +6,15 @@
  */
 
 #include <cassert>
-#include "PSTypes.h"
+#include "PhaseSpaceHeaders.h"
 #include "MatrixMaps.h"
 
 namespace
 {
 
-PSmoments& TransformMoments(PSmoments& S, const RealMatrix& R)
+PhaseSpaceMoments& TransformMoments(PhaseSpaceMoments& S, const RealMatrix& R)
 {
-	PSmoments result; // initialised to zero
+	PhaseSpaceMoments result; // initialised to zero
 	int i,j,k,l;
 	const int n=R.ncols();
 
@@ -44,7 +44,7 @@ PSmoments& TransformMoments(PSmoments& S, const RealMatrix& R)
 	return S=result;
 }
 
-void RescaleMoments(double P0, double P1, PSmoments& S)
+void RescaleMoments(double P0, double P1, PhaseSpaceMoments& S)
 {
 	// rescale the centroid
 	double ratio = P0/P1;
@@ -63,9 +63,9 @@ void RescaleMoments(double P0, double P1, PSmoments& S)
 } // end of anonymous namespace
 
 
-PSvector& RMtrx::Apply (PSvector& x) const
+Particle& RMtrx::Apply (Particle& x) const
 {
-	PSvector x1(0);
+	Particle x1(0);
 	tblas2::tgemv(false,1.0,R,x,0.0,x1);
 	for(Subscript i=0; i<R.nrows(); i++) // only copy back that which changed
 	{
@@ -74,7 +74,7 @@ PSvector& RMtrx::Apply (PSvector& x) const
 	return x;
 }
 
-PSvector& RMtrx::Apply (PSvector& x, double p0) const
+Particle& RMtrx::Apply (Particle& x, double p0) const
 {
 	if(EnergyIndependent())
 	{
@@ -88,35 +88,35 @@ PSvector& RMtrx::Apply (PSvector& x, double p0) const
 	return x;
 }
 
-PSvectorArray& RMtrx::Apply (PSvectorArray& xa) const
+ParticleArray& RMtrx::Apply (ParticleArray& xa) const
 {
-	for(PSvectorArray::iterator p=xa.begin(); p!=xa.end(); p++)
+	for(ParticleArray::iterator p=xa.begin(); p!=xa.end(); p++)
 	{
 		Apply(*p);
 	}
 	return xa;
 }
 
-PSvectorArray& RMtrx::Apply (PSvectorArray& xa, double p0) const
+ParticleArray& RMtrx::Apply (ParticleArray& xa, double p0) const
 {
 	if(EnergyIndependent())
 	{
 		return Apply(xa);
 	}
 
-	for(PSvectorArray::iterator p=xa.begin(); p!=xa.end(); p++)
+	for(ParticleArray::iterator p=xa.begin(); p!=xa.end(); p++)
 	{
 		Apply(*p,p0);
 	}
 	return xa;
 }
 
-PSmoments& RMtrx::Apply (PSmoments& sigma) const
+PhaseSpaceMoments& RMtrx::Apply (PhaseSpaceMoments& sigma) const
 {
 	return TransformMoments(sigma,R);
 }
 
-PSmoments& RMtrx::Apply (PSmoments& sigma, double p0) const
+PhaseSpaceMoments& RMtrx::Apply (PhaseSpaceMoments& sigma, double p0) const
 {
 	if(EnergyIndependent())
 	{
@@ -129,23 +129,23 @@ PSmoments& RMtrx::Apply (PSmoments& sigma, double p0) const
 	return sigma;
 }
 
-PSmomentsArray& RMtrx::Apply (PSmomentsArray& sigmaArray) const
+PhaseSpaceMomentsArray& RMtrx::Apply (PhaseSpaceMomentsArray& sigmaArray) const
 {
-	for(PSmomentsArray::iterator p=sigmaArray.begin(); p!=sigmaArray.end(); p++)
+	for(PhaseSpaceMomentsArray::iterator p=sigmaArray.begin(); p!=sigmaArray.end(); p++)
 	{
 		Apply(*p);
 	}
 	return sigmaArray;
 }
 
-PSmomentsArray& RMtrx::Apply (PSmomentsArray& sigmaArray, double p0) const
+PhaseSpaceMomentsArray& RMtrx::Apply (PhaseSpaceMomentsArray& sigmaArray, double p0) const
 {
 	if(EnergyIndependent())
 	{
 		return Apply(sigmaArray);
 	}
 
-	for(PSmomentsArray::iterator p=sigmaArray.begin(); p!=sigmaArray.end(); p++)
+	for(PhaseSpaceMomentsArray::iterator p=sigmaArray.begin(); p!=sigmaArray.end(); p++)
 	{
 		Apply(*p,p0);
 	}
@@ -165,9 +165,9 @@ RMtrx& RMtrx::operator *= (const RMtrx& rhs)
 	return *this;
 }
 
-PSvector& RdpMtrx::Apply (PSvector& x) const
+Particle& RdpMtrx::Apply (Particle& x) const
 {
-	PSvector x1(0.0);
+	Particle x1(0.0);
 	int n=R.nrows();
 	int i,j;
 
@@ -187,7 +187,7 @@ PSvector& RdpMtrx::Apply (PSvector& x) const
 	return x;
 }
 
-PSvector& RdpMtrx::Apply (PSvector& x, double p0) const
+Particle& RdpMtrx::Apply (Particle& x, double p0) const
 {
 	if(EnergyIndependent())
 	{
@@ -201,37 +201,37 @@ PSvector& RdpMtrx::Apply (PSvector& x, double p0) const
 	return x;
 }
 
-PSvectorArray& RdpMtrx::Apply (PSvectorArray& xa) const
+ParticleArray& RdpMtrx::Apply (ParticleArray& xa) const
 {
-	for(PSvectorArray::iterator p=xa.begin(); p!=xa.end(); p++)
+	for(ParticleArray::iterator p=xa.begin(); p!=xa.end(); p++)
 	{
 		Apply(*p);
 	}
 	return xa;
 }
 
-PSvectorArray& RdpMtrx::Apply (PSvectorArray& xa, double p0) const
+ParticleArray& RdpMtrx::Apply (ParticleArray& xa, double p0) const
 {
 	if(EnergyIndependent())
 	{
 		return Apply(xa);
 	}
 
-	for(PSvectorArray::iterator p=xa.begin(); p!=xa.end(); p++)
+	for(ParticleArray::iterator p=xa.begin(); p!=xa.end(); p++)
 	{
 		Apply(*p,p0);
 	}
 	return xa;
 }
 
-PSmoments& RdpMtrx::Apply (PSmoments& sigma) const
+PhaseSpaceMoments& RdpMtrx::Apply (PhaseSpaceMoments& sigma) const
 {
 	RealMatrix R1=R;
 	R1+=T*sigma[5];
 	return TransformMoments(sigma,R1);
 }
 
-PSmoments& RdpMtrx::Apply (PSmoments& sigma, double p0) const
+PhaseSpaceMoments& RdpMtrx::Apply (PhaseSpaceMoments& sigma, double p0) const
 {
 	if(EnergyIndependent())
 	{
@@ -244,23 +244,23 @@ PSmoments& RdpMtrx::Apply (PSmoments& sigma, double p0) const
 	return sigma;
 }
 
-PSmomentsArray& RdpMtrx::Apply (PSmomentsArray& sigmaArray) const
+PhaseSpaceMomentsArray& RdpMtrx::Apply (PhaseSpaceMomentsArray& sigmaArray) const
 {
-	for(PSmomentsArray::iterator p=sigmaArray.begin(); p!=sigmaArray.end(); p++)
+	for(PhaseSpaceMomentsArray::iterator p=sigmaArray.begin(); p!=sigmaArray.end(); p++)
 	{
 		Apply(*p);
 	}
 	return sigmaArray;
 }
 
-PSmomentsArray& RdpMtrx::Apply (PSmomentsArray& sigmaArray, double p0) const
+PhaseSpaceMomentsArray& RdpMtrx::Apply (PhaseSpaceMomentsArray& sigmaArray, double p0) const
 {
 	if(EnergyIndependent())
 	{
 		return Apply(sigmaArray);
 	}
 
-	for(PSmomentsArray::iterator p=sigmaArray.begin(); p!=sigmaArray.end(); p++)
+	for(PhaseSpaceMomentsArray::iterator p=sigmaArray.begin(); p!=sigmaArray.end(); p++)
 	{
 		Apply(*p,p0);
 	}

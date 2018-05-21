@@ -9,7 +9,7 @@
 #define PSmoments_h 1
 
 #include "merlin_config.h"
-#include "PSvector.h"
+#include "Particle.h"
 #include "TCovMtrx.h"
 #include <iostream>
 #include <iomanip>
@@ -27,13 +27,13 @@ typedef TCovMtrx<double,2> SigmaMatrix2D;
 */
 
 template<int N>
-class TPSMoments : public PSvector, public TCovMtrx<double,2*N>
+class TPSMoments : public Particle, public TCovMtrx<double,2*N>
 {
 public:
 
 	typedef TCovMtrx<double,2*N> SigMtrx;
 
-	TPSMoments()  :PSvector(0),SigMtrx() {}
+	TPSMoments()  :Particle(0),SigMtrx() {}
 
 	/**
 	* mean added for backwards compatibility
@@ -88,9 +88,9 @@ private:
 	double data[2];
 };
 
-typedef TPSMoments<1> PSmoments2D;
-typedef TPSMoments<3> PSmoments;
-typedef std::vector<PSmoments> PSmomentsArray;
+typedef TPSMoments<1> PhaseSpaceMoments2D;
+typedef TPSMoments<3> PhaseSpaceMoments;
+typedef std::vector<PhaseSpaceMoments> PhaseSpaceMomentsArray;
 
 template <int N>
 void TPSMoments<N>::printFormatted (std::ostream& os, bool normalised) const

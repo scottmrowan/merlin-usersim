@@ -10,7 +10,7 @@
 
 #include <string>
 #include "AcceleratorModel.h"
-#include "PSTypes.h"
+#include "PhaseSpaceHeaders.h"
 #include "LatticeFunctions.h"
 #include "TLAS.h"
 

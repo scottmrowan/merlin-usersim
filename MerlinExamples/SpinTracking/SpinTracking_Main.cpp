@@ -222,9 +222,9 @@ SpinParticleBunch* ConstructSpinParticleBunch(const BeamData& beam, const SpinVe
 	ParticleBunch* aBunch = new ParticleBunch(nparts, NormalParticleDistributionGenerator(), beam);
 	SpinParticleBunch* spinBunch = new SpinParticleBunch(BEAMENERGY);
 
-	for(PSvectorArray::iterator it = aBunch->begin(); it!=aBunch->end(); it++)
+	for(ParticleArray::iterator it = aBunch->begin(); it!=aBunch->end(); it++)
 	{
-		PSvector p=*it;
+		Particle p=*it;
 		spinBunch->AddParticle(p,spin);
 	}
 
@@ -258,7 +258,7 @@ void SpinTrackingOutput::Output(const std::string& label, const Bunch& bunch)
 	// safe).
 	const SpinParticleBunch& spinBunch = static_cast<const SpinParticleBunch&>(bunch);
 
-	PSmoments S;
+	PhaseSpaceMoments S;
 	spinBunch.GetMoments(S);
 
 	double p0 = spinBunch.GetReferenceMomentum();

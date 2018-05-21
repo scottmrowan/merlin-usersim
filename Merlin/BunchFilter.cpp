@@ -16,7 +16,7 @@ ParticleBunchFilter::~ParticleBunchFilter ()
 	// Nothing to do
 }
 
-bool HorizontalHaloParticleBunchFilter::Apply(const PSvector& v) const
+bool HorizontalHaloParticleBunchFilter::Apply(const Particle& v) const
 {
 	if(v.x() > (orbit+limit) || v.x() < (orbit-limit) )
 	{
@@ -40,7 +40,7 @@ void HorizontalHaloParticleBunchFilter::SetHorizontalOrbit(double lim)
 	orbit = lim;
 }
 
-bool VerticalHaloParticleBunchFilter::Apply(const PSvector& v) const
+bool VerticalHaloParticleBunchFilter::Apply(const Particle& v) const
 {
 	if(fabs(v.y()) > limit)
 	{

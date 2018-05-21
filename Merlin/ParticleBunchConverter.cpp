@@ -29,7 +29,7 @@ SMPTracking::SMPBunch* ParticleBunchConverter(ParticleTracking::ParticleBunch*  
 
 	double beamenergy = PB->GetReferenceMomentum();
 	double Qtot       = PB->GetTotalCharge();
-	PSmoments PSM;
+	PhaseSpaceMoments PSM;
 	PB->GetMoments(PSM);// x xp y yp ct dp/p0
 	double sig_dp = PSM.std(5);
 	double sig_z  = PSM.std(4);

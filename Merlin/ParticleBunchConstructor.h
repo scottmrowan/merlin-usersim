@@ -16,7 +16,7 @@
 #include "ParticleBunchTypes.h"
 #include "BunchFilter.h"
 #include <typeinfo>
-#include "PSvector.h"
+#include "Particle.h"
 
 namespace ParticleTracking
 {
@@ -73,7 +73,7 @@ public:
 	* six phase-space coordinates.
 	*/
 	void SetDistributionCutoff (double cut);
-	void SetDistributionCutoff (const PSvector& cut);
+	void SetDistributionCutoff (const Particle& cut);
 
 	/**
 	* Constructs a new ParticleBunch based on the current bunch parameter settings. Each call to ConstructBunch
@@ -85,7 +85,7 @@ public:
 	//template <class T_bunch> T_bunch* ConstructParticleBunch () const;
 
 	virtual void ConstructBunchDistribution (int bunchIndex = 0) const;
-	PSvector GenerateFromDistribution() const;
+	Particle GenerateFromDistribution() const;
 
 	/**
 	* Sets the filter to be used during bunch construction. A NULL pointer indicates no filter.
@@ -115,7 +115,7 @@ private:
 
 	size_t np;
 	DistributionType dtype;
-	PSvector cutoffs;
+	Particle cutoffs;
 	BeamData beamdat;
 	ParticleBunchFilter* itsFilter;
 
@@ -127,7 +127,7 @@ private:
 	bool force_c;
 
 	//Moved the pbunch to be a class member so that the bunch creation can be split up between distribution generation and "bunch" generation.
-	mutable PSvectorArray pbunch;
+	mutable ParticleArray pbunch;
 };
 
 inline void ParticleBunchConstructor::SetFilter (ParticleBunchFilter* filter)

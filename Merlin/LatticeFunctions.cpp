@@ -234,7 +234,7 @@ public:
 	};
 };
 
-void LatticeFunctionTable::Calculate(PSvector* p, RealMatrix* M)
+void LatticeFunctionTable::Calculate(Particle* p, RealMatrix* M)
 {
 	if(orbitonly)
 	{
@@ -283,11 +283,11 @@ void LatticeFunctionTable::CalculateEnergyDerivative()
 
 }
 
-double LatticeFunctionTable::DoCalculate(double cscale, PSvector* pInit, RealMatrix* MInit)
+double LatticeFunctionTable::DoCalculate(double cscale, Particle* pInit, RealMatrix* MInit)
 {
 	for_each(lfnlist.begin(),lfnlist.end(),ClearLatticeFunction());
 
-	PSvector p(0);
+	Particle p(0);
 	if(pInit)
 	{
 		p = *pInit;
@@ -471,11 +471,11 @@ double LatticeFunctionTable::DoCalculate(double cscale, PSvector* pInit, RealMat
 	return p.dp();
 }
 
-double LatticeFunctionTable::DoCalculateOrbitOnly(double cscale, PSvector* pInit)
+double LatticeFunctionTable::DoCalculateOrbitOnly(double cscale, Particle* pInit)
 {
 	for_each(lfnlist.begin(),lfnlist.end(),ClearLatticeFunction());
 
-	PSvector p(0);
+	Particle p(0);
 	if(pInit)
 	{
 		p = *pInit;

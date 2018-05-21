@@ -456,7 +456,7 @@ void ProtonBunch::ConfigureScatterMerlin(const Collimator* col)
 	}
 }
 
-int ProtonBunch::ScatterMerlin(PSvector& p, double x, const Collimator* col)
+int ProtonBunch::ScatterMerlin(Particle& p, double x, const Collimator* col)
 {
 	// p is the scattering Proton - a single particle.
 	// x is the length of the collimator
@@ -908,7 +908,7 @@ void ProtonBunch::ConfigureScatterSixtrack(const Collimator* col)
 
 }
 
-int ProtonBunch::ScatterSixtrack(PSvector& p, double x, const Collimator* col)
+int ProtonBunch::ScatterSixtrack(Particle& p, double x, const Collimator* col)
 {
 	// p is the scattering Proton - a single particle.
 	// x is the length of the collimator
@@ -1340,7 +1340,7 @@ void ProtonBunch::ConfigureScatterSixtrackAdvancedIonization(const Collimator* c
 
 }
 
-int ProtonBunch::ScatterSixtrackAdvancedIonization(PSvector& p, double x, const Collimator* col)
+int ProtonBunch::ScatterSixtrackAdvancedIonization(Particle& p, double x, const Collimator* col)
 {
 	// p is the scattering Proton - a single particle.
 	// x is the length of the collimator
@@ -1811,7 +1811,7 @@ void ProtonBunch::ConfigureScatterSixtrackAdvancedElastic(const Collimator* col)
 
 }
 
-int ProtonBunch::ScatterSixtrackAdvancedElastic(PSvector& p, double x, const Collimator* col)
+int ProtonBunch::ScatterSixtrackAdvancedElastic(Particle& p, double x, const Collimator* col)
 {
 	// p is the scattering Proton - a single particle.
 	// x is the length of the collimator
@@ -2213,7 +2213,7 @@ void ProtonBunch::ConfigureScatterSixtrackAdvancedSingleDiffraction(const Collim
 	}
 }
 
-int ProtonBunch::ScatterSixtrackAdvancedSingleDiffraction(PSvector& p, double x, const Collimator* col)
+int ProtonBunch::ScatterSixtrackAdvancedSingleDiffraction(Particle& p, double x, const Collimator* col)
 {
 	// p is the scattering Proton - a single particle.
 	// x is the length of the collimator

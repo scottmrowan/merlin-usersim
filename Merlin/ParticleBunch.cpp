@@ -10,7 +10,7 @@
 #include <list>
 #include <iterator>
 #include "Transform3D.h"
-#include "PSvectorTransform3D.h"
+#include "PhaseSpaceTransform3D.h"
 #include "ParticleBunch.h"
 #include "NormalTransform.h"
 #include "MatrixMaps.h"
@@ -25,7 +25,7 @@
 using namespace std;
 
 // needed by sort algorithm
-inline bool operator<(const PSvector& p1, const PSvector& p2)
+inline bool operator<(const Particle& p1, const Particle& p2)
 {
 	return p1.ct()<p2.ct();
 }
@@ -42,7 +42,7 @@ struct APSV1
 	double w;
 
 	APSV1(V& p0, double n) : p(p0),w(0) {}
-	void operator()(const PSvector& p1)
+	void operator()(const Particle& p1)
 	{
 		w++;
 		for(int i=0; i<6; i++)
@@ -59,7 +59,7 @@ struct APSV2
 	const double w;
 
 	APSV2(int i,int j,double n) : u(i),v(j),X(0,0),w(1/n) {}
-	void operator()(const PSvector& p)
+	void operator()(const Particle& p)
 	{
 		X.x+=w*p[u];
 		X.y+=w*p[v];
@@ -68,10 +68,10 @@ struct APSV2
 
 struct PSVVAR1
 {
-	PSmoments& S;
+	PhaseSpaceMoments& S;
 	double w;
-	PSVVAR1(PSmoments& sig,double n):S(sig),w(0) {}
-	void operator()(const PSvector& p)
+	PSVVAR1(PhaseSpaceMoments& sig,double n):S(sig),w(0) {}
+	void operator()(const Particle& p)
 	{
 		w++;
 		for(int i=0; i<6; i++)
@@ -84,14 +84,14 @@ struct PSVVAR1
 
 struct PSVVAR2
 {
-	PSmoments2D& S;
+	PhaseSpaceMoments2D& S;
 	const int u,v;
 	const double w;
 
-	PSVVAR2(int u1, int v1, double n, PSmoments2D& sig)
+	PSVVAR2(int u1, int v1, double n, PhaseSpaceMoments2D& sig)
 		:S(sig),u(u1),v(v1),w(1/n) {}
 
-	void operator()(const PSvector& p)
+	void operator()(const Particle& p)
 	{
 		double x=p[u]-S[0];
 		double y=p[v]-S[1];
@@ -130,16 +130,16 @@ inline void SortArray(std::list<T>& array)
 namespace ParticleTracking
 {
 
-ParticleBunch::ParticleBunch (double P0, double Q, PSvectorArray& particles)
-	: Bunch(P0,Q),init(false),coords((int) sizeof(PSvector)/sizeof(double)),ScatteringPhysicsModel(0),qPerMP(Q/particles.size()),pArray()
+ParticleBunch::ParticleBunch (double P0, double Q, ParticleArray& particles)
+	: Bunch(P0,Q),init(false),coords((int) sizeof(Particle)/sizeof(double)),ScatteringPhysicsModel(0),qPerMP(Q/particles.size()),pArray()
 {
 	pArray.swap(particles);
 }
 
 ParticleBunch::ParticleBunch (double P0, double Q, std::istream& is)
-	: Bunch(P0,Q),init(false),coords((int) sizeof(PSvector)/sizeof(double)),ScatteringPhysicsModel(0)
+	: Bunch(P0,Q),init(false),coords((int) sizeof(Particle)/sizeof(double)),ScatteringPhysicsModel(0)
 {
-	PSvector p;
+	Particle p;
 	while(is>>p)
 	{
 		push_back(p);
@@ -149,7 +149,7 @@ ParticleBunch::ParticleBunch (double P0, double Q, std::istream& is)
 }
 
 ParticleBunch::ParticleBunch (double P0, double Qm)
-	: Bunch(P0,Qm),init(false),coords((int) sizeof(PSvector)/sizeof(double)),ScatteringPhysicsModel(0),qPerMP(Qm)
+	: Bunch(P0,Qm),init(false),coords((int) sizeof(Particle)/sizeof(double)),ScatteringPhysicsModel(0),qPerMP(Qm)
 {}
 
 ParticleBunch::ParticleBunch (size_t np, const ParticleDistributionGenerator& generator, const BeamData& beam, ParticleBunchFilter* filter)
@@ -159,7 +159,7 @@ ParticleBunch::ParticleBunch (size_t np, const ParticleDistributionGenerator& ge
 	M.R = NormalTransform(beam);
 
 	// The first particle is *always* the centroid particle
-	PSvector p;
+	Particle p;
 	p.x()=beam.x0;
 	p.xp()=beam.xp0;
 	p.y()=beam.y0;
@@ -209,15 +209,15 @@ double ParticleBunch::GetTotalCharge () const
 	return qPerMP*size();
 }
 
-PSmoments& ParticleBunch::GetMoments (PSmoments& sigma) const
+PhaseSpaceMoments& ParticleBunch::GetMoments (PhaseSpaceMoments& sigma) const
 {
 	sigma.zero();
-	for_each(begin(),end(),APSV1<PSmoments>(sigma,size()));
+	for_each(begin(),end(),APSV1<PhaseSpaceMoments>(sigma,size()));
 	for_each(begin(),end(),PSVVAR1(sigma,size()));
 	return sigma;
 }
 
-PSmoments2D& ParticleBunch::GetProjectedMoments (PScoord u, PScoord v, PSmoments2D& sigma) const
+PhaseSpaceMoments2D& ParticleBunch::GetProjectedMoments (PhaseSpaceCoord u, PhaseSpaceCoord v, PhaseSpaceMoments2D& sigma) const
 {
 	Point2D X = for_each(begin(),end(),APSV2(u,v,size())).X;
 	sigma[0]=X.x;
@@ -226,14 +226,14 @@ PSmoments2D& ParticleBunch::GetProjectedMoments (PScoord u, PScoord v, PSmoments
 	return sigma;
 }
 
-PSvector& ParticleBunch::GetCentroid (PSvector& p) const
+Particle& ParticleBunch::GetCentroid (Particle& p) const
 {
 	p.zero();
-	for_each(begin(),end(),APSV1<PSvector>(p,size()));
+	for_each(begin(),end(),APSV1<Particle>(p,size()));
 	return p;
 }
 
-std::pair<double,double> ParticleBunch::GetMoments(PScoord i) const
+std::pair<double,double> ParticleBunch::GetMoments(PhaseSpaceCoord i) const
 {
 	double u = Mean(begin(),end(),i);
 	double v=0;
@@ -247,7 +247,7 @@ std::pair<double,double> ParticleBunch::GetMoments(PScoord i) const
 	return make_pair(u,sqrt(v));
 }
 
-Point2D ParticleBunch::GetProjectedCentroid (PScoord u, PScoord v) const
+Point2D ParticleBunch::GetProjectedCentroid (PhaseSpaceCoord u, PhaseSpaceCoord v) const
 {
 	return for_each(begin(),end(),APSV2(u,v,size())).X;
 }
@@ -284,7 +284,7 @@ double ParticleBunch::AdjustRefTimeToMean ()
 	return CT;
 }
 
-Histogram& ParticleBunch::ProjectDistribution (PScoord axis, Histogram& hist) const
+Histogram& ParticleBunch::ProjectDistribution (PhaseSpaceCoord axis, Histogram& hist) const
 {
 	// TODO:
 	return hist;
@@ -295,7 +295,7 @@ bool ParticleBunch::ApplyTransformation (const Transform3D& t)
 {
 	if(!t.isIdentity())
 	{
-		PSvectorTransform3D(t).Apply(pArray);
+		PhaseSpaceTransform3D(t).Apply(pArray);
 	}
 	return true;
 }
@@ -319,7 +319,7 @@ void ParticleBunch::Output (std::ostream& os, bool show_header) const
 	{
 		os << "#T P0 X XP Y YP CT DP" << std::endl;
 	}
-	for(PSvectorArray::const_iterator p = begin(); p!=end(); p++)
+	for(ParticleArray::const_iterator p = begin(); p!=end(); p++)
 	{
 		os<<std::setw(35)<<GetReferenceTime();
 		os<<std::setw(35)<<GetReferenceMomentum();
@@ -339,7 +339,7 @@ void ParticleBunch::OutputIndexParticle (std::ostream& os, int index) const
 	int oldp = os.precision(16);
 	ios_base::fmtflags oflg = os.setf(ios::scientific,ios::floatfield);
 
-	PSvectorArray::const_iterator p = begin()+ index;
+	ParticleArray::const_iterator p = begin()+ index;
 
 	for(size_t k=0; k<6; k++)
 	{
@@ -353,7 +353,7 @@ void ParticleBunch::OutputIndexParticle (std::ostream& os, int index) const
 void ParticleBunch::Input (double Q, std::istream& is)
 {
 	double reftime, refmom;
-	PSvector p;
+	Particle p;
 	string line;
 	while(getline(is, line))
 	{
@@ -373,10 +373,10 @@ void ParticleBunch::Input (double Q, std::istream& is)
 
 void ParticleBunch::SetCentroid ()
 {
-	PSvector x;
+	Particle x;
 	GetCentroid(x);
 	x-=FirstParticle();
-	for(PSvectorArray::iterator p = begin()+1; p!=end(); p++)
+	for(ParticleArray::iterator p = begin()+1; p!=end(); p++)
 	{
 		p->x() -= x.x();
 		p->xp() -= x.xp();
@@ -510,7 +510,7 @@ void ParticleBunch::MPI_Finalize()
 
 void ParticleBunch::master_recv_particles_from_nodes()
 {
-	PSvector Particle_buffer;
+	Particle Particle_buffer;
 	for(int n = 1; n<MPI_size; n++)
 	{
 		//We probe the incomming send to see how many particles we are recieving.
@@ -578,7 +578,7 @@ void ParticleBunch::node_recv_particles_from_master()
 
 	//We now have our particle data stored in an array
 	//Must now convert them into particles, then a bunch.
-	PSvector Particle_buffer;
+	Particle Particle_buffer;
 
 	//Put the recv buffer into the particle array
 	for (int i = 0; i< recv_count; i++)
@@ -710,7 +710,7 @@ void ParticleBunch::master_send_particles_to_nodes()
 	//First it must be cleared
 	clear();
 
-	PSvector Particle_buffer;
+	Particle Particle_buffer;
 	//And then refilled.
 	for (int i = (particles_per_node*(MPI_size-1)); i<particle_count; i++)
 	{

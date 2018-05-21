@@ -86,7 +86,7 @@ void ClosedOrbit::ScaleBendPathLength(double scale)
 	bendscale = scale;
 }
 
-void ClosedOrbit::FindClosedOrbit(PSvector& particle, int ncpt)
+void ClosedOrbit::FindClosedOrbit(Particle& particle, int ncpt)
 {
 	const int cpt = transverseOnly ? 4 : 6;
 
@@ -221,14 +221,14 @@ void ClosedOrbit::FindClosedOrbit(PSvector& particle, int ncpt)
 #endif
 }
 
-void ClosedOrbit::FindRMSOrbit(PSvector& particle)
+void ClosedOrbit::FindRMSOrbit(Particle& particle)
 {
 	ParticleTracker tracker(theModel->GetBeamline(),particle,p0);
 
 	double len = 0.0;
 	double dl = 0.0;
-	PSvector prev = particle;
-	PSvector rms(0);
+	Particle prev = particle;
+	Particle rms(0);
 
 	tracker.InitStepper();
 	bool loop=true;
@@ -237,7 +237,7 @@ void ClosedOrbit::FindRMSOrbit(PSvector& particle)
 		dl = tracker.GetCurrentComponent().GetLength();
 		loop = tracker.StepComponent();
 
-		PSvector pres = tracker.GetTrackedBunch().FirstParticle();
+		Particle pres = tracker.GetTrackedBunch().FirstParticle();
 
 		for(int m=0; m<6; m++)
 		{

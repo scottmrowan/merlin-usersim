@@ -198,7 +198,7 @@ void EquilibriumDistribution::CalculateDampingConstants()
 	tm.SetRadStepSize(0.1);
 
 	RealMatrix M(6);
-	PSvector p(0);
+	Particle p(0);
 	tm.FindClosedOrbitTM(M,p);
 	synchronousTime = p.ct()/SpeedOfLight;
 
@@ -229,7 +229,7 @@ void EquilibriumDistribution::CalculateEmittance()
 		SumE5[k] = 0.0;
 	}
 
-	PSvector orbit(0);
+	Particle orbit(0);
 	RealMatrix M(6);
 	TransferMatrix tm(theModel, p0);
 	tm.FindClosedOrbitTM(M, orbit);

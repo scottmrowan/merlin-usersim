@@ -38,9 +38,9 @@ void RTMap::Print(std::ostream& os) const
 	}
 }
 
-PSvector& RTMap::Apply(PSvector& X) const
+Particle& RTMap::Apply(Particle& X) const
 {
-	PSvector Y(0);
+	Particle Y(0);
 
 	// linear map
 	RMap::Apply(X,Y);

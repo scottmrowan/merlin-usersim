@@ -12,7 +12,7 @@
 #include <fstream>
 #include "MatrixPrinter.h"
 
-double ProjectedEmittance(const PSmoments& s, PScoord x1, PScoord x2)
+double ProjectedEmittance(const PhaseSpaceMoments& s, PhaseSpaceCoord x1, PhaseSpaceCoord x2)
 {
 	return sqrt(s.var(x1)*s.var(x2)-pow(s(x1,x2),2));
 }
@@ -126,7 +126,7 @@ RealMatrix NormalTransform(const BeamData& t)
 }
 
 
-PSmoments& BeamDataToSigmaMtrx(const BeamData& t, PSmoments& S)
+PhaseSpaceMoments& BeamDataToSigmaMtrx(const BeamData& t, PhaseSpaceMoments& S)
 {
 	RMap R(NormalTransform(t));
 	S.zero();
@@ -170,9 +170,9 @@ RealMatrix DecoupleSigma(SigmaMatrix& S)
 }
 
 
-BeamData& SigmaMatrixToBeamData(const PSmoments& S0, BeamData& t)
+BeamData& SigmaMatrixToBeamData(const PhaseSpaceMoments& S0, BeamData& t)
 {
-	PSmoments S=S0;
+	PhaseSpaceMoments S=S0;
 	t=BeamData();
 
 	// First check if we have dispersion:
@@ -236,7 +236,7 @@ BeamData& SigmaMatrixToBeamData(const PSmoments& S0, BeamData& t)
 	return t;
 }
 
-pair<double,double> NormalModeEmittance(const PSmoments& S)
+pair<double,double> NormalModeEmittance(const PhaseSpaceMoments& S)
 {
 	BeamData t;
 	SigmaMatrixToBeamData(S,t);

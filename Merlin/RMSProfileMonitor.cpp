@@ -31,7 +31,7 @@ void RMSProfileMonitor::MakeMeasurement (const Bunch& aBunch)
 {
 	if(!buffers.empty() && IsActive())
 	{
-		PSmoments2D profile;
+		PhaseSpaceMoments2D profile;
 		aBunch.GetProjectedMoments(ps_X,ps_Y,profile);
 
 		Data mdat;

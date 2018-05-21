@@ -24,7 +24,7 @@ void NANCheckProcess::InitialiseProcess (Bunch& bunch)
 	ParticleBunchProcess::InitialiseProcess(bunch);
 }
 
-static bool is_good(const PSvector &p)
+static bool is_good(const Particle &p)
 {
 	return std::isfinite(p.x()) && std::isfinite(p.y()) && std::isfinite(p.ct()) && std::isfinite(p.xp()) && std::isfinite(p.yp()) && std::isfinite(p.dp());
 }
@@ -67,11 +67,11 @@ void NANCheckProcess::Report (int id) const
 {
 	if(detailed)
 	{
-		auto p_prev = find_if (prev_coords.begin(), prev_coords.end(), [&id](const PSvector p)
+		auto p_prev = find_if (prev_coords.begin(), prev_coords.end(), [&id](const Particle p)
 		{
 			return p.id() == id;
 		});
-		auto p_start = find_if (start_coords.begin(), start_coords.end(), [&id](const PSvector p)
+		auto p_start = find_if (start_coords.begin(), start_coords.end(), [&id](const Particle p)
 		{
 			return p.id() == id;
 		});
@@ -82,7 +82,7 @@ void NANCheckProcess::Report (int id) const
 		std::cout << "start    " << *p_start << std::endl;
 	}
 
-	auto p_cur = find_if (currentBunch->begin(), currentBunch->end(), [&id](const PSvector p)
+	auto p_cur = find_if (currentBunch->begin(), currentBunch->end(), [&id](const Particle p)
 	{
 		return p.id() == id;
 	});

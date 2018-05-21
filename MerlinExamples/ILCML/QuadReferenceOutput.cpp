@@ -38,7 +38,7 @@ void QuadReferenceOutput::Record(const ComponentFrame* frame, const Bunch* bunch
 	{
 		const Quadrupole& quad = static_cast<const Quadrupole&>(frame->GetComponent());
 
-		PSvector S;
+		Particle S;
 		bunch->GetCentroid(S);
 		double p0 = bunch->GetReferenceMomentum();
 		p0*=1+S.dp();

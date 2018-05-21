@@ -5,11 +5,15 @@
  * This file is derived from software bearing the copyright notice in merlin4_copyright.txt
  */
 
-#ifndef PStypes_h
-#define PStypes_h 1
+#ifndef MERLIN_SCATTEREDPARTICLE_H_
+#define MERLIN_SCATTEREDPARTICLE_H_
 
-#include "merlin_config.h"
-#include "PSvector.h"
-#include "PSmoments.h"
+#include "Particle.h"
 
-#endif
+class ScatteredParticle : public Particle {
+public:
+	ScatteredParticle();
+	virtual ~ScatteredParticle();
+};
+
+#endif /* MERLIN_SCATTEREDPARTICLE_H_ */

@@ -27,7 +27,7 @@ struct EntranceFieldMap
 	EntranceFieldMap(double g, double k1, double phi, double p)
 		: Ez(g/p),k(k1),phi0(phi) {}
 
-	void Apply(PSvector& x) const
+	void Apply(Particle& x) const
 	{
 		double a = -0.5*Ez*cos(phi0-k*x.ct())/(1+x.dp());
 		x.xp() += a*x.x();
@@ -40,7 +40,7 @@ struct DriftMap
 	double s;
 	DriftMap(double l) : s(l) {}
 
-	void Apply(PSvector& x) const
+	void Apply(Particle& x) const
 	{
 		x.x()+=x.xp()*s;
 		x.y()+=x.yp()*s;
@@ -63,7 +63,7 @@ struct LCAVMap
 		: k(k1),Ez(g*ds),L(ds),phi0(phi),E0(p0),E1(p0+g*ds*cos(phi)),Esum(0),np(0)
 	{}
 
-	void Apply(PSvector& x) const
+	void Apply(Particle& x) const
 	{
 
 		double cosphi = cos(phi0-k*x.ct());
@@ -100,7 +100,7 @@ struct ApplyRFMap
 	ApplyRFMap(double Vnorm, double kval, double phase, double len)
 		: Vn(Vnorm),k(kval),phi0(phase),ds(len) {};
 
-	void Apply(PSvector& p) const
+	void Apply(Particle& p) const
 	{
 		double ddp = Vn*cos(phi0-k*p.ct());
 		p.dp() += ddp;

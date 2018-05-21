@@ -110,7 +110,7 @@ double ScatteringModel::PathLength(Material* mat, double E0)
 	return -(lambda)*log(RandomNG::uniform(0,1));
 }
 
-void ScatteringModel::EnergyLoss(PSvector& p, double x, Material* mat, double E0)
+void ScatteringModel::EnergyLoss(Particle& p, double x, Material* mat, double E0)
 {
 	switch (energy_loss_mode)
 	{
@@ -124,7 +124,7 @@ void ScatteringModel::EnergyLoss(PSvector& p, double x, Material* mat, double E0
 }
 
 //Simple energy loss
-void ScatteringModel::EnergyLossSimple(PSvector& p, double x, Material* mat, double E0)
+void ScatteringModel::EnergyLossSimple(Particle& p, double x, Material* mat, double E0)
 {
 	double dp = x * (mat->GetSixtrackdEdx());
 	double E1 = E0 * (1 + p.dp());
@@ -132,7 +132,7 @@ void ScatteringModel::EnergyLossSimple(PSvector& p, double x, Material* mat, dou
 }
 
 //Advanced energy loss
-void ScatteringModel::EnergyLossFull(PSvector& p, double x, Material* mat, double E0)
+void ScatteringModel::EnergyLossFull(Particle& p, double x, Material* mat, double E0)
 {
 	double E1 = E0 * (1 + p.dp());
 	double gamma = E1/(ProtonMassMeV*MeV);
@@ -221,7 +221,7 @@ void ScatteringModel::EnergyLossFull(PSvector& p, double x, Material* mat, doubl
 
 
 //HR 29Aug13
-void ScatteringModel::Straggle(PSvector& p, double x, Material* mat, double E1, double E2)
+void ScatteringModel::Straggle(Particle& p, double x, Material* mat, double E1, double E2)
 {
 	static const double root12 = sqrt(12.0);
 	double scaledx=x/mat->GetRadiationLengthInM();
@@ -241,7 +241,7 @@ void ScatteringModel::Straggle(PSvector& p, double x, Material* mat, double E1, 
 }
 
 
-bool ScatteringModel::ParticleScatter(PSvector& p, Material* mat, double E)
+bool ScatteringModel::ParticleScatter(Particle& p, Material* mat, double E)
 {
 	if (fraction.size() == 0)
 	{

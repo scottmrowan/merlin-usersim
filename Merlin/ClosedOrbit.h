@@ -11,7 +11,7 @@
 #include "AcceleratorModel.h"
 #include "ParticleTracker.h"
 #include "ParticleBunchProcess.h"
-#include "PSTypes.h"
+#include "PhaseSpaceHeaders.h"
 
 using namespace ParticleTracking;
 
@@ -21,8 +21,8 @@ public:
 	ClosedOrbit(AcceleratorModel* aModel, double refMomentum);
 	~ClosedOrbit();
 
-	void FindClosedOrbit(PSvector& particle, int ncpt = 0);
-	void FindRMSOrbit(PSvector& particle);
+	void FindClosedOrbit(Particle& particle, int ncpt = 0);
+	void FindRMSOrbit(Particle& particle);
 
 	void TransverseOnly(bool flag);				// default: false
 	void Radiation(bool flag);					// default: false

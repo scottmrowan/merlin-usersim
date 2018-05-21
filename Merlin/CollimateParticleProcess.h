@@ -15,7 +15,7 @@
 
 #include "merlin_config.h"
 #include "ParticleBunchProcess.h"
-#include "PSTypes.h"
+#include "PhaseSpaceHeaders.h"
 #include "CollimationOutput.h"
 #include "MerlinException.h"
 
@@ -159,7 +159,7 @@ protected:
 	/**
 	* The input array
 	*/
-	PSvectorArray InputArray;
+	ParticleArray InputArray;
 
 	double s_total;
 	double s;
@@ -197,8 +197,8 @@ private:
 
 	virtual void DoCollimation ();
 	void SetNextS ();
-	virtual void DoOutput (const PSvectorArray& lostb, const std::list<size_t>& lost_i);
-	void bin_lost_output(const PSvectorArray& lostb);
+	virtual void DoOutput (const ParticleArray& lostb, const std::list<size_t>& lost_i);
+	void bin_lost_output(const ParticleArray& lostb);
 
 	bool scatter;
 	double bin_size;		/// size of bins

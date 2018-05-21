@@ -44,7 +44,7 @@ PSvector& RMap::Apply(PSvector& X) const
 	return X=Y;
 }
 */
-void RMap::Apply(const PSvector& orig, PSvector& result) const
+void RMap::Apply(const Particle& orig, Particle& result) const
 {
 	for(const_itor r=rterms.begin(); r!=rterms.end(); r++)
 	{

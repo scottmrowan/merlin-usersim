@@ -11,9 +11,9 @@
 
 
 
-PSvector NormalParticleDistributionGenerator::GenerateFromDistribution() const
+Particle NormalParticleDistributionGenerator::GenerateFromDistribution() const
 {
-	PSvector p(0);
+	Particle p(0);
 	p.x()	= RandomGauss(1,cutoffs.x());
 	p.xp()	= RandomGauss(1,cutoffs.xp());
 	p.y()	= RandomGauss(1,cutoffs.y());
@@ -23,9 +23,9 @@ PSvector NormalParticleDistributionGenerator::GenerateFromDistribution() const
 	return p;
 }
 
-PSvector UniformParticleDistributionGenerator::GenerateFromDistribution() const
+Particle UniformParticleDistributionGenerator::GenerateFromDistribution() const
 {
-	PSvector p(0);
+	Particle p(0);
 	p.x()	= RandomNG::uniform(-1,1);
 	p.xp()	= RandomNG::uniform(-1,1);
 	p.y()	= RandomNG::uniform(-1,1);
@@ -35,9 +35,9 @@ PSvector UniformParticleDistributionGenerator::GenerateFromDistribution() const
 	return p;
 }
 
-PSvector RingParticleDistributionGenerator::GenerateFromDistribution() const
+Particle RingParticleDistributionGenerator::GenerateFromDistribution() const
 {
-	PSvector p(0);
+	Particle p(0);
 	double u = RandomNG::uniform(-pi,pi);
 	p.x()	= cos(u);
 	p.xp()	= sin(u);

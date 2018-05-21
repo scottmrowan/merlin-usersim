@@ -58,7 +58,7 @@ private:
 	double ds;
 public:
 	DriftMap(double _ds) : ds(_ds) {}
-	void operator()(PSvector& v) const
+	void operator()(Particle& v) const
 	{
 		double x0  = v.x();
 		double y0  = v.y();
@@ -93,7 +93,7 @@ public:
 		R32 =-h*tan(theta-phi);
 	}
 
-	void operator()(PSvector& v) const
+	void operator()(Particle& v) const
 	{
 		v.xp() += R10 * v.x();
 		v.yp() += R32 * v.y();
@@ -110,7 +110,7 @@ private:
 public:
 	SectorBendMap(double _h, double _ds) : h(_h), ds(_ds) {}
 
-	void operator()(PSvector& v) const
+	void operator()(Particle& v) const
 	{
 
 		double& x0  = v.x();
@@ -168,7 +168,7 @@ private:
 public:
 	SectorBendMapEF(double _h, double _ds) : h(_h), ds(_ds)	{}
 
-	void operator()(PSvector& v) const
+	void operator()(Particle& v) const
 	{
 
 		double& x0  = v.x();
@@ -213,7 +213,7 @@ private:
 public:
 	CombinedFunctionSectorBendMap(double _h, double _k1, double _ds) : h(_h), k1(_k1), ds(_ds) {}
 
-	void operator()(PSvector& v) const
+	void operator()(Particle& v) const
 	{
 
 		double xs,  xc,  ys,  yc;
@@ -314,7 +314,7 @@ private:
 public:
 	QuadrupoleMap(double _k1, double _ds) : k1(_k1), ds(_ds) {}
 
-	void operator()(PSvector& v) const
+	void operator()(Particle& v) const
 	{
 
 		double& x0  = v.x();
@@ -392,7 +392,7 @@ public:
 		scale = q*ds*eV*SpeedOfLight/P0*Complex(cos(phi),sin(phi));
 	}
 
-	void operator()(PSvector& v)
+	void operator()(Particle& v)
 	{
 		double x=v.x();
 		double y=v.y();
@@ -417,7 +417,7 @@ public:
 		cosPhi = cos(phi);
 		d0     = 1 + Vn*cosPhi;
 	};
-	void operator()(PSvector& v) const
+	void operator()(Particle& v) const
 	{
 		RM.Apply(v);
 		if(fullacc)
@@ -452,7 +452,7 @@ public:
 		d0       = 1 + VncosPhi;
 		lnd0     = log(d0);
 	};
-	void operator()(PSvector& v) const
+	void operator()(Particle& v) const
 	{
 
 		double k0  = sqrt((1.0+v.dp())*(1.0+v.dp()) - v.xp()*v.xp() - v.yp()*v.yp());
@@ -517,7 +517,7 @@ public:
 		//~ cout<<std::setw(14)<<m22<<endl;
 
 	};
-	void operator()(PSvector& v) const
+	void operator()(Particle& v) const
 	{
 
 		double k0  = sqrt((1.0+v.dp())*(1.0+v.dp()) - v.xp()*v.xp() - v.yp()*v.yp());
@@ -559,7 +559,7 @@ public:
 		VncosPhi = Vn*cosPhi;
 		d0       = 1 + VncosPhi;
 	};
-	void operator()(PSvector& v) const
+	void operator()(Particle& v) const
 	{
 
 		double k0  = sqrt((1.0+v.dp())*(1.0+v.dp()) - v.xp()*v.xp() - v.yp()*v.yp());
@@ -593,7 +593,7 @@ private:
 
 public:
 	ApplyRTMap(RTMap* M) : m(M) {};
-	void operator()(PSvector& v) const
+	void operator()(Particle& v) const
 	{
 		m->Apply(v);
 	};

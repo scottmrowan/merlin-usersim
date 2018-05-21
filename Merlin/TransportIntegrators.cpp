@@ -65,7 +65,7 @@ struct MultipoleKick
 		scale = q*len*eV*SpeedOfLight/P0*Complex(cos(phi),sin(phi));
 	}
 
-	void operator()(PSvector& v)
+	void operator()(Particle& v)
 	{
 		double x=v.x();
 		double y=v.y();
@@ -85,7 +85,7 @@ struct ApplyMap
 {
 	RTMap* m;
 	ApplyMap(RTMap* amap) : m(amap) {}
-	void operator()(PSvector& p)
+	void operator()(Particle& p)
 	{
 		m->Apply(p);
 	}
@@ -98,7 +98,7 @@ struct ApplyMap1
 	double Eratio;
 
 	ApplyMap1(RTMap* amap, double Er) : m(amap), Eratio(Er) {}
-	void operator()(PSvector& p)
+	void operator()(Particle& p)
 	{
 		double dp = p.dp();
 		p.dp() = Eratio*(1+dp)-1;
@@ -111,7 +111,7 @@ struct ApplyDrift
 {
 	const double s;
 	ApplyDrift(double len) : s(len) {}
-	void operator()(PSvector& p)
+	void operator()(Particle& p)
 	{
 		const double xp = p.xp();
 		const double yp = p.yp();
@@ -136,7 +136,7 @@ struct ApplyRFMap
 		d0=1+Vn*cosPhi0;
 	}
 
-	void operator()(PSvector& p) const
+	void operator()(Particle& p) const
 	{
 		m->Apply(p);
 		if(fullacc)

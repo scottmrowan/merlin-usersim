@@ -56,7 +56,7 @@ void TransferMatrix::ScaleBendPathLength(double scale)
 
 void TransferMatrix::FindTM(RealMatrix& M)
 {
-	PSvector p(0);
+	Particle p(0);
 	ClosedOrbit co(theModel, p0);
 	co.Radiation(radiation);
 
@@ -78,7 +78,7 @@ void TransferMatrix::FindTM(RealMatrix& M)
 	FindTM(M,p);
 }
 
-void TransferMatrix::FindClosedOrbitTM(RealMatrix& M, PSvector& orbit)
+void TransferMatrix::FindClosedOrbitTM(RealMatrix& M, Particle& orbit)
 {
 	ClosedOrbit co(theModel, p0);
 	co.Radiation(radiation);
@@ -101,7 +101,7 @@ void TransferMatrix::FindClosedOrbitTM(RealMatrix& M, PSvector& orbit)
 	FindTM(M,orbit);
 }
 
-void TransferMatrix::FindTM(RealMatrix& M, PSvector& orbit)
+void TransferMatrix::FindTM(RealMatrix& M, Particle& orbit)
 {
 	ParticleBunch bunch(p0,1.0);
 	int k=0;
@@ -163,7 +163,7 @@ void TransferMatrix::FindTM(RealMatrix& M, PSvector& orbit)
 }
 
 
-void TransferMatrix::FindTM(RealMatrix& M, PSvector& orbit, int n1, int n2)
+void TransferMatrix::FindTM(RealMatrix& M, Particle& orbit, int n1, int n2)
 {
 	ParticleBunch bunch(p0,1.0);
 	int k=0;

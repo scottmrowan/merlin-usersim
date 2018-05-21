@@ -31,7 +31,7 @@ public:
 	*	total charge and the particle array. Note that on exit,
 	*	particles is empty.
 	*/
-	ElectronBunch (double P0, double Q, PSvectorArray& particles)
+	ElectronBunch (double P0, double Q, ParticleArray& particles)
 		: ParticleBunch(P0, Q, particles) {};
 
 	/**

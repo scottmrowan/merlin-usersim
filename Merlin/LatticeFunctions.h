@@ -8,7 +8,7 @@
 #ifndef LatticeFunctions_h
 #define LatticeFunctions_h 1
 
-#include "PSvector.h"
+#include "Particle.h"
 
 class LatticeFunction
 {
@@ -41,7 +41,7 @@ public:
 	void UseOrbitFunctions();
 	void RemoveFunction(int i, int j, int k);
 	void RemoveAllFunctions();
-	void Calculate(PSvector* p=nullptr, RealMatrix* M=nullptr);
+	void Calculate(Particle* p=nullptr, RealMatrix* M=nullptr);
 	void CalculateEnergyDerivative();
 	double Value(int i, int j, int k, int ncpt);
 	void PrintTable(ostream& os, int n1=0, int n2=-1);
@@ -64,8 +64,8 @@ private:
 
 	vectorlfn lfnlist;
 
-	double DoCalculate(double cscale=0, PSvector* pInit=nullptr, RealMatrix* MInit=nullptr);
-	double DoCalculateOrbitOnly(double cscale=0, PSvector* pInit=nullptr);
+	double DoCalculate(double cscale=0, Particle* pInit=nullptr, RealMatrix* MInit=nullptr);
+	double DoCalculateOrbitOnly(double cscale=0, Particle* pInit=nullptr);
 	vectorlfn::iterator GetColumn(int i, int j, int k);
 };
 

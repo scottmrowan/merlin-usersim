@@ -26,7 +26,7 @@ struct TRFMap
 		:cosTheta(cos(theta)),sinTheta(sin(theta)),gRed(g/p0),k(k1),phi0(phi),len(ds)
 	{}
 
-	void Apply(PSvector& x) const
+	void Apply(Particle& x) const
 	{
 
 		double dA = gRed*len*cos(phi0-k*x.ct())/(1+x.dp());

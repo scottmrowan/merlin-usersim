@@ -15,7 +15,7 @@
 
 #include "ParticleBunch.h"
 
-#include "PSTypes.h"
+#include "PhaseSpaceHeaders.h"
 
 namespace ParticleTracking
 {
@@ -28,7 +28,7 @@ struct LossData
 	typedef enum {Collimator, Cold, Warm, Undefined} LossTypes;
 
 	std::string ElementName;
-	PSvector p;
+	Particle p;
 	double s;
 	double interval;
 	double position;

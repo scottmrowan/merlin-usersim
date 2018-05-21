@@ -48,7 +48,7 @@ Bunch* SMPBunchConstructor::ConstructBunch (int) const
 	double dxp = beamdat.Dxp;
 	double dy = beamdat.Dy;
 	double dyp = beamdat.Dyp;
-	PSmoments S = BeamDataToSigmaMtrx(bd);
+	PhaseSpaceMoments S = BeamDataToSigmaMtrx(bd);
 
 	// the macro particles are constructed to represent the
 	// total charge in a bin of width 6sigma/ns
@@ -83,7 +83,7 @@ Bunch* SMPBunchConstructor::ConstructBunch (int) const
 		}
 	}
 	//cout<<"total generated charge = "<<qt<<endl;
-	PSvector x0;
+	Particle x0;
 	bunch->GetCentroid(x0);
 	return bunch;
 }

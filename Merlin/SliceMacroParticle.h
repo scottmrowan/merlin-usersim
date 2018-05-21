@@ -8,7 +8,7 @@
 #ifndef _h_SliceMacroParticle
 #define _h_SliceMacroParticle 1
 
-#include "PSTypes.h"
+#include "PhaseSpaceHeaders.h"
 #include "Space2D.h"
 #include <iostream>
 #include <cmath>
@@ -23,7 +23,7 @@ class SliceMacroParticle : public PSmoments4D
 public:
 
 	explicit SliceMacroParticle(double q=0);
-	SliceMacroParticle(const PSmoments& sigma, double ct, double dp, double q);
+	SliceMacroParticle(const PhaseSpaceMoments& sigma, double ct, double dp, double q);
 
 	/**
 	* Macroparticle charge
@@ -35,26 +35,26 @@ public:
 
 
 	// weighted centroid values
-	double GetChargeWeightedCentroid(PScoord i) const
+	double GetChargeWeightedCentroid(PhaseSpaceCoord i) const
 	{
 		return q*mean(i);
 	}
-	Point2D GetChargeWeightedCentroid(PScoord i, PScoord j) const
+	Point2D GetChargeWeightedCentroid(PhaseSpaceCoord i, PhaseSpaceCoord j) const
 	{
 		return Point2D(q*mean(i),q*mean(j));
 	}
-	PSvector GetChargeWeightedCentroid() const
+	Particle GetChargeWeightedCentroid() const
 	{
-		PSvector x(*this);
+		Particle x(*this);
 		x*=q;
 		return x;
 	}
 
-	PSvector& GetCentroid()
+	Particle& GetCentroid()
 	{
 		return *this;
 	}
-	const PSvector& GetCentroid() const
+	const Particle& GetCentroid() const
 	{
 		return *this;
 	}

@@ -14,7 +14,7 @@
 
 #include "merlin_config.h"
 
-#include "PSvector.h"
+#include "Particle.h"
 
 #include "ParticleBunch.h"
 
@@ -123,17 +123,17 @@ public:
 	/**
 	* Dispatches to EnergyLossSimple or EnergyLossFull
 	*/
-	void EnergyLoss(PSvector& p, double x, Material* mat, double E0);
+	void EnergyLoss(Particle& p, double x, Material* mat, double E0);
 
 	/**
 	* Multiple Coulomb scattering
 	*/
-	void Straggle(PSvector& p, double x, Material* mat, double E1, double E2);
+	void Straggle(Particle& p, double x, Material* mat, double E1, double E2);
 
 	/**
 	* Function performs scattering and returns true if inelastic scatter
 	*/
-	bool ParticleScatter(PSvector& p, Material* mat, double E);
+	bool ParticleScatter(Particle& p, Material* mat, double E);
 
 // Other Functions
 
@@ -151,7 +151,7 @@ public:
 	}
 
 	// Scatter plot
-	void ScatterPlot(ParticleTracking::Particle& p, double z, int turn, std::string name);
+	void ScatterPlot(Particle& p, double z, int turn, std::string name);
 	void SetScatterPlot(std::string name, int single_turn = 0);
 	void OutputScatterPlot(std::string directory, int seed = 0);
 	std::vector<std::string> ScatterPlotNames;
@@ -159,7 +159,7 @@ public:
 	std::vector <ScatterPlotData*> StoredScatterPlotData;
 
 	// Jaw impact
-	void JawImpact(ParticleTracking::Particle& p, int turn, std::string name);
+	void JawImpact(Particle& p, int turn, std::string name);
 	void SetJawImpact(std::string name, int single_turn = 0);
 	void OutputJawImpact(std::string directory, int seed = 0);
 	std::vector<std::string> JawImpactNames;
@@ -194,13 +194,13 @@ private:
 	/**
 	* Energy loss via ionisation
 	*/
-	void EnergyLossSimple(PSvector& p, double x, Material* mat, double E0);
+	void EnergyLossSimple(Particle& p, double x, Material* mat, double E0);
 
 	/**
 	* Advanced energy loss via ionisation
 	*/
 
-	void EnergyLossFull(PSvector& p, double x, Material* mat, double E0);
+	void EnergyLossFull(Particle& p, double x, Material* mat, double E0);
 	//0 = SixTrack, 1 = ST+Ad Ion, 2 = ST + Ad El, 3 = ST + Ad SD, 4 = MERLIN
 	int ScatteringPhysicsModel; // Still required for CrossSections
 };

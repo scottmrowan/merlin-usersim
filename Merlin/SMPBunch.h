@@ -61,15 +61,15 @@ public:
 	virtual double GetTotalCharge () const;
 
 	//    Calculation of first- and second-order moments
-	virtual PSmoments& GetMoments (PSmoments& sigma) const;
-	virtual PSmoments2D& GetProjectedMoments (PScoord u, PScoord v, PSmoments2D& sigma) const;
-	virtual PSvector& GetCentroid (PSvector& p) const;
-	virtual Point2D GetProjectedCentroid (PScoord u, PScoord v) const;
+	virtual PhaseSpaceMoments& GetMoments (PhaseSpaceMoments& sigma) const;
+	virtual PhaseSpaceMoments2D& GetProjectedMoments (PhaseSpaceCoord u, PhaseSpaceCoord v, PhaseSpaceMoments2D& sigma) const;
+	virtual Particle& GetCentroid (Particle& p) const;
+	virtual Point2D GetProjectedCentroid (PhaseSpaceCoord u, PhaseSpaceCoord v) const;
 
 	/**
 	* increment the centroid of the bunch by the specified amount
 	*/
-	void AdjustCentroid(const PSvector&);
+	void AdjustCentroid(const Particle&);
 
 	/**
 	*	Set the reference momentum to the mean (centroid)
@@ -101,7 +101,7 @@ public:
 	*	onto the specified coordinate. The total area of the
 	*	histogram is normalised to unity.
 	*/
-	virtual Histogram& ProjectDistribution (PScoord axis, Histogram& hist) const;
+	virtual Histogram& ProjectDistribution (PhaseSpaceCoord axis, Histogram& hist) const;
 
 	/**
 	*	Apply the specified 3D coordinate transformation to the

@@ -6,11 +6,11 @@
  */
 
 #include <iomanip>
-#include "PSvector.h"
+#include "Particle.h"
 
 using namespace std;
 
-ostream& operator<<(ostream& os, const PSvector& v)
+ostream& operator<<(ostream& os, const Particle& v)
 {
 	for(size_t i=0; i<PS_LENGTH; i++)
 	{
@@ -21,7 +21,7 @@ ostream& operator<<(ostream& os, const PSvector& v)
 	return os<<'\n';
 }
 
-std::istream& operator>>(std::istream& is, PSvector& v)
+std::istream& operator>>(std::istream& is, Particle& v)
 {
 	for(double *q = v.v; (q!=v.v+PS_LENGTH) && is; q++)
 	{

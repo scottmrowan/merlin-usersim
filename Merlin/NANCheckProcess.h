@@ -65,8 +65,8 @@ private:
 
 	void Report (int id) const;
 	void DoCull ();
-	PSvectorArray start_coords; // particles at start of element
-	PSvectorArray prev_coords; // particles at start of element
+	ParticleArray start_coords; // particles at start of element
+	ParticleArray prev_coords; // particles at start of element
 	std::set<double> reported;
 };
 

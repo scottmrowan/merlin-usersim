@@ -5,13 +5,13 @@
  * This file is derived from software bearing the copyright notice in merlin4_copyright.txt
  */
 
-#include "PSvectorTransform3D.h"
+#include "PhaseSpaceTransform3D.h"
 
-PSvectorTransform3D::PSvectorTransform3D (const Transform3D& tfrm)
+PhaseSpaceTransform3D::PhaseSpaceTransform3D (const Transform3D& tfrm)
 	:T(tfrm),bNoRot(tfrm.R().isIdentity())
 {}
 
-PSvector& PSvectorTransform3D::Apply (PSvector& p) const
+Particle& PhaseSpaceTransform3D::Apply (Particle& p) const
 {
 	if(bNoRot)
 	{
@@ -43,7 +43,7 @@ PSvector& PSvectorTransform3D::Apply (PSvector& p) const
 	return p;
 }
 
-PSvectorArray& PSvectorTransform3D::Apply (PSvectorArray& pv) const
+ParticleArray& PhaseSpaceTransform3D::Apply (ParticleArray& pv) const
 {
 	std::for_each(pv.begin(),pv.end(),*this);
 	return pv;

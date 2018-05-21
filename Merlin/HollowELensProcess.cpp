@@ -86,7 +86,7 @@ void HollowELensProcess::DoProcess (double /*ds*/)
 	case DC:
 	{
 		//HEL always on
-		for(PSvectorArray::iterator p = newbunch->begin(); p!=newbunch->end(); p++)
+		for(ParticleArray::iterator p = newbunch->begin(); p!=newbunch->end(); p++)
 		{
 			if(SimpleProfile)
 			{
@@ -120,7 +120,7 @@ void HollowELensProcess::DoProcess (double /*ds*/)
 			double Nstep = currentComponentHEL->Nstep;
 			double Tune = currentComponentHEL->Tune;
 			double Multiplier = currentComponentHEL->Multiplier;
-			for(PSvectorArray::iterator p = newbunch->begin(); p!=newbunch->end(); p++)
+			for(ParticleArray::iterator p = newbunch->begin(); p!=newbunch->end(); p++)
 			{
 				if(SimpleProfile)
 				{
@@ -166,7 +166,7 @@ void HollowELensProcess::DoProcess (double /*ds*/)
 
 		if (rando >=0)
 		{
-			for(PSvectorArray::iterator p = newbunch->begin(); p!=newbunch->end(); p++)
+			for(ParticleArray::iterator p = newbunch->begin(); p!=newbunch->end(); p++)
 			{
 				if(SimpleProfile)
 				{
@@ -200,7 +200,7 @@ void HollowELensProcess::DoProcess (double /*ds*/)
 		}
 		if((Turn % SkipTurn)==0)
 		{
-			for(PSvectorArray::iterator p = newbunch->begin(); p!=newbunch->end(); p++)
+			for(ParticleArray::iterator p = newbunch->begin(); p!=newbunch->end(); p++)
 			{
 				if(SimpleProfile)
 				{

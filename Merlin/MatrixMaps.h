@@ -10,7 +10,7 @@
 
 #include "merlin_config.h"
 #include <cassert>
-#include "PSTypes.h"
+#include "PhaseSpaceHeaders.h"
 #include "LinearAlgebra.h"
 
 #include "utils.h"
@@ -109,16 +109,16 @@ public:
 	* second form explicitly specifies the reference momentum
 	* (GeV/c) for the vector. Returns x.
 	*/
-	PSvector& Apply (PSvector& x) const;
-	PSvector& Apply (PSvector& x, double p0) const;
+	Particle& Apply (Particle& x) const;
+	Particle& Apply (Particle& x, double p0) const;
 
 	/**
 	* Transforms each vector in xa by R such that x->R.x. The
 	* second form explicitly specifies the reference momentum
 	* (GeV/c) for the vectors. Returns xa.
 	*/
-	PSvectorArray& Apply (PSvectorArray& xa) const;
-	PSvectorArray& Apply (PSvectorArray& xa, double p0) const;
+	ParticleArray& Apply (ParticleArray& xa) const;
+	ParticleArray& Apply (ParticleArray& xa, double p0) const;
 
 	/**
 	* Transform  sigma by R. If X,S represent the first- and
@@ -127,8 +127,8 @@ public:
 	* reference momentum (GeV/c)  for the moments. Returns
 	* sigma.
 	*/
-	PSmoments& Apply (PSmoments& sigma) const;
-	PSmoments& Apply (PSmoments& sigma, double p0) const;
+	PhaseSpaceMoments& Apply (PhaseSpaceMoments& sigma) const;
+	PhaseSpaceMoments& Apply (PhaseSpaceMoments& sigma, double p0) const;
 
 	/**
 	* Transforms the moments in sigmaArray by R (see
@@ -136,8 +136,8 @@ public:
 	* explicitly specifies the reference momentum (GeV/c) for
 	* the moments. Returns sigmaArray.
 	*/
-	PSmomentsArray& Apply (PSmomentsArray& sigmaArray) const;
-	PSmomentsArray& Apply (PSmomentsArray& sigmaArray, double p0) const;
+	PhaseSpaceMomentsArray& Apply (PhaseSpaceMomentsArray& sigmaArray) const;
+	PhaseSpaceMomentsArray& Apply (PhaseSpaceMomentsArray& sigmaArray, double p0) const;
 
 	/**
 	* Invert the matrix.
@@ -189,16 +189,16 @@ public:
 	* second form explicitly specifies the reference momentum
 	* (GeV/c) for the vector. Returns x.
 	*/
-	PSvector& Apply (PSvector& x) const;
-	PSvector& Apply (PSvector& x, double p0) const;
+	Particle& Apply (Particle& x) const;
+	Particle& Apply (Particle& x, double p0) const;
 
 	/**
 	* Transforms each vector in xa by R such that x->R.x. The
 	* second form explicitly specifies the reference momentum
 	* (GeV/c) for the vectors. Returns xa.
 	*/
-	PSvectorArray& Apply (PSvectorArray& xa) const;
-	PSvectorArray& Apply (PSvectorArray& xa, double p0) const;
+	ParticleArray& Apply (ParticleArray& xa) const;
+	ParticleArray& Apply (ParticleArray& xa, double p0) const;
 
 	/**
 	* Transform  sigma by R. If X,S represent the first- and
@@ -207,8 +207,8 @@ public:
 	* reference momentum (GeV/c)  for the moments. Returns
 	* sigma.
 	*/
-	PSmoments& Apply (PSmoments& sigma) const;
-	PSmoments& Apply (PSmoments& sigma, double p0) const;
+	PhaseSpaceMoments& Apply (PhaseSpaceMoments& sigma) const;
+	PhaseSpaceMoments& Apply (PhaseSpaceMoments& sigma, double p0) const;
 
 	/**
 	* Transforms the moments in sigmaArray by R (see
@@ -216,8 +216,8 @@ public:
 	* explicitly specifies the reference momentum (GeV/c) for
 	* the moments. Returns sigmaArray.
 	*/
-	PSmomentsArray& Apply (PSmomentsArray& sigmaArray) const;
-	PSmomentsArray& Apply (PSmomentsArray& sigmaArray, double p0) const;
+	PhaseSpaceMomentsArray& Apply (PhaseSpaceMomentsArray& sigmaArray) const;
+	PhaseSpaceMomentsArray& Apply (PhaseSpaceMomentsArray& sigmaArray, double p0) const;
 
 	/**
 	* Second-order momentum derivative matrix (T matrix).

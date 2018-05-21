@@ -61,10 +61,10 @@ Point2D GetSliceCentroid(ParticleBunch::const_iterator first,
 	return n>1 ? c/n : c;
 }
 
-PSvector GetSliceCentroid6D(ParticleBunch::const_iterator first,
+Particle GetSliceCentroid6D(ParticleBunch::const_iterator first,
                             ParticleBunch::const_iterator last)
 {
-	PSvector c(0);
+	Particle c(0);
 	double n=0;
 	while(first!=last)
 	{

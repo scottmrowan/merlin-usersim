@@ -49,7 +49,7 @@ int main()
 	// at 3 mm intervals in x.
 	ParticleBunch* theBunch = new ParticleBunch(BEAMENERGY);
 
-	PSvector p(0);
+	Particle p(0);
 	for(int xi=1; xi<=20; xi++)
 	{
 		p.x() = xi * 0.003;

@@ -455,7 +455,7 @@ void CCFailureProcess::DoProcess (double ds)
 			}
 
 			//~ for(PSvectorArray::iterator p = newbunch->begin(); p!=newbunch->end(); p++)
-			for(PSvectorArray::iterator p = currentBunch->begin(); p!=currentBunch->end(); p++)
+			for(ParticleArray::iterator p = currentBunch->begin(); p!=currentBunch->end(); p++)
 			{
 				if(ATLAS)
 				{
@@ -588,7 +588,7 @@ void CCFailureProcess::DoProcess (double ds)
 			}
 
 			//~ for(PSvectorArray::iterator p = newbunch->begin(); p!=newbunch->end(); p++)
-			for(PSvectorArray::iterator p = currentBunch->begin(); p!=currentBunch->end(); p++)
+			for(ParticleArray::iterator p = currentBunch->begin(); p!=currentBunch->end(); p++)
 			{
 				if(upstream)
 				{
@@ -707,7 +707,7 @@ void CCFailureProcess::DoProcess (double ds)
 			}
 
 			//~ for(PSvectorArray::iterator p = newbunch->begin(); p!=newbunch->end(); p++)
-			for(PSvectorArray::iterator p = currentBunch->begin(); p!=currentBunch->end(); p++)
+			for(ParticleArray::iterator p = currentBunch->begin(); p!=currentBunch->end(); p++)
 			{
 				if(upstream)
 				{
@@ -870,7 +870,7 @@ double CCFailureProcess::CalcV2(double V1, double M22)
 	return (-1 * M22 * V1);
 }
 
-void CCFailureProcess::ApplyPreCCKick(PSvector &p, double V, double M12, bool horizontal)
+void CCFailureProcess::ApplyPreCCKick(Particle &p, double V, double M12, bool horizontal)
 {
 	double omega_ov_c = omega/SpeedOfLight;
 	double tantheta = tan(theta);
@@ -919,7 +919,7 @@ void CCFailureProcess::ApplyPreCCKick(PSvector &p, double V, double M12, bool ho
 	}
 }
 
-void CCFailureProcess::ApplyPostCCKick(PSvector &p, double V, double M12, bool horizontal)
+void CCFailureProcess::ApplyPostCCKick(Particle &p, double V, double M12, bool horizontal)
 {
 	double omega_ov_c = omega/SpeedOfLight;
 	double tantheta = tan(theta);

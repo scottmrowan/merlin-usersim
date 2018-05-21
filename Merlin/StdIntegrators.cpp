@@ -29,14 +29,14 @@ struct psdrift
 {
 	double z;
 	psdrift(double len):z(len) {}
-	void operator()(PSvector& p)
+	void operator()(Particle& p)
 	{
 		p.x() += p.xp()*z;
 		p.y() += p.yp()*z;
 	}
 };
 
-inline void ApplyDrift(PSvectorArray& psv,double z)
+inline void ApplyDrift(ParticleArray& psv,double z)
 {
 	if(z!=0)
 	{
@@ -52,7 +52,7 @@ struct MultipoleKick
 	MultipoleKick(const MultipoleField& f, double len, double P0, double q)
 		: field(f),scale(q*len*eV*SpeedOfLight/P0) {}
 
-	void operator()(PSvector& v)
+	void operator()(Particle& v)
 	{
 		double x=v.x();
 		double y=v.y();
@@ -80,7 +80,7 @@ struct ApplyRFdp
 		d0=1+Vn*cosPhi0;
 	};
 
-	void operator()(PSvector& p) const
+	void operator()(Particle& p) const
 	{
 		R.Apply(p);
 		if(fullacc)

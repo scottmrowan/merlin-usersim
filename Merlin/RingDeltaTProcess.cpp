@@ -23,7 +23,7 @@ private:
 public:
 	ApplyDeltaT(double _dt) : dt(_dt) {};
 
-	void operator()(PSvector& v)
+	void operator()(Particle& v)
 	{
 		v.ct() += dt;
 	};

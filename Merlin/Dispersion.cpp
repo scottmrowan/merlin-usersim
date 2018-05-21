@@ -29,12 +29,12 @@ void Dispersion::FindDispersion(int n)
 	ClosedOrbit co(theModel, p0);
 	co.TransverseOnly(true);
 
-	PSvector p(0);
+	Particle p(0);
 	p.dp() = -delta;
 	//p.dp() = delta;
 	co.FindClosedOrbit(p, n);
 
-	PSvector q(0);
+	Particle q(0);
 	q.dp() = delta;
 	//q.dp() = -delta;
 	co.FindClosedOrbit(q, n);
@@ -49,11 +49,11 @@ void Dispersion::FindRMSDispersion(ofstream* file)
 {
 	ClosedOrbit co(theModel, p0);
 	co.TransverseOnly(true);
-	PSvector p(0);
+	Particle p(0);
 	p.dp() = -delta;
 	co.FindClosedOrbit(p);
 
-	PSvector q(0);
+	Particle q(0);
 	q.dp() = delta;
 	co.FindClosedOrbit(q);
 

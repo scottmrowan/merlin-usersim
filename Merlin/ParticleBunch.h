@@ -9,7 +9,7 @@
 #define ParticleBunch_h 1
 
 #include "merlin_config.h"
-#include "PSTypes.h"
+#include "PhaseSpaceHeaders.h"
 #include "Bunch.h"
 #include "PhysicalConstants.h"
 
@@ -27,12 +27,7 @@ using namespace PhysicalConstants;
 
 namespace ParticleTracking
 {
-class ParticleBunchFilter; //#include "BunchFilter.h"
-/**
-*	Representation of a particle.
-*/
-typedef PSvector Particle;
-
+class ParticleBunchFilter; //#include "BunchFilter.h
 /**
 *	A Bunch which is represented by an ensemble of
 *	(macro-)particles.
@@ -42,17 +37,15 @@ typedef PSvector Particle;
 class ParticleBunch : public Bunch
 {
 public:
-
-	typedef Particle particle_type;
-	typedef PSvectorArray::iterator iterator;
-	typedef PSvectorArray::const_iterator const_iterator;
+	typedef ParticleArray::iterator iterator;
+	typedef ParticleArray::const_iterator const_iterator;
 
 	/**
 	*	Constructs a ParticleBunch using the specified momentum,
 	*	total charge and the particle array. Note that on exit,
 	*	particles is empty.
 	*/
-	ParticleBunch (double P0, double Q, PSvectorArray& particles);
+	ParticleBunch (double P0, double Q, ParticleArray& particles);
 
 	/**
 	*	Read phase space vectors from specified input stream.
@@ -80,15 +73,15 @@ public:
 	*/
 	virtual double GetTotalCharge () const;
 
-	virtual PSmoments& GetMoments (PSmoments& sigma) const;
-	virtual PSmoments2D& GetProjectedMoments (PScoord u, PScoord v, PSmoments2D& sigma) const;
-	virtual PSvector& GetCentroid (PSvector& p) const;
-	virtual Point2D GetProjectedCentroid (PScoord u, PScoord v) const;
+	virtual PhaseSpaceMoments& GetMoments (PhaseSpaceMoments& sigma) const;
+	virtual PhaseSpaceMoments2D& GetProjectedMoments (PhaseSpaceCoord u, PhaseSpaceCoord v, PhaseSpaceMoments2D& sigma) const;
+	virtual Particle& GetCentroid (Particle& p) const;
+	virtual Point2D GetProjectedCentroid (PhaseSpaceCoord u, PhaseSpaceCoord v) const;
 
 	/**
 	* Calculate mean (first) and rms (second) of the specified coordinate.
 	*/
-	std::pair<double,double> GetMoments(PScoord u) const;
+	std::pair<double,double> GetMoments(PhaseSpaceCoord u) const;
 
 	/**
 	*	Set the reference momentum to the mean (centroid)
@@ -116,7 +109,7 @@ public:
 	*	onto the specified coordinate. The total area of the
 	*	historgram is normalised to unity.
 	*/
-	virtual Histogram& ProjectDistribution (PScoord axis, Histogram& hist) const;
+	virtual Histogram& ProjectDistribution (PhaseSpaceCoord axis, Histogram& hist) const;
 
 	/**
 	*	Apply the specified 3D coordinate transformation to the
@@ -159,8 +152,8 @@ public:
 	virtual ParticleBunch::iterator erase (ParticleBunch::iterator p);
 	void reserve(const size_t n);
 
-	PSvectorArray& GetParticles ();
-	const PSvectorArray& GetParticles () const;
+	ParticleArray& GetParticles ();
+	const ParticleArray& GetParticles () const;
 
 	/**
 	*	Returns the first particle in the bunch.
@@ -342,7 +335,7 @@ private:
 
 protected:
 
-	PSvectorArray pArray;
+	ParticleArray pArray;
 
 };
 inline void ParticleBunch::swap(ParticleBunch newbunch)
@@ -404,12 +397,12 @@ inline ParticleBunch::iterator ParticleBunch::erase (ParticleBunch::iterator p)
 	return pArray.erase(p);
 }
 
-inline PSvectorArray& ParticleBunch::GetParticles ()
+inline ParticleArray& ParticleBunch::GetParticles ()
 {
 	return pArray;
 }
 
-inline const PSvectorArray& ParticleBunch::GetParticles () const
+inline const ParticleArray& ParticleBunch::GetParticles () const
 {
 	return pArray;
 }

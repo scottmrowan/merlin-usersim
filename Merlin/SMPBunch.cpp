@@ -74,7 +74,7 @@ double SMPBunch::GetTotalCharge () const
 	return Qt;
 }
 
-PSmoments& SMPBunch::GetMoments (PSmoments& sigma) const
+PhaseSpaceMoments& SMPBunch::GetMoments (PhaseSpaceMoments& sigma) const
 {
 	sigma.zero();
 	int i,j;
@@ -100,7 +100,7 @@ PSmoments& SMPBunch::GetMoments (PSmoments& sigma) const
 	return sigma;
 }
 
-PSmoments2D& SMPBunch::GetProjectedMoments (PScoord u, PScoord v, PSmoments2D& sigma) const
+PhaseSpaceMoments2D& SMPBunch::GetProjectedMoments (PhaseSpaceCoord u, PhaseSpaceCoord v, PhaseSpaceMoments2D& sigma) const
 {
 	for(const_iterator p=begin(); p!=end(); p++)
 	{
@@ -122,7 +122,7 @@ PSmoments2D& SMPBunch::GetProjectedMoments (PScoord u, PScoord v, PSmoments2D& s
 
 }
 
-PSvector& SMPBunch::GetCentroid (PSvector& x) const
+Particle& SMPBunch::GetCentroid (Particle& x) const
 {
 	x.zero();
 	for(const_iterator p=begin(); p!=end(); p++)
@@ -133,7 +133,7 @@ PSvector& SMPBunch::GetCentroid (PSvector& x) const
 	return x;
 }
 
-Point2D SMPBunch::GetProjectedCentroid (PScoord u, PScoord v) const
+Point2D SMPBunch::GetProjectedCentroid (PhaseSpaceCoord u, PhaseSpaceCoord v) const
 {
 	Point2D x0(0,0);
 	for(const_iterator p=begin(); p!=end(); p++)
@@ -181,7 +181,7 @@ void SMPBunch::Output (std::ostream& os) const
 	copy(begin(),end(),ostream_iterator<SliceMacroParticle>(os,""));
 }
 
-Histogram& SMPBunch::ProjectDistribution (PScoord axis, Histogram& hist) const
+Histogram& SMPBunch::ProjectDistribution (PhaseSpaceCoord axis, Histogram& hist) const
 {
 	// TO DO
 	return hist;
@@ -218,7 +218,7 @@ void SMPBunch::SortByCT()
 	sort(begin(),end());
 }
 
-void SMPBunch::AdjustCentroid(const PSvector & s)
+void SMPBunch::AdjustCentroid(const Particle & s)
 {
 	for(iterator p=begin(); p!=end(); p++)
 	{

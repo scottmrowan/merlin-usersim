@@ -260,7 +260,7 @@ int main(int argc, char* argv[])
 	// Do the loop for nlaps times
 	for (int iii=1; iii<=nlaps; iii++)
 	{
-		PSvectorArray testarray = myBunch->GetParticles();
+		ParticleArray testarray = myBunch->GetParticles();
 		cout << "Lap " << iii <<"\tParticle number: " << testarray.size() << endl;
 		ostringstream lapprefix;
 		lapprefix << "Output/loss_lap_" << setw(4) << setfill('0') << iii << "_";

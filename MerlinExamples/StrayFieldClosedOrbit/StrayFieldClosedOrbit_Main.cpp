@@ -51,7 +51,7 @@ int main()
 	// Find the closed orbit in the ring.
 	ClosedOrbit theClosedOrbit(theModel,BEAMENERGY);
 	theClosedOrbit.AddProcess(new ConstantStrayFieldProcess(10.0,0.001));
-	PSvector co(0);
+	Particle co(0);
 	theClosedOrbit.FindClosedOrbit(co);
 
 

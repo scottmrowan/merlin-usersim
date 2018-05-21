@@ -159,7 +159,7 @@ size_t ParticleBinList(ParticleBunch& bunch, double zmin, double zmax, size_t nb
 // values are scaled to give a probability distribution with the
 // property Sum{h_i*du} = 1.
 //
-size_t ParticleBunchDistribution(ParticleBunch& bunch, PScoord u,
+size_t ParticleBunchDistribution(ParticleBunch& bunch, PhaseSpaceCoord u,
                                  double umin, double umax, double du, vector<double>& bins,
                                  bool normalise, bool truncate)
 {

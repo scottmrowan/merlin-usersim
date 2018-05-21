@@ -46,10 +46,10 @@ void ParticleBunchConstructor::SetNumParticles (size_t npart)
 
 void ParticleBunchConstructor::SetDistributionCutoff (double cut)
 {
-	cutoffs = PSvector(fabs(cut));
+	cutoffs = Particle(fabs(cut));
 }
 
-void ParticleBunchConstructor::SetDistributionCutoff (const PSvector& cut)
+void ParticleBunchConstructor::SetDistributionCutoff (const Particle& cut)
 {
 	cutoffs=cut;
 }
@@ -57,7 +57,7 @@ void ParticleBunchConstructor::SetDistributionCutoff (const PSvector& cut)
 void ParticleBunchConstructor::ConstructBunchDistribution (int bunchIndex) const
 {
 	// The first particle is *always* the centroid particle
-	PSvector p;
+	Particle p;
 	p.x()=beamdat.x0;
 	p.xp()=beamdat.xp0;
 	p.y()=beamdat.y0;
@@ -106,9 +106,9 @@ void ParticleBunchConstructor::ConstructBunchDistribution (int bunchIndex) const
 	}
 }
 
-PSvector ParticleBunchConstructor::GenerateFromDistribution() const
+Particle ParticleBunchConstructor::GenerateFromDistribution() const
 {
-	PSvector p;
+	Particle p;
 	double u;
 	switch(dtype)
 	{
@@ -196,7 +196,7 @@ void ParticleBunchConstructor::ForceCentroid (bool fc)
 
 void ParticleBunchConstructor::DoForceCentroid () const
 {
-	PSvector xm = pbunch.front();
+	Particle xm = pbunch.front();
 	for (auto p = pbunch.begin()+1; p != pbunch.end(); ++p)
 	{
 		xm += *p;

@@ -54,7 +54,7 @@ struct ApplySR
 		return meanU/n;
 	}
 
-	void operator()(PSvector& v)
+	void operator()(Particle& v)
 	{
 		double B  = abs(Bf.GetField2D(v.x(),v.y()));
 		double g  = P0 * (1 + v.dp())/ParticleMassMeV;

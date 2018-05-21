@@ -35,7 +35,7 @@ public:
 	* total charge and the particle array. Note that on exit,
 	* particles is empty.
 	*/
-	ProtonBunch (double P0, double Q, PSvectorArray& particles) : ParticleBunch(P0, Q, particles), GotElastic(false),GotDiffractive(false)
+	ProtonBunch (double P0, double Q, ParticleArray& particles) : ParticleBunch(P0, Q, particles), GotElastic(false),GotDiffractive(false)
 	{
 		SetUpProfiling();
 	}
@@ -127,11 +127,11 @@ public:
 	void EnableScatteringPhysics(scatMode);
 	//void EnableSixtrackPhysics(bool);
 
-	int ScatterSixtrack(PSvector& pi, double x, const Collimator* col);
-	int ScatterSixtrackAdvancedIonization(PSvector& pi, double x, const Collimator* col);
-	int ScatterSixtrackAdvancedElastic(PSvector& pi, double x, const Collimator* col);
-	int ScatterSixtrackAdvancedSingleDiffraction(PSvector& pi, double x, const Collimator* col);
-	int ScatterMerlin(PSvector& pi, double x, const Collimator* col);
+	int ScatterSixtrack(Particle& pi, double x, const Collimator* col);
+	int ScatterSixtrackAdvancedIonization(Particle& pi, double x, const Collimator* col);
+	int ScatterSixtrackAdvancedElastic(Particle& pi, double x, const Collimator* col);
+	int ScatterSixtrackAdvancedSingleDiffraction(Particle& pi, double x, const Collimator* col);
+	int ScatterMerlin(Particle& pi, double x, const Collimator* col);
 
 	void ConfigureScatter(const Collimator* col);
 	void ConfigureScatterMerlin(const Collimator* col);
