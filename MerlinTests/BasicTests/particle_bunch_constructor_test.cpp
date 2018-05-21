@@ -52,7 +52,7 @@ stats get_stats(ParticleBunch * pb)
 
 	for (auto & p: *pb)
 	{
-		for(int i=0; i<PS_LENGTH ; i++)
+		for(int i=0; i<PARTICLE_LENGTH ; i++)
 		{
 			bunch_stats.min[i] = min(p[i], bunch_stats.min[i]);
 			bunch_stats.max[i] = max(p[i], bunch_stats.max[i]);
@@ -62,7 +62,7 @@ stats get_stats(ParticleBunch * pb)
 	}
 
 	int npart = pb->GetParticles().size();
-	for(int i=0; i<PS_LENGTH ; i++)
+	for(int i=0; i<PARTICLE_LENGTH ; i++)
 	{
 		bunch_stats.mean[i] = sum[i]/ npart;
 		bunch_stats.std[i] = sqrt((sum_sqs[i]  - sum[i]*sum[i]/npart)/ npart);
@@ -246,7 +246,7 @@ int main(int argc, char* argv[])
 				*ref_file << "#X XP Y YP CT DP TYPE LOCATION ID SD" << endl;
 				for (auto &p: *myBunch)
 				{
-					for(int i=0; i<PS_LENGTH; i++)
+					for(int i=0; i<PARTICLE_LENGTH; i++)
 					{
 						*ref_file << std::setw(35)<< p[i];
 					}
