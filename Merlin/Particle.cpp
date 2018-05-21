@@ -12,7 +12,7 @@ using namespace std;
 
 ostream& operator<<(ostream& os, const Particle& v)
 {
-	for(size_t i=0; i<PS_LENGTH; i++)
+	for(size_t i=0; i<PARTICLE_LENGTH; i++)
 	{
 		os<<setw(24)<<scientific<<setprecision(10)<<v[i];
 	}
@@ -23,7 +23,7 @@ ostream& operator<<(ostream& os, const Particle& v)
 
 std::istream& operator>>(std::istream& is, Particle& v)
 {
-	for(double *q = v.v; (q!=v.v+PS_LENGTH) && is; q++)
+	for(double *q = v.particle; (q!=v.particle+PARTICLE_LENGTH) && is; q++)
 	{
 		is>>*q;
 	}

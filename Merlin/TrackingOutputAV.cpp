@@ -74,7 +74,7 @@ void TrackingOutputAV::Record(const ComponentFrame* frame, const Bunch* bunch)
 	const ParticleBunch* PB = static_cast<const ParticleBunch*>(bunch);
 	for(ParticleBunch::const_iterator pb = PB->begin(); pb!= PB->end(); pb++)
 	{
-		if((suppress_unscattered && pb->type() != -1) || (!suppress_unscattered))
+		if((!suppress_unscattered))
 		{
 			(*output_file) 	<< int(pb->id()) << " "
 			                << turn_number << " "
@@ -88,7 +88,6 @@ void TrackingOutputAV::Record(const ComponentFrame* frame, const Bunch* bunch)
 			                << pb->yp()*1e3  << " "
 			                << pb->dp()  << " "
 			                << std::fixed
-			                << int(pb->type()) <<  " "
 			                << int(pb->id())  << endl;
 		}
 	}

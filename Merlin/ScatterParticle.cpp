@@ -10,6 +10,7 @@
 #include "RandomNG.h"
 #include <fstream>
 #include "utils.h"
+#include "ScatterProton.h"
 
 namespace
 {

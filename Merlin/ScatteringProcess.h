@@ -14,6 +14,7 @@
 #include "merlin_config.h"
 
 #include "Particle.h"
+//#include "ScatteredParticle.h"
 
 #include "Material.h"
 #include "DiffractiveScatter.h"

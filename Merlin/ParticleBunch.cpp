@@ -12,6 +12,7 @@
 #include "Transform3D.h"
 #include "PhaseSpaceTransform3D.h"
 #include "ParticleBunch.h"
+//#include "ScatteredParticle.h"
 #include "NormalTransform.h"
 #include "MatrixMaps.h"
 #include "ParticleDistributionGenerator.h"
@@ -160,16 +161,17 @@ ParticleBunch::ParticleBunch (size_t np, const ParticleDistributionGenerator& ge
 
 	// The first particle is *always* the centroid particle
 	Particle p;
+//	ScatteredParticle scattered;
 	p.x()=beam.x0;
 	p.xp()=beam.xp0;
 	p.y()=beam.y0;
 	p.yp()=beam.yp0;
 	p.dp()=0;
 	p.ct()=beam.ct0;
-	p.type() = -1.0;
-	p.location() = -1.0;
 	p.id() = 0;
-	p.sd() = 0.0;
+//	scattered.type() = -1.0;
+//	scattered.location() = -1.0;
+//	scattered.singlediffractive() = 0.0;
 	pArray.push_back(p);
 
 	size_t i = 1;
@@ -190,10 +192,12 @@ ParticleBunch::ParticleBunch (size_t np, const ParticleDistributionGenerator& ge
 
 		p+=pArray.front(); // add centroid
 
-		p.type() = -1.0;
-		p.location() = -1.0;
 		p.id() = i;
-		p.sd() = 0.0;
+
+	//	scattered.type() = -1.0;
+	//	scattered.location() = -1.0;
+	//	scattered.singlediffractive() = 0.0;
+
 
 		if(filter==nullptr || filter->Apply(p))
 		{

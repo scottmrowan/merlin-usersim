@@ -19,6 +19,7 @@
 #include "Collimator.h"
 
 #include "ParticleComponentTracker.h"
+//#include "ScatteredParticle.h"
 
 #include "CollimateParticleProcess.h"
 
@@ -301,8 +302,7 @@ void CollimateParticleProcess::DoCollimation ()
 			}
 			else
 			{
-				(*p).location() = currentComponent->GetComponentLatticePosition();
-				//Particle survives collimator
+				//(*p).location() = currentComponent->GetComponentLatticePosition();				//Particle survives collimator
 				NewBunch->AddParticle(*p);
 				// need to increment iterators
 				p++;

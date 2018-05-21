@@ -16,6 +16,7 @@
 #include "ElasticScatter.h"
 #include "DiffractiveScatter.h"
 #include "MerlinProfile.h"
+//#include "ScatteredParticle.h"
 
 using namespace std;
 using namespace ParticleTracking;
@@ -73,7 +74,7 @@ public:
 	virtual double GetParticleMassMeV() const;
 	virtual double GetParticleLifetime() const;
 
-	int Scatter(Particle& pi, double x, const Collimator* col);
+	int Scatter(Particle& p, double x, const Collimator* col);
 
 	int (*ScatterFunctionPointer)(Particle& p, double x, const Collimator* col);
 
@@ -127,11 +128,11 @@ public:
 	void EnableScatteringPhysics(scatMode);
 	//void EnableSixtrackPhysics(bool);
 
-	int ScatterSixtrack(Particle& pi, double x, const Collimator* col);
-	int ScatterSixtrackAdvancedIonization(Particle& pi, double x, const Collimator* col);
-	int ScatterSixtrackAdvancedElastic(Particle& pi, double x, const Collimator* col);
-	int ScatterSixtrackAdvancedSingleDiffraction(Particle& pi, double x, const Collimator* col);
-	int ScatterMerlin(Particle& pi, double x, const Collimator* col);
+	int ScatterSixtrack(Particle& p, double x, const Collimator* col);
+	int ScatterSixtrackAdvancedIonization(Particle& p, double x, const Collimator* col);
+	int ScatterSixtrackAdvancedElastic(Particle& p, double x, const Collimator* col);
+	int ScatterSixtrackAdvancedSingleDiffraction(Particle& p, double x, const Collimator* col);
+	int ScatterMerlin(Particle& p, double x, const Collimator* col);
 
 	void ConfigureScatter(const Collimator* col);
 	void ConfigureScatterMerlin(const Collimator* col);

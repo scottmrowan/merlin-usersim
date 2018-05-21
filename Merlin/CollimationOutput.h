@@ -12,7 +12,7 @@
 #include <vector>
 
 #include "AcceleratorComponent.h"
-
+//#include "ScatteredParticle.h"
 #include "ParticleBunch.h"
 
 #include "PhaseSpaceHeaders.h"
@@ -29,6 +29,7 @@ struct LossData
 
 	std::string ElementName;
 	Particle p;
+	//ScatteredParticle scattered;
 	double s;
 	double interval;
 	double position;
@@ -87,6 +88,7 @@ struct LossData
 		{
 			temp.ElementName = ElementName;
 			temp.p = p;
+			//temp.scattered = scattered;
 			temp.s = s;
 			temp.interval = interval;
 			temp.position = position;

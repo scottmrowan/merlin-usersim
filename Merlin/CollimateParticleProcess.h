@@ -18,6 +18,7 @@
 #include "PhaseSpaceHeaders.h"
 #include "CollimationOutput.h"
 #include "MerlinException.h"
+//#include "ScatteredParticle.h"
 
 #define COLL_AT_ENTRANCE 1
 #define COLL_AT_CENTER 2

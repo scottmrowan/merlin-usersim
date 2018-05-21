@@ -59,10 +59,10 @@ void FlukaCollimationOutput::Finalise()
 {
 	for(std::vector <LossData>::const_iterator its = DeadParticles.begin(); its != DeadParticles.end(); ++its)
 	{
-		if( its->p.type() == 1 || its->p.type() == 4 )
-		{
+	//	if( its->scattered.type() == 1 || its->scattered.type() == 4 )
+	//	{
 			OutputLosses.push_back(*its);
-		}
+	//	}
 	}
 }
 
@@ -79,8 +79,10 @@ void FlukaCollimationOutput::Output(std::ostream* os)
 		(*os) << std::setw(20) << std::left << its->p.xp();
 		(*os) << std::setw(20) << std::left << its->p.y();
 		(*os) << std::setw(20) << std::left << its->p.yp();
-		(*os) << std::setw(20) << std::left << its->p.type();
 		(*os) << std::setw(20) << std::left << its->p.id();
+		//(*os) << std::setw(20) << std::left << its->scattered.location();
+		//(*os) << std::setw(20) << std::left << its->scattered.type();
+		//(*os) << std::setw(20) << std::left << its->scattered.singlediffractive();
 		(*os) << std::setw(20) << std::left << its->turn;
 		(*os) << std::endl;
 	}

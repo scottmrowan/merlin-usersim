@@ -22,8 +22,9 @@ typedef int PhaseSpaceCoord;
 #define ps_YP 3
 #define ps_CT 4
 #define ps_DP 5
+#define particle_id 6
 
-#define PS_LENGTH 10
+#define PARTICLE_LENGTH 8
 
 class Particle
 {
@@ -32,99 +33,87 @@ public:
 	Particle ()
 	{}
 
+	virtual ~Particle()
+	{}
+
 	explicit Particle (double x)
 	{
-		std::fill(v,v+PS_LENGTH,x);
+		std::fill(particle,particle+PARTICLE_LENGTH,x);
 	}
 
 	//	Component accessors.
 	double x ()  const
 	{
-		return v[0];
-	}
-	double y ()  const
-	{
-		return v[2];
-	}
-	double ct () const
-	{
-		return v[4];
+		return particle[0];
 	}
 	double xp () const
 	{
-		return v[1];
+		return particle[1];
+	}
+	double y ()  const
+	{
+		return particle[2];
 	}
 	double yp () const
 	{
-		return v[3];
+		return particle[3];
+	}
+	double ct () const
+	{
+		return particle[4];
 	}
 	double dp () const
 	{
-		return v[5];
-	}
-	double type () const
-	{
-		return v[6];
-	}
-	double location () const
-	{
-		return v[7];
+		return particle[5];
 	}
 	double id () const
 	{
-		return v[8];
+		return particle[6];
 	}
-	double sd () const
+	double empty () const
 	{
-		return v[9];
+		return particle[7];
 	}
+
 
 	//	Array access.
 	double operator [] (PhaseSpaceCoord coord) const
 	{
-		return v[coord];
+		return particle[coord];
 	}
 
 	//	Component mutators.
 	double& x ()
 	{
-		return v[0];
-	}
-	double& y ()
-	{
-		return v[2];
-	}
-	double& ct ()
-	{
-		return v[4];
+		return particle[0];
 	}
 	double& xp ()
 	{
-		return v[1];
+		return particle[1];
+	}
+	double& y ()
+	{
+		return particle[2];
 	}
 	double& yp ()
 	{
-		return v[3];
+		return particle[3];
+	}
+	double& ct ()
+	{
+		return particle[4];
 	}
 	double& dp ()
 	{
-		return v[5];
-	}
-	double& type ()
-	{
-		return v[6];
-	}
-	double& location ()
-	{
-		return v[7];
+		return particle[5];
 	}
 	double& id ()
 	{
-		return v[8];
+		return particle[6];
 	}
-	double& sd ()
+	double& empty ()
 	{
-		return v[9];
+		return particle[7];
 	}
 
 	/**
@@ -132,7 +121,7 @@ public:
 	*/
 	double& operator [] (PhaseSpaceCoord coord)
 	{
-		return v[coord];
+		return particle[coord];
 	}
 
 	/**
@@ -140,17 +129,17 @@ public:
 	*/
 	operator RealVector () const
 	{
-		return RealVector(v,PS_LENGTH);
+		return RealVector(particle,PARTICLE_LENGTH);
 	}
 
-	bool operator == (const Particle& psv) const
+	bool operator == (const Particle& new_particle) const
 	{
-		return memcmp(v,psv.v,PS_LENGTH*sizeof(double))==0;
+		return memcmp(particle,new_particle.particle,PARTICLE_LENGTH*sizeof(double))==0;
 	}
 
-	bool operator != (const Particle& psv) const
+	bool operator != (const Particle& new_particle) const
 	{
-		return memcmp(v,psv.v,PS_LENGTH*sizeof(double))!=0;
+		return memcmp(particle,new_particle.particle,PARTICLE_LENGTH*sizeof(double))!=0;
 	}
 
 	/**
@@ -158,28 +147,28 @@ public:
 	*/
 	void zero ()
 	{
-		std::fill(v,v+PS_LENGTH,0.0);
+		std::fill(particle,particle+PARTICLE_LENGTH,0.0);
 	}
 
 	/**
 	*	Arithmetic assignment
 	*/
-	Particle& operator += (const Particle& p)
+	Particle& operator += (const Particle& new_particle)
 	{
-		double *q=v;
-		const double *r=p.v;
-		while(q!=(v+PS_LENGTH))
+		double *q=particle;
+		const double *r=new_particle.particle;
+		while(q!=(particle+PARTICLE_LENGTH))
 		{
 			*(q++) += *(r++);
 		}
 		return *this;
 	}
 
-	Particle& operator -= (const Particle& p)
+	Particle& operator -= (const Particle& new_particle)
 	{
-		double *q=v;
-		const double *r=p.v;
-		while(q!=(v+PS_LENGTH))
+		double *q=particle;
+		const double *r=new_particle.particle;
+		while(q!=(particle+PARTICLE_LENGTH))
 		{
 			*(q++) -= *(r++);
 		}
@@ -188,7 +177,7 @@ public:
 
 	Particle& operator *= (double x)
 	{
-		for(double *q = v; q!=v+PS_LENGTH; q++)
+		for(double *q = particle; q!=particle+PARTICLE_LENGTH; q++)
 		{
 			(*q)*=x;
 		}
@@ -197,7 +186,7 @@ public:
 
 	Particle& operator /= (double x)
 	{
-		for(double *q = v; q!=v+PS_LENGTH; q++)
+		for(double *q = particle; q!=particle+PARTICLE_LENGTH; q++)
 		{
 			(*q)/=x;
 		}
@@ -209,30 +198,30 @@ public:
 	*/
 	Particle operator+(const Particle& rhs) const
 	{
-		Particle rv(*this);
-		return rv+=rhs;
+		Particle rparticle(*this);
+		return rparticle+=rhs;
 	}
 
 	Particle operator-(const Particle& rhs) const
 	{
-		Particle rv(*this);
-		return rv-=rhs;
+		Particle rparticle(*this);
+		return rparticle-=rhs;
 	}
 
 	/**
 	*	Reads the vector as six floating point numbers,
 	*	separated by spaces and terminated by a newline.
 	*/
-	friend std::ostream& operator<<(std::ostream& os, const Particle& v);
+	friend std::ostream& operator<<(std::ostream& os, const Particle& particle);
 
 	/**
 	*	Outputs the vector in row form, space delimited with a
 	*	terminating newline.
 	*/
-	friend std::istream& operator>>(std::istream& is, Particle& v);
+	friend std::istream& operator>>(std::istream& is, Particle& particle);
 
 private:
-	double __attribute__((aligned(16))) v[PS_LENGTH];
+	double __attribute__((aligned(16))) particle[PARTICLE_LENGTH];
 };
 
 /**

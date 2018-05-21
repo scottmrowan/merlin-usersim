@@ -12,6 +12,7 @@
 
 #include "CollimateParticleProcess.h"
 #include "ScatteringModel.h"
+//#include "ScatteredParticle.h"
 
 using namespace Collimation;
 

@@ -12,6 +12,7 @@
 #include "PhaseSpaceHeaders.h"
 #include "Bunch.h"
 #include "PhysicalConstants.h"
+//#include "ScatteredParticle.h"
 
 class Aperture; //#include "Aperture.h"
 class ParticleDistributionGenerator; //#include "ParticleDistributionGenerator.h"

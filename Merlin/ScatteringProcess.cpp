@@ -15,6 +15,7 @@
 #include "PhysicalUnits.h"
 #include "PhysicalConstants.h"
 #include "NumericalConstants.h"
+#include "Particle.h"
 
 #include "RandomNG.h"
 
@@ -80,7 +81,7 @@ bool Rutherford::Scatter(Particle& p, double E)
 
 	t = tmin/(1-RandomNG::uniform(0,1));
 	ScatterStuff(p, t, TargetMass, E0);
-	p.type() = 6;
+	//p.type() = 6;
 
 	double E3 = (1 + p.dp()) * E0;
 	if (E3 <= 0.1)
@@ -107,7 +108,7 @@ bool SixTrackRutherford::Scatter(Particle& p, double E)
 
 	t = tmin/(1-RandomNG::uniform(0,1));
 	ScatterStuff(p, t, E0);
-	p.type() = 6;
+	//p.type() = 6;
 
 	double E3 = (1 + p.dp()) * E0;
 	if (E3 <= 0.1)
@@ -132,7 +133,7 @@ bool Elasticpn::Scatter(Particle& p, double E)
 	t = cs->GetElasticScatter()->SelectT();
 
 	ScatterStuff(p, t, AtomicMassUnit, E0);
-	p.type() = 3;
+	//p.type() = 3;
 
 	double E3 = (1 + p.dp()) * E0;
 	if (E3 <= 0.1)
@@ -159,7 +160,7 @@ bool SixTrackElasticpn::Scatter(Particle& p, double E)
 	t = -log(RandomNG::uniform(0,1))/b_pp;
 
 	ScatterStuff(p, t, E0);
-	p.type() = 3;
+	//p.type() = 3;
 
 	double E3 = (1 + p.dp()) * E0;
 	if (E3 <= 0.1)
@@ -187,7 +188,7 @@ bool ElasticpN::Scatter(Particle& p, double E)
 
 	t = -log(RandomNG::uniform(0,1))/b_N;
 	ScatterStuff(p, t, TargetMass, E0);
-	p.type() = 2;
+	//p.type() = 2;
 
 	double E3 = (1 + p.dp()) * E0;
 	if (E3 <= 0.1)
@@ -214,7 +215,7 @@ bool SixTrackElasticpN::Scatter(Particle& p, double E)
 
 	t = -log(RandomNG::uniform(0,1))/b_N;
 	ScatterStuff(p, t, E0);
-	p.type() = 2;
+	//p.type() = 2;
 
 	double E3 = (1 + p.dp()) * E0;
 	if (E3 <= 0.1)
@@ -243,8 +244,8 @@ bool SingleDiffractive::Scatter(Particle& p, double E)
 	double dp = m_rec * m_rec * E / com_sqd;
 
 	ScatterStuff(dp, p, t, E0);
-	p.type() = 4;
-	p.sd() = 1;
+	//p.type() = 4;
+	//p.sd() = 1;
 
 	double E3 = (1 + p.dp()) * E0;
 	if (E3 <= 0.1)
@@ -286,8 +287,8 @@ bool SixTrackSingleDiffractive::Scatter(Particle& p, double E)
 	dp = xm2*E/com_sqd;
 
 	ScatterStuff(dp, p, t, E0);
-	p.type() = 4;
-	p.sd() = 1;
+	//p.type() = 4;
+	//p.sd() = 1;
 
 	double E3 = (1 + p.dp()) * E0;
 	if (E3 <= 0.1)
@@ -310,6 +311,6 @@ void Inelastic::Configure(Material* matin, CrossSections* CSin)
 
 bool Inelastic::Scatter(Particle& p, double E)
 {
-	p.type() = 1;
+	//p.type() = 1;
 	return false;
 } // Particle is lost

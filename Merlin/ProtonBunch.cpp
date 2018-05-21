@@ -645,7 +645,7 @@ int ProtonBunch::ScatterMerlin(Particle& p, double x, const Collimator* col)
 				t = -log(RandomNG::uniform(0,1))/b_N;
 				//histt1->Fill(t);
 				dp = t/(2*TargetMass); // units of GeV
-				p.type() = 1;
+//				p.type() = 1;
 				//std::cout << "Elastic_Nucleus:t=\t" << t << "\tdp\t" << dp << std::endl;
 			}
 
@@ -658,7 +658,7 @@ int ProtonBunch::ScatterMerlin(Particle& p, double x, const Collimator* col)
 				t = ElasticScatter->SelectT();
 				//~ std::cout << "ElasticScatter->SelectT() = " << t << std::endl;
 				dp = t/(2*AtomicMassUnit);
-				p.type() = 1;
+//				p.type() = 1;
 				//std::cout << "Elastic_nucleon:t=\t" << t << "\tdp\t" << dp << std::endl;
 			}
 
@@ -688,8 +688,8 @@ int ProtonBunch::ScatterMerlin(Particle& p, double x, const Collimator* col)
 
 				//dp = (0.5*(1.e6*t+(pow(ProtonMassMeV * MeV,2)- pow(mrec,2)))/(ProtonMassMeV * MeV)) / E0;
 				dp = mrec*mrec*E1/center_of_mass_squared;
-				p.type() = 2;
-				p.sd() = 1;
+//				p.type() = 2;
+//				p.sd() = 1;
 				//double P0 = GetReferenceMomentum();
 				//double theta = sqrt(t)/P0;
 				//std::cout << "SD:mx2=\t" << mrec*mrec << "\tt\t" << t << "\tdp\t" << dp << "\ttheta\t" << theta << std::endl;
@@ -707,7 +707,7 @@ int ProtonBunch::ScatterMerlin(Particle& p, double x, const Collimator* col)
 				double tcut=t_low_cut;
 				t=tcut/(1-RandomNG::uniform(0,1)); // generates 1/t squared distribution,
 				dp = t/(2*TargetMass); //units of GeV
-				p.type() = 3;
+//				p.type() = 3;
 				//std::cout << "Rutherford: t = \t" << t << std::endl;
 				//ruth = 2.607e-4 * exp(-t * 0.8561e3 * emr^2 ) * (GetAtomicNumber() / t) ^2
 			}
@@ -1033,7 +1033,7 @@ int ProtonBunch::ScatterSixtrack(Particle& p, double x, const Collimator* col)
 				t = -log(RandomNG::uniform(0,1))/b_N;
 				double P0 = GetReferenceMomentum();
 				double theta = sqrt(t)/P0;
-				p.type() = 1;
+//				p.type() = 1;
 				//std::cout << "Elastic_Nucleus: t = \t" << t << "\ttheta\t" << theta << std::endl;
 			}
 
@@ -1048,7 +1048,7 @@ int ProtonBunch::ScatterSixtrack(Particle& p, double x, const Collimator* col)
 				t = -log(RandomNG::uniform(0,1))/b_pp;
 				double P0 = GetReferenceMomentum();
 				double theta = sqrt(t)/P0;
-				p.type() = 1;
+//				p.type() = 1;
 				//std::cout << "Elastic_nucleon:t=\t" << t << "\ttheta\t" << theta << std::endl;
 			}
 
@@ -1081,8 +1081,8 @@ int ProtonBunch::ScatterSixtrack(Particle& p, double x, const Collimator* col)
 				double P0 = GetReferenceMomentum();
 				double theta = sqrt(t)/P0;
 				//std::cout << "SD:xi=\t" << xm2/(13137.569) << "\tt\t" << t << "\tdp\t" << dp << "\ttheta\t" << theta << std::endl;
-				p.type() = 2;
-				p.sd() = 1;
+//				p.type() = 2;
+//				p.sd() = 1;
 			}
 
 			/*
@@ -1097,7 +1097,7 @@ int ProtonBunch::ScatterSixtrack(Particle& p, double x, const Collimator* col)
 				t=tcut/(1-RandomNG::uniform(0,1)); // generates 1/t squared distribution,
 				//ruth = 2.607e-4 * exp(-t * 0.8561e3 * emr^2 ) * (GetAtomicNumber() / t) ^2
 				//std::cout << "Rutherford: t = \t" << t << std::endl;
-				p.type() = 3;
+//				p.type() = 3;
 			}
 
 			/*
@@ -1524,7 +1524,7 @@ int ProtonBunch::ScatterSixtrackAdvancedIonization(Particle& p, double x, const 
 				t = -log(RandomNG::uniform(0,1))/b_N;
 				double P0 = GetReferenceMomentum();
 				double theta = sqrt(t)/P0;
-				p.type() = 1;
+//				p.type() = 1;
 				//std::cout << "Elastic_Nucleus: t = \t" << t << "\ttheta\t" << theta << std::endl;
 			}
 
@@ -1539,7 +1539,7 @@ int ProtonBunch::ScatterSixtrackAdvancedIonization(Particle& p, double x, const 
 				t = -log(RandomNG::uniform(0,1))/b_pp;
 				double P0 = GetReferenceMomentum();
 				double theta = sqrt(t)/P0;
-				p.type() = 1;
+//				p.type() = 1;
 				//std::cout << "Elastic_nucleon:t=\t" << t << "\ttheta\t" << theta << std::endl;
 			}
 
@@ -1573,8 +1573,8 @@ int ProtonBunch::ScatterSixtrackAdvancedIonization(Particle& p, double x, const 
 				double theta = sqrt(t)/P0;
 				//std::cout << "SD:mx2=\t" << xm2 << "\tt\t" << t << "\tdp\t" << dp << "\ttheta\t" << theta << std::endl;
 
-				p.type() = 2;
-				p.sd() = 1;
+//				p.type() = 2;
+//				p.sd() = 1;
 			}
 
 			/*
@@ -1589,7 +1589,7 @@ int ProtonBunch::ScatterSixtrackAdvancedIonization(Particle& p, double x, const 
 				t=tcut/(1-RandomNG::uniform(0,1)); // generates 1/t squared distribution,
 				//ruth = 2.607e-4 * exp(-t * 0.8561e3 * emr^2 ) * (GetAtomicNumber() / t) ^2
 				//std::cout << "Rutherford: t = \t" << t << std::endl;
-				p.type() = 3;
+//				p.type() = 3;
 			}
 
 			/*
@@ -1934,7 +1934,7 @@ int ProtonBunch::ScatterSixtrackAdvancedElastic(Particle& p, double x, const Col
 				dp = t/(2*TargetMass);
 				double P0 = GetReferenceMomentum();
 				double theta = sqrt(t)/P0;
-				p.type() = 1;
+//				p.type() = 1;
 				//std::cout << "Elastic_Nucleus: t = \t" << t << "\ttheta\t" << theta << std::endl;
 			}
 
@@ -1950,7 +1950,7 @@ int ProtonBunch::ScatterSixtrackAdvancedElastic(Particle& p, double x, const Col
 				dp = t/(2*AtomicMassUnit);
 				double P0 = GetReferenceMomentum();
 				double theta = sqrt(t)/P0;
-				p.type() = 1;
+//				p.type() = 1;
 				//std::cout << "Elastic_nucleon:t=\t" << t << "\ttheta\t" << theta << std::endl;
 			}
 
@@ -1983,8 +1983,8 @@ int ProtonBunch::ScatterSixtrackAdvancedElastic(Particle& p, double x, const Col
 				double P0 = GetReferenceMomentum();
 				double theta = sqrt(t)/P0;
 				//std::cout << "SD:mx2=\t" << xm2 << "\tt\t" << t << "\tdp\t" << dp << "\ttheta\t" << theta << std::endl;
-				p.type() = 2;
-				p.sd() = 1;
+//				p.type() = 2;
+//				p.sd() = 1;
 			}
 
 			/*
@@ -1999,7 +1999,7 @@ int ProtonBunch::ScatterSixtrackAdvancedElastic(Particle& p, double x, const Col
 				t=tcut/(1-RandomNG::uniform(0,1)); // generates 1/t squared distribution,
 				//ruth = 2.607e-4 * exp(-t * 0.8561e3 * emr^2 ) * (GetAtomicNumber() / t) ^2
 				//std::cout << "Rutherford: t = \t" << t << std::endl;
-				p.type() = 3;
+//				p.type() = 3;
 			}
 
 			/*
@@ -2334,7 +2334,7 @@ int ProtonBunch::ScatterSixtrackAdvancedSingleDiffraction(Particle& p, double x,
 				t = -log(RandomNG::uniform(0,1))/b_N;
 				double P0 = GetReferenceMomentum();
 				double theta = sqrt(t)/P0;
-				p.type() = 1;
+//			p.type() = 1;
 				//std::cout << "Elastic_Nucleus: t = \t" << t << "\ttheta\t" << theta << std::endl;
 			}
 
@@ -2349,7 +2349,7 @@ int ProtonBunch::ScatterSixtrackAdvancedSingleDiffraction(Particle& p, double x,
 				t = -log(RandomNG::uniform(0,1))/b_pp;
 				double P0 = GetReferenceMomentum();
 				double theta = sqrt(t)/P0;
-				p.type() = 1;
+//				p.type() = 1;
 				//std::cout << "Elastic_nucleon:t=\t" << t << "\ttheta\t" << theta << std::endl;
 			}
 
@@ -2368,8 +2368,8 @@ int ProtonBunch::ScatterSixtrackAdvancedSingleDiffraction(Particle& p, double x,
 
 				//dp = (0.5*(1.e6*t+(pow(ProtonMassMeV * MeV,2)- pow(mrec,2)))/(ProtonMassMeV * MeV)) / E0;
 				dp = mrec*mrec*E1/center_of_mass_squared;
-				p.type() = 2;
-				p.sd() = 1;
+//				p.type() = 2;
+//				p.sd() = 1;
 				//double P0 = GetReferenceMomentum();
 				//double theta = sqrt(t)/P0;
 				//std::cout << "SD:mx2=\t" << mrec*mrec << "\tt\t" << t << "\tdp\t" << dp << "\ttheta\t" << theta << std::endl;
@@ -2387,7 +2387,7 @@ int ProtonBunch::ScatterSixtrackAdvancedSingleDiffraction(Particle& p, double x,
 				t=tcut/(1-RandomNG::uniform(0,1)); // generates 1/t squared distribution,
 				//ruth = 2.607e-4 * exp(-t * 0.8561e3 * emr^2 ) * (GetAtomicNumber() / t) ^2
 				//std::cout << "Rutherford: t = \t" << t << std::endl;
-				p.type() = 3;
+//				p.type() = 3;
 			}
 
 			/*
