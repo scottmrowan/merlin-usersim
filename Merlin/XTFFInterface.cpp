@@ -17,7 +17,6 @@
 
 #include "Components.h"
 #include "AcceleratorModelConstructor.h"
-#include "SimpleApertures.h"
 #include "SupportStructure.h"
 #include "MagnetMover.h"
 #include "PhysicalConstants.h"
@@ -499,7 +498,10 @@ void XTFFInterface::ConstructComponent(XTFF_Data& dat)
 		c = mc->AppendComponent(ConstructDrift(dat));
 		if(incApertures)
 		{
-			c->SetAperture(new RectangularAperture(2*dat[XGAP],2*dat[YGAP]));
+			Aperture* ap = new RectangularAperture;
+			ap->setRectHalfWidth(2 * dat[XGAP]);
+			ap->setRectHalfHeight(2 * dat[YGAP]);
+			c->SetAperture(ap);
 		}
 	}
 	else if(dat.keywrd=="SROT")
@@ -515,7 +517,9 @@ void XTFFInterface::ConstructComponent(XTFF_Data& dat)
 
 	if(c && incApertures && !fequal(dat[APER],0.0))
 	{
-		c->SetAperture(new CircularAperture(dat[APER]));
+		Aperture* ap = new CircularAperture;
+		ap->setEllipHalfHeight(dat[APER]);
+		c->SetAperture(ap);
 	}
 
 	if(c)

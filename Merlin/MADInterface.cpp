@@ -12,9 +12,7 @@
 #include "MerlinIO.h"
 #include "utils.h"
 
-#include "SimpleApertures.h"
 #include "CollimatorAperture.h"
-#include "RectEllipseAperture.h"
 #include "AcceleratorModelConstructor.h"
 #include "SequenceFrame.h"
 #include "SupportStructure.h"
@@ -121,7 +119,8 @@ Aperture* ConstructAperture(const double& ap_type, MADKeyMap* prmMap)
 		else
 		{
 			//We have a non-zero radius, create the aperture
-			ap = new CircularAperture(r);
+			ap = new CircularAperture();
+			ap->setEllipHalfWidth(r);
 		}
 	}
 
@@ -137,7 +136,10 @@ Aperture* ConstructAperture(const double& ap_type, MADKeyMap* prmMap)
 		}
 		else
 		{
-			ap = new RectangularAperture(w,h);
+			ap = new RectangularAperture();
+			ap->setRectHalfWidth(w);
+			ap->setRectHalfHeight(h);
+
 		}
 	}
 
@@ -156,7 +158,11 @@ Aperture* ConstructAperture(const double& ap_type, MADKeyMap* prmMap)
 		}
 		else
 		{
-			ap = new RectEllipseAperture (w, h, a, b);
+			ap = new RectEllipseAperture ();
+			ap->setRectHalfWidth(w);
+			ap->setRectHalfHeight(h);
+			ap->setEllipHalfWidth(a);
+			ap->setEllipHalfHeight(b);
 		}
 	}
 

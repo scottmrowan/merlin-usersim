@@ -25,7 +25,7 @@ int main()
 {
 	// Construct the AcceleratorModel
 	// from a lattice file produced by MAD
-	MADInterface madi("../lattices/MERLINFodo.lattice.txt", BEAMENERGY);
+	MADInterface madi("build/Debug/MerlinExamples/lattices/MERLINFodo.lattice.txt", BEAMENERGY);
 
 	ofstream madlog("mad.log");
 	madi.SetLogFile(madlog);

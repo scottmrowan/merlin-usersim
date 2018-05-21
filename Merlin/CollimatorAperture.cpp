@@ -9,123 +9,76 @@
 #include "MADInterface.h"
 #include "RandomNG.h"
 
-
-/**********************************************************************
-*
-*	A collimator jaw, aligned to the beam orbit and beta function changes
-* 	This does NOT have jaw flatness errors
-*
-**********************************************************************/
-CollimatorAperture::CollimatorAperture(double w,double h, double t, Material* m, double length, double x_off, double y_off)
-	:RectangularAperture(w,h), alpha(t), CollimatorLength(length), x_offset_entry(x_off), y_offset_entry(y_off),cosalpha(cos(-t)),sinalpha(sin(-t))
+CollimatorAperture::CollimatorAperture(double w, double h, double t, double length, double x_off, double y_off) :
+		alpha(t), CollimatorLength(length), x_offset_entry(x_off), y_offset_entry(y_off), x_offset_exit(0), y_offset_exit(
+				0), w_entrance(w), h_entrance(h), w_exit(0), h_exit(0), cosalpha(cos(-t)), sinalpha(sin(-t))
 {
-	SetMaterial(m);
-	x_offset_exit = 0;
-	y_offset_exit = 0;
-	w_exit = 0;
-	h_exit = 0;
-	//cout << cosalpha << "\t" << sinalpha << endl;
+	setRectHalfWidth(w / 2);
+	setRectHalfHeight(h / 2);
+	setMinDim(min((w / 2), (h / 2)));
+	setApertureType("COLLIMATOR");
 }
 
-//Checks if particle is in or outside a defined aperture
-inline bool CollimatorAperture::PointInside(double x,double y,double z) const
+inline bool CollimatorAperture::CheckWithinApertureBoundaries(double x, double y, double z) const
 {
-	/*
-		if(errors)
-		{
-			//Should use/adjust GetFullWidth
-			x += aperture_error * ((pow(z,2)/jaw_length)-z);
-			y += aperture_error * ((pow(z,2)/jaw_length)-z);
-		}
-	*/
+	if (x_offset_entry == 0 && y_offset_entry == 0 && x_offset_exit == 0 && y_offset_exit == 0)
+	{
+		double ax = fabs(x);
+		double ay = fabs(y);
+		if (ax + ay < minDim)
+			return true;
+	}
+	double x_off = (z * (x_offset_entry - x_offset_exit) / CollimatorLength) - x_offset_entry;
+	double y_off = (z * (y_offset_entry - y_offset_exit) / CollimatorLength) - y_offset_entry;
 
-	/*
-	We need to calculate several variables:
-	1: The x,y offsets at the z position of the particle.
-	2: The width and hight of the jaw at the z position of the particle.
+	double x_jaw = (z * (w_exit - GetFullEntranceWidth()) / CollimatorLength) + GetFullEntranceWidth();
+	double y_jaw = (z * (h_exit - GetFullEntranceHeight()) / CollimatorLength) + GetFullEntranceHeight();
 
-	Lets start with the x and y offsets;
-	*/
+	double x1 = ((x + x_off) * cosalpha) - ((y + y_off) * sinalpha);
+	double y1 = ((x + x_off) * sinalpha) + ((y + y_off) * cosalpha);
 
-	//y = mx + c
-	//m = dy/dx
+	return fabs(x1) < (x_jaw / 2) && fabs(y1) < (y_jaw / 2);
+}
 
-	double x_off = (z * ( x_offset_entry - x_offset_exit ) / CollimatorLength) - x_offset_entry;
-	double y_off = (z * ( y_offset_entry - y_offset_exit ) / CollimatorLength) - y_offset_entry;
+void CollimatorAperture::SetEntranceWidth(double width)
+{
+	w_entrance = width;
+}
 
-
-	//These will give the jaw width and heights to be used. * 0.5 to convert to half width.
-	double x_jaw = (z * ( w_exit - GetFullWidth() )  / CollimatorLength) + GetFullWidth();
-	double y_jaw = (z * ( h_exit - GetFullHeight() ) / CollimatorLength) + GetFullHeight();
-
-	double x1 = ((x+x_off) * cosalpha) - ((y+y_off) * sinalpha);
-	double y1 = ((x+x_off) * sinalpha) + ((y+y_off) * cosalpha);
-
-	//output everything
-	//~ if(! (fabs(x1) < (x_jaw/2) && fabs(y1) < (y_jaw/2)) ){
-	//~ cout << "\nCollAp: z = " << z << "\t\t CollimatorLength = " << CollimatorLength << endl;
-	//~ cout << "x_off = " << x_off << "\t\t x_offset_entry = " << x_offset_entry << "\t\t x_offset_entry " << x_offset_entry << endl;
-	//~ //cout << "y_off = " << y_off << "\t\t y_offset_entry = " << y_offset_entry << "\t\t y_offset_entry " << y_offset_entry << endl;
-	//~ cout << "x_jaw = " << x_jaw << z << "\t\t w_exit = " << w_exit << "\t\t Full Width = " << GetFullWidth() << endl;
-	//~ //cout << "y_jaw = " << y_jaw << z << "\t\t h_exit = " << h_exit << "\t\t GetFullHeight() " << GetFullHeight() << endl;
-	//~ cout << "x = " << x << "\t\t x_off = " << x_off << "\t\t cosalpha = " << cosalpha << endl;
-	//~ cout << "x1 = " << x1 << "\t\t x_jaw/2 = " << x_jaw/2 << endl;
-	//~ }
-
-	return fabs(x1) < (x_jaw/2) && fabs(y1) < (y_jaw/2);
-	/*	ofstream outf;
-		outf.precision(18);
-		outf.open("/samdata2/serlucam/Output/jaw.dat",fstream::app);
-		outf <<  z << "\t" <<  x_off << "\t"  <<  y_off << "\t" <<  x_jaw << "\t" << y_jaw << "\t" << alpha << "\t" << x1 << endl;
-		outf.close();
-	*/
+void CollimatorAperture::SetEntranceHeight(double height)
+{
+	h_entrance = height;
 }
 
 
-//Sets the jaw width at the exit of the collimator
 void CollimatorAperture::SetExitWidth(double width)
 {
 	w_exit = width;
 }
 
-//Sets the jaw height at the exit of the collimator
 void CollimatorAperture::SetExitHeight(double height)
 {
 	h_exit = height;
 }
 
-//Sets the x (horizontal) orbit offset at the exit of the collimator
 void CollimatorAperture::SetExitXOffset(double x)
 {
 	x_offset_exit = x;
 }
 
-//Sets the y (vertical) orbit offset at the exit of the collimator
 void CollimatorAperture::SetExitYOffset(double y)
 {
 	y_offset_exit = y;
 }
-/*
-//Sets the collimator length
-void CollimatorAperture::SetCollimatorLength(double length)
-{
-	CollimatorLength = length;
-}
-
-void CollimatorAperture::SetJawLength(double length)
-{
-	jaw_length = length;
-}
-*/
 
 double CollimatorAperture::GetFullEntranceHeight() const
 {
-	return GetFullHeight();
+	return rectHalfHeight * 2;
 }
 
 double CollimatorAperture::GetFullEntranceWidth() const
 {
-	return GetFullWidth();
+	return rectHalfWidth * 2;
 }
 
 double CollimatorAperture::GetFullExitHeight() const
@@ -163,126 +116,77 @@ double CollimatorAperture::GetCollimatorTilt() const
 	return alpha;
 }
 
-
-/**********************************************************************
-*
-*	A collimator jaw, unaligned to the beam orbit or beta function changes
-* 	This does NOT have jaw flatness errors
-*	Still aligned to the beam size! Flat jaws, parallel to the beam pipe,
-*	but touching the beam envelope on each side
-*	This is the LHC configuration
-*
-**********************************************************************/
-UnalignedCollimatorAperture::UnalignedCollimatorAperture(double w,double h, double t, Material* m, double length, double x_off, double y_off)
-	:CollimatorAperture(w,h,t,m,length,x_off,y_off)
-//:RectangularAperture(w,h), alpha(t), CollimatorLength(length), x_offset(x_off), y_offset(y_off)
+double CollimatorAperture::GetCollimatorLength() const
 {
-	SetMaterial(m);
+	return CollimatorLength;
 }
 
-inline bool UnalignedCollimatorAperture::PointInside(double x,double y,double z) const
+UnalignedCollimatorAperture::UnalignedCollimatorAperture(double w, double h, double t, double length, double x_off,
+		double y_off) :
+		CollimatorAperture(w, h, t, length, x_off, y_off)
 {
-	double x1 = ((x-x_offset_entry) * cosalpha) - ((y-y_offset_entry) * sinalpha);
-	double y1 = ((x-x_offset_entry) * sinalpha) + ((y-y_offset_entry) * cosalpha);
-//	cout << "aperture checking" << endl;
+	setRectHalfWidth(w / 2);
+	setRectHalfHeight(h / 2);
+	setMinDim(min((w / 2), (h / 2)));
+	setApertureType("COLLIMATOR");
+}
 
-	if(fabs(x1) < GetFullWidth()/2)
+inline bool UnalignedCollimatorAperture::CheckWithinApertureBoundaries(double x, double y, double z) const
+{
+	double x1 = ((x - x_offset_entry) * cosalpha) - ((y - y_offset_entry) * sinalpha);
+	double y1 = ((x - x_offset_entry) * sinalpha) + ((y - y_offset_entry) * cosalpha);
+
+	return fabs(x1) < GetFullEntranceWidth() / 2 && fabs(y1) < GetFullEntranceHeight() / 2;
+}
+
+inline bool CollimatorApertureWithErrors::CheckWithinApertureBoundaries(double x, double y, double z) const
+{
+	double x_off = (z * (x_offset_entry - x_offset_exit) / CollimatorLength) - x_offset_entry;
+	double y_off = (z * (y_offset_entry - y_offset_exit) / CollimatorLength) - y_offset_entry;
+
+	double x_jaw = (z * (w_exit - GetFullEntranceWidth()) / CollimatorLength) + GetFullEntranceWidth();
+	double y_jaw = (z * (h_exit - GetFullEntranceHeight()) / CollimatorLength) + GetFullEntranceHeight();
+
+	double x1 = ((x + x_off) * cosalpha) - ((y + y_off) * sinalpha);
+	double y1 = ((x + x_off) * sinalpha) + ((y + y_off) * cosalpha);
+	return fabs(x1) < (x_jaw / 2) && fabs(y1) < (y_jaw / 2);
+	x1 += ApertureError * ((pow(z, 2) / CollimatorLength) - z);
+	y1 += ApertureError * ((pow(z, 2) / CollimatorLength) - z);
+
+	return fabs(x1) < (x_jaw / 2) && fabs(y1) < (y_jaw / 2);
+}
+
+OneSidedUnalignedCollimatorAperture::OneSidedUnalignedCollimatorAperture(double w, double h, double t, double length,
+		double x_off, double y_off, bool side) :
+		CollimatorAperture(w, h, t, length, x_off, y_off), JawSide(side)
+{
+	setRectHalfWidth(w / 2);
+	setRectHalfHeight(h / 2);
+	setMinDim(min((w / 2), (h / 2)));
+	setApertureType("ONE-SIDED COLLIMATOR");
+}
+
+inline bool OneSidedUnalignedCollimatorAperture::CheckWithinApertureBoundaries(double x, double y, double z) const
+{
+	double x1 = ((x - x_offset_entry) * cosalpha) - ((y - y_offset_entry) * sinalpha);
+	double y1 = ((x - x_offset_entry) * sinalpha) + ((y - y_offset_entry) * cosalpha);
+
+	if (JawSide)
 	{
-		//	cout << "passed x: " << x1 << "\t" << GetFullWidth()/2 << endl;
+		return x1 < GetFullEntranceWidth() / 2 && fabs(y1) < GetFullEntranceHeight() / 2;
 	}
 	else
 	{
-		//cout << "failed x: " << x1 << "\t" << x << "\t" <<x_offset_entry << "\t" <<  GetFullWidth()/2 << "\t" << alpha << endl;
-	}
-	if(fabs(y1) < GetFullHeight()/2)
-	{
-		//	cout << "passed y: " << y1 << "\t" << GetFullHeight()/2 << endl;
-	}
-	else
-	{
-		//cout << "failed y: " << y1 << "\t" << GetFullHeight()/2 << endl;
-	}
-
-	return fabs(x1) < GetFullWidth()/2 && fabs(y1) < GetFullHeight()/2;
-}
-
-
-/**********************************************************************
-*
-*	A collimator jaw, aligned to the beam orbit and beta function changes
-* 	This has jaw flatness errors
-*
-**********************************************************************/
-
-inline bool CollimatorApertureWithErrors::PointInside(double x,double y,double z) const
-{
-	double x_off = (z * ( x_offset_entry - x_offset_exit ) / CollimatorLength) - x_offset_entry;
-	double y_off = (z * ( y_offset_entry - y_offset_exit ) / CollimatorLength) - y_offset_entry;
-
-	//These will give the jaw width and heights to be used. * 0.5 to convert to half width.
-	double x_jaw = (z * ( w_exit - GetFullWidth() )  / CollimatorLength) + GetFullWidth();
-	double y_jaw = (z * ( h_exit - GetFullHeight() ) / CollimatorLength) + GetFullHeight();
-
-	double x1 = ((x+x_off) * cosalpha) - ((y+y_off) * sinalpha);
-	double y1 = ((x+x_off) * sinalpha) + ((y+y_off) * cosalpha);
-	return fabs(x1) < (x_jaw/2) && fabs(y1) < (y_jaw/2);
-	x1 += ApertureError * ((pow(z,2)/jaw_length)-z);
-	y1 += ApertureError * ((pow(z,2)/jaw_length)-z);
-
-	return fabs(x1) < (x_jaw/2) && fabs(y1) < (y_jaw/2);
-}
-
-/**********************************************************************
-*
-*	A collimator jaw, unaligned to the beam orbit or beta function changes
-* 	This has jaw flatness errors
-*
-**********************************************************************/
-/*
-inline bool UnalignedCollimatorApertureWithErrors::PointInside(double x,double y,double z) const
-{
-	double x1 = ((x+x_offset_entry) * cos(-alpha)) - ((y+y_offset_entry) * sin(-alpha));
-	double y1 = ((x+x_offset_entry) * sin(-alpha)) + ((y+y_offset_entry) * cos(-alpha));
-	x1 += ApertureError * ((pow(z,2)/jaw_length)-z);
-	y1 += ApertureError * ((pow(z,2)/jaw_length)-z);
-
-	return fabs(x1) < GetFullWidth()/2 && fabs(y1) < GetFullHeight()/2;
-}
-*/
-
-/**********************************************************************
-*
-*	A one sided collimator jaw, unaligned to the beam orbit or beta function changes
-* 	This does NOT have jaw flatness errors
-*	Still aligned to the beam size! Flat jaws, parallel to the beam pipe,
-*	but touching the beam envelope on each side
-*	This is the LHC configuration
-*
-**********************************************************************/
-OneSidedUnalignedCollimatorAperture::OneSidedUnalignedCollimatorAperture(double w,double h, double t, Material* m, double length, double x_off, double y_off)
-	:CollimatorAperture(w,h,t,m,length,x_off,y_off),PositiveSide(true)
-//:RectangularAperture(w,h), alpha(t), CollimatorLength(length), x_offset(x_off), y_offset(y_off)
-{
-	SetMaterial(m);
-}
-
-inline bool OneSidedUnalignedCollimatorAperture::PointInside(double x,double y,double z) const
-{
-	double x1 = ((x-x_offset_entry) * cosalpha) - ((y-y_offset_entry) * sinalpha);
-	double y1 = ((x-x_offset_entry) * sinalpha) + ((y-y_offset_entry) * cosalpha);
-	//cout << "aperture checking" << endl;
-
-	if(PositiveSide)
-	{
-		return x1 < GetFullWidth()/2 && fabs(y1) < GetFullHeight()/2;
-	}
-	else
-	{
-		return (-x1) < GetFullWidth()/2 && fabs(y1) < GetFullHeight()/2;
+		return (-x1) < GetFullEntranceWidth() / 2 && fabs(y1) < GetFullEntranceHeight() / 2;
 	}
 }
 
 void OneSidedUnalignedCollimatorAperture::SetJawSide(bool side)
 {
-	PositiveSide = side;
+	JawSide = side;
+}
+
+bool OneSidedUnalignedCollimatorAperture::GetJawSide()
+{
+	return JawSide;
 }

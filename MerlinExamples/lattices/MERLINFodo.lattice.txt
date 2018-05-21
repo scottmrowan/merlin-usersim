@@ -1,4 +1,4 @@
-* NAME             KEYWORD          S              L              K0L            E1             E2             K1L            K2L            K3L            TILT           FREQ           LAG            VOLT           TYPE            
+* NAME             KEYWORD          S              L              ANGLE            E1             E2             K1L            K2L            K3L            TILT           FREQ           LAG            VOLT           TYPE            
 $ %16s             %16s             %e             %e             %e             %e             %e             %e             %e             %e             %e             %e             %e             %e             %16s            
 @ GAMTR            %e    6.89227    
 @ ALFA             %e   0.210512E-01

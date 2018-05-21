@@ -236,7 +236,7 @@ int main(int argc, char* argv[])
 	cout << "Impact factor number of sigmas: " << impact << endl;
 	delete collimator_db;
 
-	ApertureConfiguration* apc = new ApertureConfiguration(input_data_dir+"LHCB1Aperture.tfs");
+	ApertureConfiguration* apc = new ApertureConfiguration(input_data_dir+"Aperture_B1_6p5TeV_2016.tfs");
 
 	apc->ConfigureElementApertures(model);
 	cout << "aperture load finished" << endl<< "start twiss" << endl;;
@@ -308,7 +308,7 @@ int main(int argc, char* argv[])
 	}
 
 	double h_offset = twiss->Value(1,0,0,start_element_number);
-	double JawPosition = CollimatorJaw->GetFullWidth() / 2.0;
+	double JawPosition = CollimatorJaw->GetFullEntranceWidth() / 2.0;
 	HorizontalHaloParticleBunchFilter *hFilter = new HorizontalHaloParticleBunchFilter();
 	hFilter->SetHorizontalLimit(JawPosition);
 	hFilter->SetHorizontalOrbit(h_offset);

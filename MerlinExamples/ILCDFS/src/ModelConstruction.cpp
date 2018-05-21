@@ -14,7 +14,7 @@
 #include "BeamData.h"
 #include "PhysicalConstants.h"
 #include "TWRFStructure.h"
-#include "SimpleApertures.h"
+#include "Aperture.h"
 #include "TeslaWakePotential.h"
 #include "PatchFrame.h"
 #include "Klystron.h"
@@ -61,7 +61,8 @@ pair<AcceleratorModel*,BeamData*> ConstructModel(const string& fname, bool addcu
 	model->ExtractTypedComponents(cavities,"*"); // linac cavities only
 
 	TeslaWakePotentials* wake = new TeslaWakePotentials;
-	CircularAperture* iris = new CircularAperture(0.035); // TESLA iris aperture
+	Aperture* iris = new CircularAperture(); // TESLA iris aperture
+	iris->setEllipHalfWidth(0.035);
 
 	size_t nCavsPerKlystron = 24;
 	size_t nKlys=0;

@@ -8,7 +8,7 @@
 #include <fstream>
 #include <iostream>
 
-#include "SimpleApertures.h"
+#include "Aperture.h"
 #include "AcceleratorModelConstructor.h"
 #include "Collimator.h"
 #include "TWRFStructure.h"
@@ -111,7 +111,9 @@ int main()
 	Collimator* collimator      = new Collimator("aCollimator", collimatorlength, collimatorthick);
 	double aperturewidth  = 1.9*millimeter;
 	double apertureheight = 1.9*millimeter;
-	RectangularAperture* aperture = new RectangularAperture(aperturewidth, apertureheight);
+	Aperture* aperture = new RectangularAperture();
+	aperture->setRectHalfWidth(aperturewidth);
+	aperture->setRectHalfHeight(apertureheight);
 	collimator->SetAperture(aperture);
 
 	double driftlength2 = 1.0*meter;

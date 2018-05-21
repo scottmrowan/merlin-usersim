@@ -14,7 +14,7 @@
 #include "PhysicalUnits.h"
 #include "ParticleBunchTypes.h"
 #include "ParticleTracker.h"
-#include "SimpleApertures.h"
+#include "Aperture.h"
 #include "CollimateParticleProcess.h"
 
 /* Create a bunch of particle, and check that the correct number survive various sized apertures
@@ -27,13 +27,13 @@ using namespace PhysicalUnits;
 
 int main(int argc, char* argv[])
 {
-
 	AcceleratorModelConstructor* ctor = new AcceleratorModelConstructor();
 	ctor->NewModel();
 
 	AcceleratorComponent *drift = new Drift("d1",1*meter);
 
-	RectangularAperture *rect_app = new RectangularAperture(21*millimeter, 100*millimeter);
+	ApertureFactory factory;
+	Aperture* rect_app = factory.getInstance("RECTANGLE", 0, 21*millimeter, 100*millimeter, 0, 0);
 	ctor->AppendComponent(*drift);
 
 	AcceleratorModel* theModel = ctor->GetModel();
@@ -89,8 +89,8 @@ int main(int argc, char* argv[])
 	//
 	pcoords2 = pcoords;
 	test_bunch = new ProtonBunch(beam_energy,1, pcoords2);
-	rect_app->SetFullWidth(70*millimeter);
-	rect_app->SetFullHeight(70*millimeter);
+	rect_app->setRectHalfWidth(35*millimeter);
+	rect_app->setRectHalfHeight(35*millimeter);
 	tracker->Track(test_bunch);
 	cout << "Particle number: " << test_bunch->size() << endl;
 	assert(test_bunch->size() == 8);
@@ -99,8 +99,8 @@ int main(int argc, char* argv[])
 
 	pcoords2 = pcoords;
 	test_bunch = new ProtonBunch(beam_energy,1, pcoords2);
-	rect_app->SetFullWidth(70*millimeter);
-	rect_app->SetFullHeight(50*millimeter);
+	rect_app->setRectHalfWidth(35*millimeter);
+	rect_app->setRectHalfHeight(25*millimeter);
 	tracker->Track(test_bunch);
 	cout << "Particle number: " << test_bunch->size() << endl;
 	assert(test_bunch->size() == 7);
@@ -108,8 +108,8 @@ int main(int argc, char* argv[])
 
 	pcoords2 = pcoords;
 	test_bunch = new ProtonBunch(beam_energy,1, pcoords2);
-	rect_app->SetFullWidth(50*millimeter);
-	rect_app->SetFullHeight(70*millimeter);
+	rect_app->setRectHalfWidth(25*millimeter);
+	rect_app->setRectHalfHeight(35*millimeter);
 	tracker->Track(test_bunch);
 	cout << "Particle number: " << test_bunch->size() << endl;
 	assert(test_bunch->size() == 8);
@@ -117,8 +117,8 @@ int main(int argc, char* argv[])
 
 	pcoords2 = pcoords;
 	test_bunch = new ProtonBunch(beam_energy,1, pcoords2);
-	rect_app->SetFullWidth(30*millimeter);
-	rect_app->SetFullHeight(30*millimeter);
+	rect_app->setRectHalfWidth(15*millimeter);
+	rect_app->setRectHalfHeight(15*millimeter);
 	tracker->Track(test_bunch);
 	cout << "Particle number: " << test_bunch->size() << endl;
 	assert(test_bunch->size() == 4);
@@ -129,6 +129,8 @@ int main(int argc, char* argv[])
 	delete myBunch;
 	delete tracker;
 	delete theModel;
+
+	cout << "test successful" << endl;
 
 }
 
