@@ -383,3 +383,22 @@ int AcceleratorModel::FindElementLatticePosition(string RequestedElement)
 	return 0;
 }
 
+void AcceleratorModel::Output(std::ostream& os) const
+{
+	int oldp=os.precision(16);
+	ios_base::fmtflags oflg = os.setf(ios::scientific,ios::floatfield);
+	double location = 0.0;
+
+	for(ConstBeamlineIterator iter = lattice.begin(); iter!=lattice.end(); iter++)
+	{
+		os<<std::setw(35)<<(*(*iter)).GetComponent().GetQualifiedName();
+		os<<std::setw(35)<<(*(*iter)).GetComponent().GetType();
+		os<<std::setw(35)<<(*(*iter)).GetComponent().GetLength();
+		os<<std::setw(35)<<location;
+		os<<endl;
+		location += (*(*iter)).GetComponent().GetLength();
+	}
+	os.precision(oldp);
+	os.flags(oflg);
+}
+

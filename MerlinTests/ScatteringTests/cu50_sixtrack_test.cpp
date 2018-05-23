@@ -165,7 +165,7 @@ int main(int argc, char* argv[])
 	Collimator* TestCol = new Collimator("TestCollimator",length);
 	TestCol->SetMaterial(CollimatorMaterial);
 
-	CollimatorAperture* app=new CollimatorAperture(2,2,0,CollimatorMaterial,length, 0,0);
+	CollimatorAperture* app=new CollimatorAperture(2,2,0,length, 0,0);
 	app->SetExitWidth(app->GetFullEntranceWidth());      //Horizontal
 	app->SetExitHeight(app->GetFullEntranceHeight());    //Vertical
 
@@ -265,7 +265,7 @@ int main(int argc, char* argv[])
 	cout << "left: " << myBunch->size() << endl;
 	cout << "absorbed: " << npart - myBunch->size() << endl;
 
-	if (0)
+	if (1)
 	{
 		ostringstream bunch_output_file_out;
 		bunch_output_file_out << "cu50_test_bunch_out.txt";
@@ -295,7 +295,7 @@ int main(int argc, char* argv[])
 	}
 
 	// Histogramming
-	for (PSvectorArray::iterator ip=myBunch->begin(); ip!=myBunch->end(); ip++)
+	for (ParticleArray::iterator ip=myBunch->begin(); ip!=myBunch->end(); ip++)
 	{
 
 		int bin_x = ((ip->x() - bin_min_x) / (bin_max_x-bin_min_x) * (nbins)) +1; // +1 because bin zero for outliers

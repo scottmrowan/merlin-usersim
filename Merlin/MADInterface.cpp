@@ -543,9 +543,9 @@ double MADInterface::ReadComponent ()
 			type="COLLIMATOR";
 		}
 
-		if(type=="RBEND")
+		if(type=="RBEND") //TO DO RBEND implemented badly, SBEND forced in place, fix.
 		{
-			if((prmMap->GetParameter("K0L"))!=0.0)
+			if((prmMap->GetParameter("ANGLE"))!=0.0)
 			{
 				type="SBEND";
 			}
@@ -661,11 +661,11 @@ double MADInterface::ReadComponent ()
 		else if(type=="SBEND")
 		{
 			// K0L depreciated, replaced with ANGLE. HR 17.09.15
-			angle = prmMap->GetParameter("ANGLE");
-			k1 = prmMap->GetParameter("K1L");
+			angle = prmMap->GetParameter("K0L");
 			h = angle/len;
 			SectorBend* bend = new SectorBend(name,len,h,brho*h);
 
+			k1 = prmMap->GetParameter("K1L");
 
 			if(k1!=0)  // mixed function dipole
 			{
@@ -700,7 +700,14 @@ double MADInterface::ReadComponent ()
 		//HR not tested (HiLumi fudge) - SBEND with no pole faces
 		else if(type=="RBEND")
 		{
-			angle=prmMap->GetParameter("ANGLE");
+			if(prmMap->GetParameter("K0L")!=0.0)
+			{
+				angle = prmMap->GetParameter("K0L");
+			}
+			if(prmMap->GetParameter("ANGLE")!=0.0)
+			{
+				angle = prmMap->GetParameter("ANGLE");
+			}
 			k1   =prmMap->GetParameter("K1L");
 			h = angle/len;
 			SectorBend* bend = new SectorBend(name,len,h,brho*h);

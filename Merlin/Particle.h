@@ -5,8 +5,8 @@
  * This file is derived from software bearing the copyright notice in merlin4_copyright.txt
  */
 
-#ifndef PSvector_h
-#define PSvector_h 1
+#ifndef Particle_h
+#define Particle_h 1
 
 #include "merlin_config.h"
 #include <algorithm>

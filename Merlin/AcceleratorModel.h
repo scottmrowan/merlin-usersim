@@ -479,6 +479,8 @@ public:
 	int FindElementLatticePosition(string RequestedElement);
 
 
+	void Output(std::ostream& os) const;
+
 
 private:
 

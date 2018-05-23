@@ -94,8 +94,9 @@ void LatticeFunction::Derivative(LatticeFunction* lfnM, LatticeFunction* lfnP, d
 }
 
 LatticeFunctionTable::LatticeFunctionTable(AcceleratorModel* aModel, double refMomentum)
-	: theModel(aModel), p0(refMomentum), delta(1.0e-8), bendscale(1.0e-16), symplectify(false), orbitonly(true)
+	: theModel(aModel), p0(refMomentum), delta(1.0e-9), bendscale(0), symplectify(false), orbitonly(true)
 {
+	//bendscale = 1.0e-16
 	UseDefaultFunctions();
 }
 
@@ -162,6 +163,8 @@ void LatticeFunctionTable::UseOrbitFunctions()
 	AddFunction(2,0,0); // closed orbit: px
 	AddFunction(3,0,0); // closed orbit: y
 	AddFunction(4,0,0); // closed orbit: py
+	AddFunction(5,0,0); // closed orbit: ct
+	AddFunction(6,0,0); // closed orbit: dp
 }
 
 void LatticeFunctionTable::Size(int& rows, int& cols)
