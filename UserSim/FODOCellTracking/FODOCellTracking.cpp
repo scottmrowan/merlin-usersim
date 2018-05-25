@@ -46,17 +46,20 @@ int main() {
 	double brho = beamenergy/eV/SpeedOfLight;
 	double h = (2*pi/(4*ncell));
 
-	//FODO lattice periodic
-//	for (int n=1;n<(ncell+1);++n) {
+	//confirm equiv to MAD input
+	double knl = 0.0098*brho;
+	cout << knl << endl;
 
-	latticeConstructor.AppendComponent(new Quadrupole("QF",1.0,5.5));//, n==1 ? 0 : 0.15*lcell-ldipole);
-//		latticeConstructor.AppendComponent(new SectorBend("MB",ldipole,h,brho*h), 0.15*lcell-lquad);
-//		latticeConstructor.AppendComponent(new SectorBend("MB",ldipole,h,brho*h), 0.2*lcell-ldipole);
-	latticeConstructor.AppendComponent(new Quadrupole("QD",1,-5.5),36.33);
-//		latticeConstructor.AppendComponent(new SectorBend("MB",ldipole,h,brho*h), 0.15*lcell-lquad);
-//		latticeConstructor.AppendComponent(new SectorBend("MB",ldipole,h,brho*h), 0.2*lcell-ldipole);
-//	}
-//	latticeConstructor.AppendDrift(0.15*lcell-ldipole);
+	//FODO lattice periodic
+	for (int n=1;n<(ncell+1);++n) {
+		latticeConstructor.AppendComponent(new Quadrupole("QF",lquad,0.0098*brho), n==1 ? 0 : 0.15*lcell-ldipole);
+		latticeConstructor.AppendComponent(new SectorBend("MB",ldipole,h,brho*h), 0.15*lcell-lquad);
+		latticeConstructor.AppendComponent(new SectorBend("MB",ldipole,h,brho*h), 0.2*lcell-ldipole);
+		latticeConstructor.AppendComponent(new Quadrupole("QD",lquad,-0.0098*brho), 0.15*lcell-ldipole);
+		latticeConstructor.AppendComponent(new SectorBend("MB",ldipole,h,brho*h), 0.15*lcell-lquad);
+		latticeConstructor.AppendComponent(new SectorBend("MB",ldipole,h,brho*h), 0.2*lcell-ldipole);
+	}
+	latticeConstructor.AppendDrift(0.15*lcell-ldipole);
 	AcceleratorModel* lattice = latticeConstructor.GetModel();
 
 	ClosedOrbit theClosedOrbit(lattice,beamenergy);
