@@ -67,8 +67,8 @@ using namespace SMPTracking;
 
 // Tracks the sliced macroparticle bunch through the linac, with or
 // without wakefields (transvers and longitudinal).
-void PerformTracking(const string& fname, AcceleratorModel::Beamline& linac,
-                     SMPBunch* bunch, bool inc_wf, SimulationOutput* simout=nullptr);
+void PerformTracking(const string& fname, AcceleratorModel::Beamline& linac, SMPBunch* bunch, bool inc_wf,
+	SimulationOutput* simout = nullptr);
 
 // Inputs the standard misalignment data and corrector settings
 // and adjusts the lattice accordingly (exercise 2)
@@ -84,21 +84,22 @@ int main()
 	RandomNG::init(1234);
 
 	// Construct model
-	string paths[] = {"../ILCML/lattice/tesla_linac.xtff", "ILCML/lattice/tesla_linac.xtff", "MerlinExamples/ILCML/lattice/tesla_linac.xtff"};
+	string paths[] = {"../ILCML/lattice/tesla_linac.xtff", "ILCML/lattice/tesla_linac.xtff",
+					  "MerlinExamples/ILCML/lattice/tesla_linac.xtff"};
 
 	string lattice_path;
-	for (size_t i=0; i<3; i++)
+	for(size_t i = 0; i < 3; i++)
 	{
 		ifstream test_file;
 		test_file.open(paths[i].c_str());
-		if (test_file)
+		if(test_file)
 		{
 			lattice_path = paths[i];
 			break;
 		}
 	}
 	cout << "Lattice " << lattice_path << endl;
-	pair<AcceleratorModel*,BeamData*> mb = ConstructModel(lattice_path);
+	pair<AcceleratorModel*, BeamData*> mb = ConstructModel(lattice_path);
 	AcceleratorModel* model = mb.first;
 	BeamData* beam0 = mb.second;
 
@@ -109,43 +110,43 @@ int main()
 	// First task is to output the reference energy and quadrupole
 	// fields in the lattice.
 	// --------------------------------------------------
-	cout<<"Calculating quadrupole reference energy..."<<flush;
-	QuadReferenceOutput* quadRefOutput = new QuadReferenceOutput("quad-reference.data",5.0,1.40e+13);
-	bunch = SMPBunchConstructor(*beam0,31,11).ConstructSMPBunch();
-	PerformTracking("dummy",linac,bunch,true,quadRefOutput);
-	cout<<"done"<<endl;
+	cout << "Calculating quadrupole reference energy..." << flush;
+	QuadReferenceOutput* quadRefOutput = new QuadReferenceOutput("quad-reference.data", 5.0, 1.40e+13);
+	bunch = SMPBunchConstructor(*beam0, 31, 11).ConstructSMPBunch();
+	PerformTracking("dummy", linac, bunch, true, quadRefOutput);
+	cout << "done" << endl;
 
 	// Benchmarking Exercise 1
 	// --------------------------------------------------
 
 	// Set the required initial beam offset for the oscillation
-	beam0->y0 = 5.0*micrometer;
+	beam0->y0 = 5.0 * micrometer;
 
-	cout<<"tracking single particle equivalent..."<<flush;
+	cout << "tracking single particle equivalent..." << flush;
 	beam = *beam0;
-	beam.emit_x = beam.emit_y = beam.sig_dp = beam.sig_z =0;
-	bunch = SMPBunchConstructor(beam,1,1).ConstructSMPBunch();
-	PerformTracking("single-particle.data",linac,bunch,false);
-	cout<<"done"<<endl;
+	beam.emit_x = beam.emit_y = beam.sig_dp = beam.sig_z = 0;
+	bunch = SMPBunchConstructor(beam, 1, 1).ConstructSMPBunch();
+	PerformTracking("single-particle.data", linac, bunch, false);
+	cout << "done" << endl;
 
-	cout<<"tracking 6D bunch, no WF..."<<flush;
+	cout << "tracking 6D bunch, no WF..." << flush;
 	beam = *beam0;
-	bunch = SMPBunchConstructor(beam,31,11).ConstructSMPBunch();
-	PerformTracking("full-bunch-no-WF.data",linac,bunch,false);
-	cout<<"done"<<endl;
+	bunch = SMPBunchConstructor(beam, 31, 11).ConstructSMPBunch();
+	PerformTracking("full-bunch-no-WF.data", linac, bunch, false);
+	cout << "done" << endl;
 
-	cout<<"tracking 6D bunch, with WF..."<<flush;
-	bunch = SMPBunchConstructor(beam,31,11).ConstructSMPBunch();
-	PerformTracking("full-bunch-with-WF.data",linac,bunch,true);
-	cout<<"done"<<endl;
+	cout << "tracking 6D bunch, with WF..." << flush;
+	bunch = SMPBunchConstructor(beam, 31, 11).ConstructSMPBunch();
+	PerformTracking("full-bunch-with-WF.data", linac, bunch, true);
+	cout << "done" << endl;
 
 	// Benchmarking Exercise 2
 	// --------------------------------------------------
 	AdjustLattice(*model);
 	beam.y0 = 0;
-	bunch = SMPBunchConstructor(beam,31,11).ConstructSMPBunch();
-	PerformTracking("exercise2.data",linac,bunch,true);
-	cout<<"done"<<endl;
+	bunch = SMPBunchConstructor(beam, 31, 11).ConstructSMPBunch();
+	PerformTracking("exercise2.data", linac, bunch, true);
+	cout << "done" << endl;
 
 	// clean up
 	delete model;
@@ -154,15 +155,15 @@ int main()
 	return 0;
 }
 
-void PerformTracking(const string& fname, AcceleratorModel::Beamline& linac, SMPBunch* bunch,
-                     bool inc_wf, SimulationOutput* simout)
+void PerformTracking(const string& fname, AcceleratorModel::Beamline& linac, SMPBunch* bunch, bool inc_wf,
+	SimulationOutput* simout)
 {
 	SMPTracking::SMPTracker tracker(linac);
 
-	SimulationOutput* sout=nullptr;
+	SimulationOutput* sout = nullptr;
 	if(simout)
 	{
-		sout=simout;
+		sout = simout;
 	}
 	else
 	{
@@ -191,14 +192,15 @@ void PerformTracking(const string& fname, AcceleratorModel::Beamline& linac, SMP
 
 void AdjustLattice(AcceleratorModel& linacModel)
 {
-	string paths[] = {"../ILCML/lattice/nick23p4_misxy_1.txt", "ILCML/lattice/nick23p4_misxy_1.txt", "MerlinExamples/ILCML/lattice/nick23p4_misxy_1.txt"};
+	string paths[] = {"../ILCML/lattice/nick23p4_misxy_1.txt", "ILCML/lattice/nick23p4_misxy_1.txt",
+					  "MerlinExamples/ILCML/lattice/nick23p4_misxy_1.txt"};
 
 	string lattice_path;
-	for (size_t i=0; i<3; i++)
+	for(size_t i = 0; i < 3; i++)
 	{
 		ifstream test_file;
 		test_file.open(paths[i].c_str());
-		if (test_file)
+		if(test_file)
 		{
 			lattice_path = paths[i];
 			break;
@@ -208,55 +210,56 @@ void AdjustLattice(AcceleratorModel& linacModel)
 	ifstream ifs(lattice_path);
 	if(!ifs)
 	{
-		cerr<<"problems openning file lattice/nick23p4_misxy_1.txt"<<endl;
+		cerr << "problems openning file lattice/nick23p4_misxy_1.txt" << endl;
 		abort();
 	}
 	string s;
-	getline(ifs,s); // ignore first line
+	getline(ifs, s); // ignore first line
 
 //	AcceleratorModel::Beamline linac = linacModel.GetBeamline();
 
 	vector<ComponentFrame*> frames;
-	linacModel.ExtractComponents("TWRFStructure.*|Quadrupole.*|BPM.*",frames);
-	cout<<"\n"<<frames.size()<<" components found"<<endl;
+	linacModel.ExtractComponents("TWRFStructure.*|Quadrupole.*|BPM.*", frames);
+	cout << "\n" << frames.size() << " components found" << endl;
 
-	for(size_t n=0; n<frames.size(); n++)
+	for(size_t n = 0; n < frames.size(); n++)
 	{
-		double z,x,y,xa,ya,tilt;
-		ifs>>z>>x>>y>>xa>>ya>>tilt;
-		ifs>>s;  // class
-		ifs>>s;  // name
+		double z, x, y, xa, ya, tilt;
+		ifs >> z >> x >> y >> xa >> ya >> tilt;
+		ifs >> s;  // class
+		ifs >> s;  // name
 
 		if(!ifs)
 		{
-			cerr<<"Error reading file lattice/nick23p4_misxy_1.txt"<<endl;
+			cerr << "Error reading file lattice/nick23p4_misxy_1.txt" << endl;
 			abort();
 		}
 
 		// check name
-		if((*frames[n]).GetComponent().GetName()!=s)
+		if((*frames[n]).GetComponent().GetName() != s)
 		{
-			cerr<<"name mismatch: ";
-			cerr<<s<<" != "<<(*frames[n]).GetComponent().GetName()<<endl;
+			cerr << "name mismatch: ";
+			cerr << s << " != " << (*frames[n]).GetComponent().GetName() << endl;
 			abort();
 		}
 
 		// set alignment
-		frames[n]->Translate(x,y,0);
+		frames[n]->Translate(x, y, 0);
 		frames[n]->RotateY(xa);
 		frames[n]->RotateX(-ya); // sign?
 		frames[n]->RotateZ(tilt);
 	}
 
 	// YCOR settings (assumed units are tesla.meter)
-	string path2[] = {"../ILCML/lattice/nick23p4_misxy_ycor_1.txt", "ILCML/lattice/nick23p4_misxy_ycor_1.txt", "MerlinExamples/ILCML/lattice/nick23p4_misxy_ycor_1.txt"};
+	string path2[] = {"../ILCML/lattice/nick23p4_misxy_ycor_1.txt", "ILCML/lattice/nick23p4_misxy_ycor_1.txt",
+					  "MerlinExamples/ILCML/lattice/nick23p4_misxy_ycor_1.txt"};
 
 	string lattice_path2;
-	for (size_t i=0; i<3; i++)
+	for(size_t i = 0; i < 3; i++)
 	{
 		ifstream test_file;
 		test_file.open(paths[i].c_str());
-		if (test_file)
+		if(test_file)
 		{
 			lattice_path2 = paths[i];
 			break;
@@ -265,21 +268,21 @@ void AdjustLattice(AcceleratorModel& linacModel)
 	ifstream ifs1(lattice_path2);
 	if(!ifs1)
 	{
-		cerr<<"problems openning file lattice/nick23p4_misxy_ycor_1.txt"<<endl;
+		cerr << "problems openning file lattice/nick23p4_misxy_ycor_1.txt" << endl;
 		abort();
 	}
 
-	vector< TComponentFrame<YCor>* > ycors;
+	vector<TComponentFrame<YCor>*> ycors;
 	linacModel.ExtractTypedComponents(ycors);
-	cout<<"\n"<<ycors.size()<<" correctors found"<<endl;
+	cout << "\n" << ycors.size() << " correctors found" << endl;
 
-	for(size_t n=0; n<ycors.size(); n++)
+	for(size_t n = 0; n < ycors.size(); n++)
 	{
-		double yc,z;
-		ifs1>>z>>yc;
+		double yc, z;
+		ifs1 >> z >> yc;
 		if(ifs1)
 		{
-			cerr<<"error reading file lattice/nick23p4_misxy_ycor_1.txt"<<endl;
+			cerr << "error reading file lattice/nick23p4_misxy_ycor_1.txt" << endl;
 			abort();
 		}
 		// cout<<z<<" "<<ycors[n]->GetPosition()<<endl;
@@ -288,6 +291,3 @@ void AdjustLattice(AcceleratorModel& linacModel)
 		ycor.SetFieldStrength(yc);
 	}
 }
-
-
-

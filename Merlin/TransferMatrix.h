@@ -9,7 +9,7 @@
 #define TransferMatrix_h 1
 
 #include "AcceleratorModel.h"
-#include "PhaseSpaceHeaders.h"
+#include "PSTypes.h"
 #include "TLAS.h"
 
 using namespace TLAS;
@@ -20,10 +20,10 @@ public:
 	TransferMatrix(AcceleratorModel* aModel, double refMomentum);
 
 	void FindTM(RealMatrix& M);
-	void FindTM(RealMatrix& M, Particle& orbit);
-	void FindTM(RealMatrix& M, Particle& orbit, int n1, int n2);
+	void FindTM(RealMatrix& M, PSvector& orbit);
+	void FindTM(RealMatrix& M, PSvector& orbit, int n1, int n2);
 
-	void FindClosedOrbitTM(RealMatrix& M, Particle& orbit);
+	void FindClosedOrbitTM(RealMatrix& M, PSvector& orbit);
 	void Radiation(bool flag);
 	void SetRadStepSize(double rad_stepsize);
 	void SetRadNumSteps(int rad_numsteps);

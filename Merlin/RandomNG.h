@@ -9,218 +9,120 @@
 #define RandomNG_h 1
 
 #include "merlin_config.h"
-#include <cassert>
-
-class ACG;
-class Normal;
-class Uniform;
-class Poisson;
-class Landau;
+#include <random>
+#include <memory>
+#include <cstdint>
+#include <iostream>
+#include <unordered_map>
 
 /**
-* A class which represents a single random number
-* generator.
-*/
-class RandGenerator
-{
-public:
+ * Singleton class for generating continuous floating point numbers from specific distributions.
+ * * normal (Gaussian)
+ * * uniform distributions
+ * * poisson
+ * * landau
+ *
+ * Also provides access to the generator for more optimised usage.
+ */
 
-	RandGenerator (unsigned  iseed = 0);
-	~RandGenerator ();
-
-	unsigned  getSeed () const;
-
-	/**
-	* Resets the seed for the generators to the last supplied
-	* seed value.
-	*/
-	void reset ();
-
-	/**
-	* Resets the initial seed for the generator.
-	*/
-	void reset (unsigned  iseed);
-
-	/**
-	* Generates a random number from a uniform (Gaussian)
-	* distribution with the specified mean and variance.
-	*/
-	double normal (double mean, double variance);
-
-	/**
-	* Generates a random number from a uniform (Gaussian)
-	* distribution with the specified mean and variance. The
-	* resulting distribution is truncated to +/-cutoff
-	* standard deviations.
-	*/
-	double normal (double mean, double variance, double cutoff);
-
-	/**
-	* Generates a uniform random number in the range
-	* |low,high> inclusive.
-	*/
-	double uniform (double low, double high);
-
-	/**
-	* Generates a Poisson random number.
-	*/
-	double poisson (double u);
-
-	/**
-	* Generates a landau random number.
-	*/
-	double landau ();
-
-	/**
-	* Initialised the generator. Should be called before any
-	* other generator function.
-	*/
-	void init (unsigned  iseed = 0);
-
-private:
-
-	unsigned  nseed;
-
-	ACG* gen;
-	Normal* gaussGen;
-	Uniform* uniformGen;
-	Poisson* poissonGen;
-	Landau* landauGen;
-
-	void ResetGenerators ();
-
-	RandGenerator(const RandGenerator& rand);
-	RandGenerator& operator=(const RandGenerator& rand);
-
-};
-
-/**
-* Singleton class for generating continuous floating point
-* numbers from specific distributions. Currently only the
-* normal (Gaussian) and uniform distributions are
-* supported.
-*/
 class RandomNG
 {
 public:
-	/*
-	* Resets the seed for the generators to the last supplied
-	* seed value.
-	*/
-	static void reset ();
+	RandomNG() = delete;
 
 	/**
-	* Resets the initial seed for the generator.
-	*/
-	static void reset (unsigned  iseed);
+	 * Initialise the generator. One form of init() be called before any
+	 * other generator function. With no argument a seed is automatically
+	 * generated using the system random source.
+	 */
+	static void init();
+
+	/// Initialise with single unsigned int as seed
+	static void init(std::uint32_t iseed);
+	/// Initialise with list of unsigned ints as seed
+	static void init(const std::vector<std::uint32_t>& iseed);
 
 	/**
-	* Get the seed for the generator.
-	*/
-	static unsigned getSeed();
+	 * Resets the seed for the generators to the last supplied
+	 * seed value.
+	 */
+	static void reset();
 
 	/**
-	* Generates a random number from a uniform (Gaussian)
-	* distribution with the specified mean and variance.
-	*/
-	static double normal (double mean, double variance);
+	 * Reset the generator with a new seed
+	 */
+	static void reset(std::uint32_t iseed);
+	/// Reset the generator with a new seed
+	static void reset(const std::vector<std::uint32_t>& iseed);
 
 	/**
-	* Generates a random number from a uniform (Gaussian)
-	* distribution with the specified mean and variance. The
-	* resulting distribution is truncated to +/-cutoff
-	* standard deviations.
-	*/
-	static double normal (double mean, double variance, double cutoff);
+	 * Get the seed for the generator.
+	 */
+	static const std::vector<std::uint32_t>& getSeed();
 
 	/**
-	* Generates a uniform random number in the range
-	* |low,high> inclusive.
-	*/
-	static double uniform (double low, double high);
+	 * Generates a random number from a normal (Gaussian)
+	 * distribution with the specified mean and variance.
+	 */
+	static double normal(double mean, double variance);
 
 	/**
-	* Generates a uniform random number in the range
-	* |low,high> inclusive.
-	*/
-	static double poisson (double u);
+	 * Generates a random number from a normal (Gaussian)
+	 * distribution with the specified mean and variance. The
+	 * resulting distribution is truncated to +/-cutoff
+	 * standard deviations.
+	 */
+	static double normal(double mean, double variance, double cutoff);
 
 	/**
-	* Generates a uniform random number in the range
-	* |low,high> inclusive.
-	*/
-	static double landau ();
+	 * Generates a uniform random number in the range
+	 * |low,high> inclusive.
+	 */
+	static double uniform(double low, double high);
 
 	/**
-	* Initialised the generator. Should be called before any
-	* other generator function.
-	*/
-	static void init (unsigned  iseed = 0);
+	 * Generates a Poisson random number in with a given expected value.
+	 */
+	static double poisson(double u);
+
+	/**
+	 * Generates a  random number.
+	 */
+	static double landau();
+
+	/// Gives a reference to the actual generator
+	static std::mt19937_64& getGenerator();
+
+	/**
+	 * Get a new generator to be used within a physics process class
+	 *
+	 * This can improve reproducibility, as each local generator is independent.
+	 * name_hash is added to the list of seeds, and should be set using
+	 * the name of the calling class, e.g.
+	 *
+	 *     auto gen = RandomNG::getLocalGenerator(hash_string("MyPhysicsProcess"));
+	 *
+	 * The generator is held within RandomNG::generator_store, so the same
+	 * generator will be returned if called with the same name_hash
+	 */
+	static std::mt19937_64& getLocalGenerator(size_t name_hash);
+
+	/// Reset a given local generator
+	static void resetLocalGenerator(size_t name_hash);
 
 private:
+	static std::vector<std::uint32_t> master_seed;
+	static std::unique_ptr<std::mt19937_64> generator;
 
-	static RandGenerator* generator;
+	static std::unordered_map<size_t, std::mt19937_64> generator_store;
+
+	static void not_seeded()
+	{
+		std::cerr << "WARN: Random number generator not initiated, using auto seeding" << std::endl;
+		std::cerr << "WARN: It is recommended to call MerlinRandom::init() with a seed" << std::endl;
+		init();
+	}
 };
 
-inline unsigned RandGenerator::getSeed () const
-{
-	return nseed;
-}
-
-inline unsigned RandomNG::getSeed ()
-{
-	assert(generator);
-	return generator->getSeed();
-}
-inline void RandomNG::reset ()
-{
-	assert(generator);
-	generator->reset();
-}
-
-inline void RandomNG::reset (unsigned iseed)
-{
-	assert(generator);
-	generator->reset(iseed);
-}
-
-inline double RandomNG::normal (double mean, double variance)
-{
-	assert(generator);
-	return generator->normal(mean,variance);
-}
-
-inline double RandomNG::normal (double mean, double variance, double cutoff)
-{
-	assert(generator);
-	return generator->normal(mean,variance,cutoff);
-}
-
-inline double RandomNG::uniform (double low, double high)
-{
-	assert(generator);
-	return generator->uniform(low,high);
-}
-
-inline double RandomNG::poisson (double u)
-{
-	assert(generator);
-	return generator->poisson(u);
-}
-
-inline double RandomNG::landau ()
-{
-	assert(generator);
-	return generator->landau();
-}
-
-inline void RandomNG::init (unsigned iseed)
-{
-	if(generator)
-	{
-		delete generator;
-	}
-	generator = new RandGenerator(iseed);
-}
-
+std::uint32_t hash_string(std::string s);
 #endif

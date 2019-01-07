@@ -8,7 +8,7 @@
 #ifndef LatticeFunctions_h
 #define LatticeFunctions_h 1
 
-#include "Particle.h"
+#include "PSvector.h"
 
 class LatticeFunction
 {
@@ -41,18 +41,18 @@ public:
 	void UseOrbitFunctions();
 	void RemoveFunction(int i, int j, int k);
 	void RemoveAllFunctions();
-	void Calculate(Particle* p=nullptr, RealMatrix* M=nullptr);
+	void Calculate(PSvector* p = nullptr, RealMatrix* M = nullptr);
 	void CalculateEnergyDerivative();
 	double Value(int i, int j, int k, int ncpt);
-	void PrintTable(ostream& os, int n1=0, int n2=-1);
+	void PrintTable(ostream& os, int n1 = 0, int n2 = -1);
 	void Size(int& rows, int& cols);
 	int GetSPosIndex(double s);
 	void SetDelta(double new_delta);
 	void MakeTMSymplectic(bool flag);
 	int NumberOfRows();
 	void ScaleBendPathLength(double scale);
-	double Mean(int i, int j, int k, int n1=0, int n2=-1);
-	double RMS(int i, int j, int k, int n1=0, int n2=-1);
+	double Mean(int i, int j, int k, int n1 = 0, int n2 = -1);
+	double RMS(int i, int j, int k, int n1 = 0, int n2 = -1);
 
 private:
 	AcceleratorModel* theModel;
@@ -64,8 +64,8 @@ private:
 
 	vectorlfn lfnlist;
 
-	double DoCalculate(double cscale=0, Particle* pInit=nullptr, RealMatrix* MInit=nullptr);
-	double DoCalculateOrbitOnly(double cscale=0, Particle* pInit=nullptr);
+	double DoCalculate(double cscale = 0, PSvector* pInit = nullptr, RealMatrix* MInit = nullptr);
+	double DoCalculateOrbitOnly(double cscale = 0, PSvector* pInit = nullptr);
 	vectorlfn::iterator GetColumn(int i, int j, int k);
 };
 

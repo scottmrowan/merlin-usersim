@@ -8,14 +8,17 @@
 #ifndef HaloParticleDistributionGenerator_h
 #define HaloParticleDistributionGenerator_h 1
 
-#include "Particle.h"
+#include "PSvector.h"
 #include "ParticleDistributionGenerator.h"
 
 class Halo1ParticleDistributionGenerator: public ParticleDistributionGenerator
 {
 public:
 	/// @parameter halo_size_ Size of halo in units of sigma
-	Halo1ParticleDistributionGenerator(double halo_size_ = 1.0):halo_size(halo_size_) {}
+	Halo1ParticleDistributionGenerator(double halo_size_ = 1.0) :
+		halo_size(halo_size_)
+	{
+	}
 protected:
 	double halo_size;
 };
@@ -29,7 +32,7 @@ class HorizonalHalo1ParticleDistributionGenerator: public Halo1ParticleDistribut
 {
 public:
 	using Halo1ParticleDistributionGenerator::Halo1ParticleDistributionGenerator;
-	virtual Particle GenerateFromDistribution() const override;
+	virtual PSvector GenerateFromDistribution() const override;
 };
 
 /**
@@ -41,17 +44,23 @@ class VerticalHalo1ParticleDistributionGenerator: public Halo1ParticleDistributi
 {
 public:
 	using Halo1ParticleDistributionGenerator::Halo1ParticleDistributionGenerator;
-	virtual Particle GenerateFromDistribution() const override;
+	virtual PSvector GenerateFromDistribution() const override;
 };
 
 class Halo2ParticleDistributionGenerator: public ParticleDistributionGenerator
 {
 public:
-	Halo2ParticleDistributionGenerator(double halo_size_ = 1.0, Particle cutoffs_ = Particle(0)):halo_size(halo_size_), cutoffs(cutoffs_) {}
-	Halo2ParticleDistributionGenerator(Particle cutoffs_):halo_size(1.0), cutoffs(cutoffs_) {}
+	Halo2ParticleDistributionGenerator(double halo_size_ = 1.0, PSvector cutoffs_ = PSvector(0)) :
+		halo_size(halo_size_), cutoffs(cutoffs_)
+	{
+	}
+	Halo2ParticleDistributionGenerator(PSvector cutoffs_) :
+		halo_size(1.0), cutoffs(cutoffs_)
+	{
+	}
 protected:
 	double halo_size;
-	Particle cutoffs;
+	PSvector cutoffs;
 };
 
 /**
@@ -63,7 +72,7 @@ class HorizonalHalo2ParticleDistributionGenerator: public Halo2ParticleDistribut
 {
 public:
 	using Halo2ParticleDistributionGenerator::Halo2ParticleDistributionGenerator;
-	virtual Particle GenerateFromDistribution() const override;
+	virtual PSvector GenerateFromDistribution() const override;
 };
 
 /**
@@ -75,7 +84,7 @@ class VerticalHalo2ParticleDistributionGenerator: public Halo2ParticleDistributi
 {
 public:
 	using Halo2ParticleDistributionGenerator::Halo2ParticleDistributionGenerator;
-	virtual Particle GenerateFromDistribution() const override;
+	virtual PSvector GenerateFromDistribution() const override;
 };
 
 #endif

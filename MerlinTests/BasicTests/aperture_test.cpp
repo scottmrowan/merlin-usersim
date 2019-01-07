@@ -8,13 +8,12 @@
 #include "../tests.h"
 #include <iostream>
 
-
+#include "InterpolatedApertures.h"
 #include "Aperture.h"
 #include "CollimatorAperture.h"
-#include "InterpolatedAperture.h"
 
-
-void testCollimatorAperture() {
+void testCollimatorAperture()
+{
 	double x_size_entrance = 0.1;
 	double y_size_entrance = 0.1;
 	double collimator_aperture_tilt = 0;
@@ -22,32 +21,35 @@ void testCollimatorAperture() {
 	double x_pos_entrance = 0;
 	double y_pos_entrance = 0;
 
-	CollimatorAperture* app = new CollimatorAperture(x_size_entrance,y_size_entrance,collimator_aperture_tilt,length,x_pos_entrance,y_pos_entrance);
+	CollimatorAperture* app = new CollimatorAperture(x_size_entrance, y_size_entrance, collimator_aperture_tilt, length,
+		x_pos_entrance, y_pos_entrance);
 
-	assert(app->getApertureType()=="COLLIMATOR");
-	assert(app->GetFullEntranceHeight()==0.1);
-	assert(app->GetFullEntranceWidth()==0.1);
-	assert(app->GetCollimatorTilt()==0);
-	assert(app->GetCollimatorLength()==10);
-	assert(app->CheckWithinApertureBoundaries(0.0,0.0,0.0)==true);
+	assert(app->getApertureType() == "COLLIMATOR");
+	assert(app->GetFullEntranceHeight() == 0.1);
+	assert(app->GetFullEntranceWidth() == 0.1);
+	assert(app->GetCollimatorTilt() == 0);
+	assert(app->GetCollimatorLength() == 10);
+	assert(app->CheckWithinApertureBoundaries(0.0, 0.0, 0.0) == true);
 
 	collimator_aperture_tilt = 0.001;
 	bool side = true;
 
-	OneSidedUnalignedCollimatorAperture* appp = new OneSidedUnalignedCollimatorAperture(x_size_entrance,y_size_entrance,collimator_aperture_tilt,length,x_pos_entrance,y_pos_entrance,side);
+	OneSidedUnalignedCollimatorAperture* appp = new OneSidedUnalignedCollimatorAperture(x_size_entrance,
+		y_size_entrance, collimator_aperture_tilt, length, x_pos_entrance, y_pos_entrance, side);
 
-	assert(appp->getApertureType()=="ONE-SIDED COLLIMATOR");
-	assert(appp->GetFullEntranceHeight()==0.1);
-	assert(appp->GetFullEntranceWidth()==0.1);
-	assert(appp->GetCollimatorTilt()==0.001);
-	assert(appp->GetCollimatorLength()==10);
-	assert(appp->CheckWithinApertureBoundaries(0.0,0.0,0.0)==true);
-	assert(appp->GetJawSide()==1);
+	assert(appp->getApertureType() == "ONE-SIDED COLLIMATOR");
+	assert(appp->GetFullEntranceHeight() == 0.1);
+	assert(appp->GetFullEntranceWidth() == 0.1);
+	assert(appp->GetCollimatorTilt() == 0.001);
+	assert(appp->GetCollimatorLength() == 10);
+	assert(appp->CheckWithinApertureBoundaries(0.0, 0.0, 0.0) == true);
+	assert(appp->GetJawSide() == 1);
 	appp->SetJawSide(false);
-	assert(appp->GetJawSide()==0);
+	assert(appp->GetJawSide() == 0);
 }
 
-void testApertureFactory() {
+void testApertureFactory()
+{
 	ApertureFactory factory;
 
 	string type  = "RECTELLIPSE";
@@ -57,15 +59,16 @@ void testApertureFactory() {
 	double ap3 = 1;
 	double ap4 = 1;
 
-	Aperture* ap = factory.getInstance(type,s,ap1,ap2,ap3,ap4);
+	Aperture* ap = factory.getInstance(type, s, ap1, ap2, ap3, ap4);
 
-	assert(ap->getRectHalfWidth()==1);
-	assert(ap->getType()=="RECTELLIPSE");
-	assert(ap->getApertureType()=="RECTELLIPSE");
-	assert(ap->CheckWithinApertureBoundaries(0.0,0.0,0.0)==true);
+	assert(ap->getRectHalfWidth() == 1);
+	assert(ap->getType() == "RECTELLIPSE");
+	assert(ap->getApertureType() == "RECTELLIPSE");
+	assert(ap->CheckWithinApertureBoundaries(0.0, 0.0, 0.0) == true);
 }
 
-void testInterpolatedApertureFactory() {
+void testInterpolatedApertureFactory()
+{
 	ApertureFactory factory;
 	InterpolatorFactory intfactory;
 
@@ -83,20 +86,20 @@ void testInterpolatedApertureFactory() {
 	double ap32 = 2;
 	double ap42 = 2;
 
-	Aperture* ap = factory.getInstance(type,s,ap1,ap2,ap3,ap4);
-	Aperture* app = factory.getInstance(type2,s2,ap12,ap22,ap32,ap42);
+	Aperture* ap = factory.getInstance(type, s, ap1, ap2, ap3, ap4);
+	Aperture* app = factory.getInstance(type2, s2, ap12, ap22, ap32, ap42);
 
-	vector<Aperture*> apVec {ap,app};
+	vector<Aperture*> apVec {ap, app};
 
 	Aperture* apInt = intfactory.getInstance(apVec);
 
-	assert(apInt->getType()=="RECTELLIPSEinterpolated");
+	assert(apInt->getType() == "RECTELLIPSEinterpolated");
 }
 
-int main(int argc, char* argv[]) {
+int main(int argc, char* argv[])
+{
 	testApertureFactory();
 	testInterpolatedApertureFactory();
 	testCollimatorAperture();
 	cout << "all aperture tests successful" << endl;
 }
-

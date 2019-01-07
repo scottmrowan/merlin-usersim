@@ -14,8 +14,10 @@
 
 using namespace ParticleTracking;
 
-Dispersion::Dispersion(AcceleratorModel* aModel, double refMomentum)
-	: theModel(aModel), p0(refMomentum), delta(1.0e-9) {}
+Dispersion::Dispersion(AcceleratorModel* aModel, double refMomentum) :
+	theModel(aModel), p0(refMomentum), delta(1.0e-9)
+{
+}
 
 double Dispersion::SetDelta(double new_delta)
 {
@@ -29,31 +31,31 @@ void Dispersion::FindDispersion(int n)
 	ClosedOrbit co(theModel, p0);
 	co.TransverseOnly(true);
 
-	Particle p(0);
+	PSvector p(0);
 	p.dp() = -delta;
 	//p.dp() = delta;
 	co.FindClosedOrbit(p, n);
 
-	Particle q(0);
+	PSvector q(0);
 	q.dp() = delta;
 	//q.dp() = -delta;
 	co.FindClosedOrbit(q, n);
 
-	Dx  = (q.x() - p.x())/2/delta;
-	Dxp = (q.xp() - p.xp())/2/delta;
-	Dy  = (q.y() - p.y())/2/delta;
-	Dyp = (q.yp() - p.yp())/2/delta;
+	Dx = (q.x() - p.x()) / 2 / delta;
+	Dxp = (q.xp() - p.xp()) / 2 / delta;
+	Dy = (q.y() - p.y()) / 2 / delta;
+	Dyp = (q.yp() - p.yp()) / 2 / delta;
 }
 
 void Dispersion::FindRMSDispersion(ofstream* file)
 {
 	ClosedOrbit co(theModel, p0);
 	co.TransverseOnly(true);
-	Particle p(0);
+	PSvector p(0);
 	p.dp() = -delta;
 	co.FindClosedOrbit(p);
 
-	Particle q(0);
+	PSvector q(0);
 	q.dp() = delta;
 	co.FindClosedOrbit(q);
 
@@ -61,7 +63,7 @@ void Dispersion::FindRMSDispersion(ofstream* file)
 	particle->push_back(p);
 	particle->push_back(q);
 
-	ParticleTracker tracker(theModel->GetBeamline(),particle);
+	ParticleTracker tracker(theModel->GetBeamline(), particle);
 
 	double len = 0.0;
 	double dl = 0.0;
@@ -78,7 +80,7 @@ void Dispersion::FindRMSDispersion(ofstream* file)
 	{
 		if(file)
 		{
-			*file<<std::setw(14)<<len;
+			*file << std::setw(14) << len;
 		}
 
 		dl = tracker.GetCurrentComponent().GetLength();
@@ -90,26 +92,25 @@ void Dispersion::FindRMSDispersion(ofstream* file)
 		const Particle& p0 = *ip++;
 		const Particle& p1 = *ip;
 
-		for(int m=0; m<2; m++)
+		for(int m = 0; m < 2; m++)
 		{
-			pres[m] = (p1[2*m] - p0[2*m])/2/delta;
-			rmsD[m] += dl * (pres[m]*pres[m] + prev[m]*prev[m]) / 2;
+			pres[m] = (p1[2 * m] - p0[2 * m]) / 2 / delta;
+			rmsD[m] += dl * (pres[m] * pres[m] + prev[m] * prev[m]) / 2;
 			prev[m] = pres[m];
 			if(file)
 			{
-				*file<<std::setw(14)<<pres[m];
+				*file << std::setw(14) << pres[m];
 			}
 		}
 
 		if(file)
 		{
-			*file<<endl;
+			*file << endl;
 		}
 
 		len += dl;
 
-	}
-	while(loop);
+	} while(loop);
 
 	DxRMS = sqrt(rmsD[0] / len);
 	DyRMS = sqrt(rmsD[1] / len);

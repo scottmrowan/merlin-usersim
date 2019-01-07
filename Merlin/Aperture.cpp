@@ -35,13 +35,11 @@ Aperture::Aperture()
 }
 
 Aperture::Aperture(string type, double s, double aper1, double aper2, double aper3, double aper4) :
-		apType(type), s_longitudinal(s), rectHalfWidth(aper1), rectHalfHeight(aper2), ellipHalfWidth(aper3), ellipHalfHeight(
-				aper4), minRectDim(fmin(aper1, aper2)), minEllipDim(fmin(aper3, aper4)), minDim(min(
-		{ aper1, aper2, aper3, aper4 })), maxRectDim(fmax(aper1, aper2)), maxEllipDim(fmax(aper3, aper4)), maxDim(max(
-		{ aper1, aper2, aper3, aper4 })), ellipHalfHeight2(aper4 * aper4), ellipHalfWidth2(aper3 * aper3), ellipHalfWidth2overEllipHalfHeight2(
-				ellipHalfWidth2 / ellipHalfHeight2)
+	apType(type), s_longitudinal(s), rectHalfWidth(aper1), rectHalfHeight(aper2), ellipHalfWidth(aper3),
+	ellipHalfHeight(aper4), minRectDim(0), minEllipDim(0), minDim(0), maxRectDim(0), ellipHalfHeight2(0),
+	ellipHalfWidth2(0), ellipHalfWidth2overEllipHalfHeight2(0)
 {
-
+	CalcApertureParams(rectHalfWidth, rectHalfHeight, ellipHalfWidth, ellipHalfHeight);
 }
 
 CircularAperture::CircularAperture(double aper3)
@@ -50,7 +48,7 @@ CircularAperture::CircularAperture(double aper3)
 }
 
 CircularAperture::CircularAperture(string type, double s, double aper1, double aper2, double aper3, double aper4) :
-		Aperture(type, s, aper1, aper2, aper3, aper4)
+	Aperture(type, s, aper1, aper2, aper3, aper4)
 {
 
 }
@@ -71,9 +69,9 @@ inline bool CircularAperture::CheckWithinApertureBoundaries(double x, double y, 
 {
 	double ax = fabs(x);
 	double ay = fabs(y);
-	if (ax + ay < minEllipDim)
+	if(ax + ay < minEllipDim)
 		return true;
-	if (x * x + y * y >= ellipHalfWidth2)
+	if(x * x + y * y >= ellipHalfWidth2)
 		return false;
 	else
 		return true;
@@ -85,8 +83,9 @@ RectangularAperture::RectangularAperture(double aper1, double aper2)
 	setRectHalfHeight(aper2);
 }
 
-RectangularAperture::RectangularAperture(string type, double s, double aper1, double aper2, double aper3, double aper4) :
-		Aperture(type, s, aper1, aper2, aper3, aper4)
+RectangularAperture::RectangularAperture(string type, double s, double aper1, double aper2, double aper3, double
+	aper4) :
+	Aperture(type, s, aper1, aper2, aper3, aper4)
 {
 
 }
@@ -97,8 +96,8 @@ string RectangularAperture::getType()
 
 }
 
-Aperture* RectangularAperture::getInstance(string type, double s, double aper1, double aper2, double aper3,
-		double aper4)
+Aperture* RectangularAperture::getInstance(string type, double s, double aper1, double aper2, double aper3, double
+	aper4)
 {
 	return new RectangularAperture(type, s, aper1, aper2, aper3, aper4);
 
@@ -108,9 +107,9 @@ inline bool RectangularAperture::CheckWithinApertureBoundaries(double x, double 
 {
 	double ax = fabs(x);
 	double ay = fabs(y);
-	if (ax + ay < minRectDim)
+	if(ax + ay < minRectDim)
 		return true;
-	if (ax >= rectHalfWidth || ay >= rectHalfHeight)
+	if(ax >= rectHalfWidth || ay >= rectHalfHeight)
 		return false;
 	else
 		return true;
@@ -123,7 +122,7 @@ EllipticalAperture::EllipticalAperture(double aper3, double aper4)
 }
 
 EllipticalAperture::EllipticalAperture(string type, double s, double aper1, double aper2, double aper3, double aper4) :
-		Aperture(type, s, aper1, aper2, aper3, aper4)
+	Aperture(type, s, aper1, aper2, aper3, aper4)
 {
 
 }
@@ -144,9 +143,9 @@ inline bool EllipticalAperture::CheckWithinApertureBoundaries(double x, double y
 {
 	double ax = fabs(x);
 	double ay = fabs(y);
-	if (ax + ay < minEllipDim)
+	if(ax + ay < minEllipDim)
 		return true;
-	if ((x * x + y * y * ellipHalfWidth2overEllipHalfHeight2) >= ellipHalfWidth2)
+	if((x * x + y * y * ellipHalfWidth2overEllipHalfHeight2) >= ellipHalfWidth2)
 		return false;
 	else
 		return true;
@@ -165,8 +164,9 @@ RectEllipseAperture::RectEllipseAperture(double aper1, double aper2, double aper
 	setEllipHalfHeight(aper4);
 }
 
-RectEllipseAperture::RectEllipseAperture(string type, double s, double aper1, double aper2, double aper3, double aper4) :
-		Aperture(type, s, aper1, aper2, aper3, aper4)
+RectEllipseAperture::RectEllipseAperture(string type, double s, double aper1, double aper2, double aper3, double
+	aper4) :
+	Aperture(type, s, aper1, aper2, aper3, aper4)
 {
 
 }
@@ -177,8 +177,8 @@ string RectEllipseAperture::getType()
 
 }
 
-Aperture* RectEllipseAperture::getInstance(string type, double s, double aper1, double aper2, double aper3,
-		double aper4)
+Aperture* RectEllipseAperture::getInstance(string type, double s, double aper1, double aper2, double aper3, double
+	aper4)
 {
 	return new RectEllipseAperture(type, s, aper1, aper2, aper3, aper4);
 
@@ -188,11 +188,11 @@ inline bool RectEllipseAperture::CheckWithinApertureBoundaries(double x, double 
 {
 	double ax = fabs(x);
 	double ay = fabs(y);
-	if (ax + ay < minDim)
+	if(ax + ay < minDim)
 		return true;
-	if ((x * x + y * y * ellipHalfWidth2overEllipHalfHeight2) >= ellipHalfWidth2)
+	if((x * x + y * y * ellipHalfWidth2overEllipHalfHeight2) >= ellipHalfWidth2)
 		return false;
-	if (ax >= rectHalfWidth || ay >= rectHalfHeight)
+	if(ax >= rectHalfWidth || ay >= rectHalfHeight)
 		return false;
 	else
 		return true;
@@ -204,9 +204,9 @@ OctagonalAperture::OctagonalAperture()
 }
 
 OctagonalAperture::OctagonalAperture(string type, double s, double aper1, double aper2, double aper3, double aper4) :
-		Aperture(type, s, aper1, aper2, aper3, aper4), angle1(aper3), angle2(aper4), const1(
-				rectHalfHeight * tan(angle1) - rectHalfWidth), const2(rectHalfWidth * tan(angle1)), const3(
-				rectHalfHeight - const2)
+	Aperture(type, s, aper1, aper2, aper3, aper4), angle1(aper3), angle2(aper4), const1(
+		rectHalfHeight * tan(angle1) - rectHalfWidth), const2(rectHalfWidth * tan(angle1)), const3(
+		rectHalfHeight - const2)
 {
 
 }
@@ -227,11 +227,11 @@ inline bool OctagonalAperture::CheckWithinApertureBoundaries(double x, double y,
 {
 	double ax = fabs(x);
 	double ay = fabs(y);
-	if (ax + ay < minRectDim)
+	if(ax + ay < minRectDim)
 		return true;
-	if (ax >= rectHalfWidth || ay >= rectHalfHeight)
+	if(ax >= rectHalfWidth || ay >= rectHalfHeight)
 		return false;
-	if (const1 * (y - const2) - const3 * (x - rectHalfWidth) <= 0)
+	if(const1 * (y - const2) - const3 * (x - rectHalfWidth) <= 0)
 		return false;
 	else
 		return true;
@@ -240,7 +240,7 @@ inline bool OctagonalAperture::CheckWithinApertureBoundaries(double x, double y,
 Aperture* ApertureFactory::getInstance(string type, double s, double aper1, double aper2, double aper3, double aper4)
 {
 	map<string, getAperture>::iterator itr = apertureTypes.find(type);
-	if (itr != apertureTypes.end())
+	if(itr != apertureTypes.end())
 	{
 		return (*itr->second)(type, s, aper1, aper2, aper3, aper4);
 	}
@@ -258,4 +258,3 @@ ApertureFactoryInitializer::ApertureFactoryInitializer()
 
 map<string, getAperture> ApertureFactory::apertureTypes;
 ApertureFactoryInitializer ApertureFactoryInitializer::init;
-

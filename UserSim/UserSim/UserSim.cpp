@@ -13,7 +13,7 @@ using namespace std;
 int main() {
 	cout << "Welcome to Merlin++!\n" << endl;
 	cout << "Current Merlin++ version: 5.02" << endl;
-	cout << "For information on how to get started, please refer to the provided Documentation/QuickStartGuide.pdf" << endl;
+	cout << "For information on how to get started, please refer to the provided MerlinDocumentation/QuickStartGuide.pdf" << endl;
 
 	/*
 	 * ENTER CODE HERE

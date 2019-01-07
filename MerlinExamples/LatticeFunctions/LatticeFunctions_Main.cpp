@@ -12,7 +12,7 @@
 #include "ClosedOrbit.h"
 #include "LatticeFunctions.h"
 
-#define BEAMENERGY 20*GeV
+#define BEAMENERGY 20 * GeV
 
 typedef vector<MagnetMover*> MagnetMoverList;
 typedef vector<Quadrupole*> QuadList;
@@ -27,11 +27,11 @@ int main()
 
 	//twiss.7.0tev.b1_new.tfs
 	string lattice_path;
-	for (size_t i=0; i<3; i++)
+	for(size_t i = 0; i < 3; i++)
 	{
 		ifstream test_file;
 		test_file.open(paths[i].c_str());
-		if (test_file)
+		if(test_file)
 		{
 			lattice_path = paths[i];
 			break;
@@ -47,9 +47,7 @@ int main()
 
 	AcceleratorModel* theModel = madi.ConstructModel();
 
-	theModel->Output(cout);
-
-	ClosedOrbit theClosedOrbit(theModel,BEAMENERGY);
+	ClosedOrbit theClosedOrbit(theModel, BEAMENERGY);
 	Particle co(0);
 	theClosedOrbit.FindClosedOrbit(co);
 
@@ -76,7 +74,7 @@ int main()
 //	// Default functions are the closed orbit co-ordinates
 //	// and the coupled-lattice equivalents of the
 //	// Twiss alpha and beta functions.
-	LatticeFunctionTable latticeFunctions(theModel,BEAMENERGY);
+	LatticeFunctionTable latticeFunctions(theModel, BEAMENERGY);
 
 	latticeFunctions.UseOrbitFunctions();
 
@@ -100,6 +98,6 @@ int main()
 
 	delete theModel;
 
-	cout<<"Finished!"<<endl;
+	cout << "Finished!" << endl;
 	return 0;
 }

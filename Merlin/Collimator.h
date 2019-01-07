@@ -107,13 +107,11 @@ public:
 	{
 		material = mat;
 	}
-	;
 
 	Material* GetMaterial() const
 	{
 		return material;
 	}
-	;
 
 private:
 	double Xr;

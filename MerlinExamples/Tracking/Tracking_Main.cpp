@@ -10,7 +10,7 @@
 #include "ParticleBunch.h"
 #include "ParticleTracker.h"
 
-#define BEAMENERGY 5.0*GeV
+#define BEAMENERGY 5.0 * GeV
 
 using namespace PhysicalUnits;
 using namespace ParticleTracking;
@@ -19,14 +19,15 @@ int main()
 {
 	// Construct the AcceleratorModel
 	// from a lattice file produced by MAD
-	string paths[] = {"../lattices/MERLINFodo.lattice.txt", "lattices/MERLINFodo.lattice.txt", "MerlinExamples/lattices/MERLINFodo.lattice.txt"};
+	string paths[] = {"../lattices/MERLINFodo.lattice.txt", "lattices/MERLINFodo.lattice.txt",
+					  "MerlinExamples/lattices/MERLINFodo.lattice.txt"};
 
 	string lattice_path;
-	for (size_t i=0; i<3; i++)
+	for(size_t i = 0; i < 3; i++)
 	{
 		ifstream test_file;
 		test_file.open(paths[i].c_str());
-		if (test_file)
+		if(test_file)
 		{
 			lattice_path = paths[i];
 			break;
@@ -42,7 +43,6 @@ int main()
 
 	AcceleratorModel* theModel = madi.ConstructModel();
 
-
 	// Construct a bunch of particles
 	// to track through the lattice.
 	// Here we just set up a bunch of 20 particles
@@ -50,23 +50,21 @@ int main()
 	ParticleBunch* theBunch = new ParticleBunch(BEAMENERGY);
 
 	Particle p(0);
-	for(int xi=1; xi<=20; xi++)
+	for(int xi = 1; xi <= 20; xi++)
 	{
 		p.x() = xi * 0.003;
 		theBunch->AddParticle(p);
 	}
 
-
 	// Construct a ParticleTracker to perform the tracking
 	ParticleTracker tracker(theModel->GetBeamline(), theBunch);
-
 
 	// Do the tracking, writing the phase-space co-ordinates
 	// of each particle in the bunch to a file after each turn
 	ofstream trackingLog("Tracking.dat");
-	for(int turn=0; turn<200; turn++)
+	for(int turn = 0; turn < 200; turn++)
 	{
-		if(turn==0)
+		if(turn == 0)
 		{
 			tracker.Run();
 		}
@@ -81,7 +79,7 @@ int main()
 	delete theBunch;
 	delete theModel;
 
-	cout<<"Finished!"<<endl;
+	cout << "Finished!" << endl;
 
 	return 0;
 }

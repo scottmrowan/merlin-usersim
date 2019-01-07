@@ -22,8 +22,9 @@
 #include "StandardMultipoles.h"
 #include "SectorBend.h"
 #include "LatticeFunctions.h"
+#include "MADInterface.h"
 
-#include "Particle.h"
+#include "PSvector.h"
 #include "ParticleBunch.h"
 #include "ParticleTracker.h"
 
@@ -50,44 +51,87 @@ int main() {
 	double knl = 0.0098*brho;
 	cout << knl << endl;
 
-	//FODO lattice periodic
-	for (int n=1;n<(ncell+1);++n) {
-		latticeConstructor.AppendComponent(new Quadrupole("QF",lquad,0.0098*brho), n==1 ? 0 : 0.15*lcell-ldipole);
-		latticeConstructor.AppendComponent(new SectorBend("MB",ldipole,h,brho*h), 0.15*lcell-lquad);
-		latticeConstructor.AppendComponent(new SectorBend("MB",ldipole,h,brho*h), 0.2*lcell-ldipole);
-		latticeConstructor.AppendComponent(new Quadrupole("QD",lquad,-0.0098*brho), 0.15*lcell-ldipole);
-		latticeConstructor.AppendComponent(new SectorBend("MB",ldipole,h,brho*h), 0.15*lcell-lquad);
-		latticeConstructor.AppendComponent(new SectorBend("MB",ldipole,h,brho*h), 0.2*lcell-ldipole);
+	// LATTICE INPUT OPTION BEGIN
+
+//	// OPTION 1 !!! FODO lattice periodic
+//	for (int n=1;n<(ncell+1);++n) {
+//		latticeConstructor.AppendComponent(new Quadrupole("QF",lquad,0.0098*brho), n==1 ? 0 : 0.15*lcell-ldipole);
+//		latticeConstructor.AppendComponent(new SectorBend("MB",ldipole,h,brho*h), 0.15*lcell-lquad);
+//		latticeConstructor.AppendComponent(new SectorBend("MB",ldipole,h,brho*h), 0.2*lcell-ldipole);
+//		latticeConstructor.AppendComponent(new Quadrupole("QD",lquad,-0.0098*brho), 0.15*lcell-ldipole);
+//		latticeConstructor.AppendComponent(new SectorBend("MB",ldipole,h,brho*h), 0.15*lcell-lquad);
+//		latticeConstructor.AppendComponent(new SectorBend("MB",ldipole,h,brho*h), 0.2*lcell-ldipole);
+//	}
+//	latticeConstructor.AppendDrift(0.15*lcell-ldipole);
+//
+//	AcceleratorModel* lattice = latticeConstructor.GetModel();
+
+	// OPTION 2 !!! FODO lattice periodic
+	// CHOOSE ONE
+	// - MERLINFodo.lattice.txt is "stable" lattice from Andy
+	// - twiss.out is MAD equiv of above
+	// - twiss.7.0tev.b1_new.tfs is LHC optics
+
+//	string paths[] = {"../inputdata/MERLINFodo.lattice.txt", "inputdata/MERLINFodo.lattice.txt",
+//					  "UserSim/inputdata/MERLINFodo.lattice.txt"};
+	// OR
+
+//	string paths[] = {"../inputdata/twiss.out", "inputdata/twiss.out",
+//					  "UserSim/inputdata/twiss.out"};
+	// OR
+
+	string paths[] = {"../inputdata/twiss.7.0tev.b1_new.tfs", "inputdata/twiss.7.0tev.b1_new.tfs",
+					  "UserSim/inputdata/twiss.7.0tev.b1_new.tfs"};
+
+	string lattice_path;
+	for(size_t i = 0; i < 3; i++)
+	{
+		ifstream test_file;
+		test_file.open(paths[i].c_str());
+		if(test_file)
+		{
+			lattice_path = paths[i];
+			break;
+		}
 	}
-	latticeConstructor.AppendDrift(0.15*lcell-ldipole);
-	AcceleratorModel* lattice = latticeConstructor.GetModel();
+	cout << "Lattice " << lattice_path << endl;
+
+	MADInterface madi(lattice_path, beamenergy);
+	madi.TreatTypeAsDrift("RFCAVITY");
+
+//	ofstream madlog("mad.log");
+//	madi.SetLogFile(madlog);
+//	madi.SetLoggingOn();
+
+	AcceleratorModel* lattice = madi.ConstructModel();
+
+	// LATTICE INPUT OPTION END
+
+	lattice->Output(cout);
+
+	cout << "Lattice complete" << endl;
+
+
+	// Calculate the closed orbit
 
 	ClosedOrbit theClosedOrbit(lattice,beamenergy);
 	Particle co(0);
 	theClosedOrbit.FindClosedOrbit(co);
 
-	lattice->Output(cout);
+	cout << "Closed orbit complete" << endl;
+
+
+	// Calculate the lattice functions
 
 	LatticeFunctionTable latticeFunctions(lattice,beamenergy);
 	latticeFunctions.Calculate();
 
-
-	// We add functions to give us the dispersion.
-	// Dx  = beta(1,6,3)/beta(6,6,3)
-	// Dpx = beta(2,6,3)/beta(6,6,3)
-	// etc.
-//	latticeFunctions.AddFunction(1,6,3);
-//	latticeFunctions.AddFunction(2,6,3);
-//	latticeFunctions.AddFunction(3,6,3);
-//	latticeFunctions.AddFunction(4,6,3);
-//	latticeFunctions.AddFunction(6,6,3);
-
-	// Calculate the lattice functions.
+	cout << "Closed orbit complete" << endl;
 
 	// Generate a file with the results.
 	// First column is the s position in the beamline.
-	ofstream latticeFunctionLog("LatticeFunctions.dat");
-//	latticeFunctions.PrintTable(latticeFunctionLog);
+	// ofstream latticeFunctionLog("LatticeFunctions.dat");
+	// latticeFunctions.PrintTable(latticeFunctionLog);
 
 	Particle particle(0);
 	ParticleBunch* bunch = new ParticleBunch(beamenergy);
@@ -98,7 +142,7 @@ int main() {
 
 	ParticleTracker tracker(lattice->GetBeamline(), bunch);
 
-	ofstream trackingLog("Tracking.dat");
+	// ofstream trackingLog("Tracking.dat");
 
 	for(int turn=0; turn<200; turn++)
 	{
@@ -111,7 +155,7 @@ int main() {
 			tracker.Continue();
 		}
 		ParticleBunch& tracked = tracker.GetTrackedBunch();
-		tracked.Output(trackingLog,false);
+		//tracked.Output(trackingLog,false);
 	}
 
 	delete bunch;

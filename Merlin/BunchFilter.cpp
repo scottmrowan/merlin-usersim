@@ -10,17 +10,16 @@
 namespace ParticleTracking
 {
 
-
-ParticleBunchFilter::~ParticleBunchFilter ()
+ParticleBunchFilter::~ParticleBunchFilter()
 {
 	// Nothing to do
 }
 
-bool HorizontalHaloParticleBunchFilter::Apply(const Particle& v) const
+bool HorizontalHaloParticleBunchFilter::Apply(const PSvector& v) const
 {
-	if(v.x() > (orbit+limit) || v.x() < (orbit-limit) )
+	if(v.x() > (orbit + limit) || v.x() < (orbit - limit))
 	{
-		if (v.x() != 0.0 && v.xp() != 0.0)
+		if(v.x() != 0.0 && v.xp() != 0.0)
 		{
 			return true;
 		}
@@ -40,7 +39,7 @@ void HorizontalHaloParticleBunchFilter::SetHorizontalOrbit(double lim)
 	orbit = lim;
 }
 
-bool VerticalHaloParticleBunchFilter::Apply(const Particle& v) const
+bool VerticalHaloParticleBunchFilter::Apply(const PSvector& v) const
 {
 	if(fabs(v.y()) > limit)
 	{

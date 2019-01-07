@@ -10,8 +10,8 @@
 #include "RandomNG.h"
 
 CollimatorAperture::CollimatorAperture(double w, double h, double t, double length, double x_off, double y_off) :
-		alpha(t), CollimatorLength(length), x_offset_entry(x_off), y_offset_entry(y_off), x_offset_exit(0), y_offset_exit(
-				0), w_entrance(w), h_entrance(h), w_exit(0), h_exit(0), cosalpha(cos(-t)), sinalpha(sin(-t))
+	alpha(t), CollimatorLength(length), x_offset_entry(x_off), y_offset_entry(y_off), x_offset_exit(0), y_offset_exit(
+		0), w_entrance(w), h_entrance(h), w_exit(0), h_exit(0), cosalpha(cos(-t)), sinalpha(sin(-t))
 {
 	setRectHalfWidth(w / 2);
 	setRectHalfHeight(h / 2);
@@ -21,11 +21,11 @@ CollimatorAperture::CollimatorAperture(double w, double h, double t, double leng
 
 inline bool CollimatorAperture::CheckWithinApertureBoundaries(double x, double y, double z) const
 {
-	if (x_offset_entry == 0 && y_offset_entry == 0 && x_offset_exit == 0 && y_offset_exit == 0)
+	if(x_offset_entry == 0 && y_offset_entry == 0 && x_offset_exit == 0 && y_offset_exit == 0)
 	{
 		double ax = fabs(x);
 		double ay = fabs(y);
-		if (ax + ay < minDim)
+		if(ax + ay < minDim)
 			return true;
 	}
 	double x_off = (z * (x_offset_entry - x_offset_exit) / CollimatorLength) - x_offset_entry;
@@ -37,7 +37,7 @@ inline bool CollimatorAperture::CheckWithinApertureBoundaries(double x, double y
 	double x1 = ((x + x_off) * cosalpha) - ((y + y_off) * sinalpha);
 	double y1 = ((x + x_off) * sinalpha) + ((y + y_off) * cosalpha);
 
-	return fabs(x1) < (x_jaw / 2) && fabs(y1) < (y_jaw / 2);
+	return fabs(x1) * 2 < x_jaw && fabs(y1) * 2 < y_jaw;
 }
 
 void CollimatorAperture::SetEntranceWidth(double width)
@@ -49,7 +49,6 @@ void CollimatorAperture::SetEntranceHeight(double height)
 {
 	h_entrance = height;
 }
-
 
 void CollimatorAperture::SetExitWidth(double width)
 {
@@ -122,8 +121,8 @@ double CollimatorAperture::GetCollimatorLength() const
 }
 
 UnalignedCollimatorAperture::UnalignedCollimatorAperture(double w, double h, double t, double length, double x_off,
-		double y_off) :
-		CollimatorAperture(w, h, t, length, x_off, y_off)
+	double y_off) :
+	CollimatorAperture(w, h, t, length, x_off, y_off)
 {
 	setRectHalfWidth(w / 2);
 	setRectHalfHeight(h / 2);
@@ -136,7 +135,7 @@ inline bool UnalignedCollimatorAperture::CheckWithinApertureBoundaries(double x,
 	double x1 = ((x - x_offset_entry) * cosalpha) - ((y - y_offset_entry) * sinalpha);
 	double y1 = ((x - x_offset_entry) * sinalpha) + ((y - y_offset_entry) * cosalpha);
 
-	return fabs(x1) < GetFullEntranceWidth() / 2 && fabs(y1) < GetFullEntranceHeight() / 2;
+	return fabs(x1) * 2 < GetFullEntranceWidth() && fabs(y1) * 2 < GetFullEntranceHeight();
 }
 
 inline bool CollimatorApertureWithErrors::CheckWithinApertureBoundaries(double x, double y, double z) const
@@ -149,16 +148,16 @@ inline bool CollimatorApertureWithErrors::CheckWithinApertureBoundaries(double x
 
 	double x1 = ((x + x_off) * cosalpha) - ((y + y_off) * sinalpha);
 	double y1 = ((x + x_off) * sinalpha) + ((y + y_off) * cosalpha);
-	return fabs(x1) < (x_jaw / 2) && fabs(y1) < (y_jaw / 2);
+	return fabs(x1) * 2 < x_jaw && fabs(y1) * 2 < y_jaw;
 	x1 += ApertureError * ((pow(z, 2) / CollimatorLength) - z);
 	y1 += ApertureError * ((pow(z, 2) / CollimatorLength) - z);
 
-	return fabs(x1) < (x_jaw / 2) && fabs(y1) < (y_jaw / 2);
+	return fabs(x1) * 2 < x_jaw && fabs(y1) * 2 < y_jaw;
 }
 
 OneSidedUnalignedCollimatorAperture::OneSidedUnalignedCollimatorAperture(double w, double h, double t, double length,
-		double x_off, double y_off, bool side) :
-		CollimatorAperture(w, h, t, length, x_off, y_off), JawSide(side)
+	double x_off, double y_off, bool side) :
+	CollimatorAperture(w, h, t, length, x_off, y_off), JawSide(side)
 {
 	setRectHalfWidth(w / 2);
 	setRectHalfHeight(h / 2);
@@ -171,13 +170,13 @@ inline bool OneSidedUnalignedCollimatorAperture::CheckWithinApertureBoundaries(d
 	double x1 = ((x - x_offset_entry) * cosalpha) - ((y - y_offset_entry) * sinalpha);
 	double y1 = ((x - x_offset_entry) * sinalpha) + ((y - y_offset_entry) * cosalpha);
 
-	if (JawSide)
+	if(JawSide)
 	{
-		return x1 < GetFullEntranceWidth() / 2 && fabs(y1) < GetFullEntranceHeight() / 2;
+		return x1 * 2 < GetFullEntranceWidth() && fabs(y1) * 2 < GetFullEntranceHeight();
 	}
 	else
 	{
-		return (-x1) < GetFullEntranceWidth() / 2 && fabs(y1) < GetFullEntranceHeight() / 2;
+		return -(x1 * 2) < GetFullEntranceWidth() && fabs(y1) * 2 < GetFullEntranceHeight();
 	}
 }
 

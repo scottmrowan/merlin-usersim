@@ -10,7 +10,7 @@
 
 #include "LinearAlgebra.h"
 #include "BeamData.h"
-#include "PhaseSpaceHeaders.h"
+#include "PSTypes.h"
 
 // utility global functions for generating beam phase space
 // normalisations
@@ -23,17 +23,17 @@ RealMatrix NormalTransform(const BeamData& t);
 RealMatrix DecoupleSigma(SigmaMatrix& S);
 RealMatrix InverseBetaTransform(double bx, double by, double ax, double ay);
 
-PhaseSpaceMoments& BeamDataToSigmaMtrx(const BeamData& t, PhaseSpaceMoments& S);
-inline PhaseSpaceMoments BeamDataToSigmaMtrx(const BeamData& t)
+PSmoments& BeamDataToSigmaMtrx(const BeamData& t, PSmoments& S);
+inline PSmoments BeamDataToSigmaMtrx(const BeamData& t)
 {
-	PhaseSpaceMoments S;
-	return BeamDataToSigmaMtrx(t,S);
+	PSmoments S;
+	return BeamDataToSigmaMtrx(t, S);
 }
 
-BeamData& SigmaMatrixToBeamData(const PhaseSpaceMoments& S0, BeamData& t);
+BeamData& SigmaMatrixToBeamData(const PSmoments& S0, BeamData& t);
 
-double ProjectedEmittance(const PhaseSpaceMoments& s, PhaseSpaceCoord x1, PhaseSpaceCoord x2);
+double ProjectedEmittance(const PSmoments& s, PScoord x1, PScoord x2);
 
-pair<double,double> NormalModeEmittance(const PhaseSpaceMoments& S);
+pair<double, double> NormalModeEmittance(const PSmoments& S);
 
 #endif

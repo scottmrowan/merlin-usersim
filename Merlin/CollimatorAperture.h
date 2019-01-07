@@ -29,7 +29,7 @@ public:
 	 *  @param[in] y_offset_entry vertical offset
 	 */
 	CollimatorAperture(double w, double h, double t, double length, double x_offset_entry = 0.0, double y_offset_entry =
-			0.0);
+		0.0);
 
 	/**
 	 *  function to set collimator aperture FULL entrance width
@@ -42,7 +42,6 @@ public:
 	 *  @param[in] collimator aperture entrance height
 	 */
 	void SetEntranceHeight(double);
-
 
 	/**
 	 *  function to set collimator aperture FULL exit width
@@ -156,8 +155,8 @@ public:
 	/**
 	 * Default constructor
 	 */
-	UnalignedCollimatorAperture(double w, double h, double t, double length, double x_offset_entry = 0.0,
-			double y_offset_entry = 0.0);
+	UnalignedCollimatorAperture(double w, double h, double t, double length, double x_offset_entry = 0.0, double
+		y_offset_entry = 0.0);
 
 	/**
 	 *  UnalignedCollimatorAperture override of Aperture member function CheckWithinApertureBoundaries()
@@ -203,8 +202,8 @@ public:
 	/**
 	 * Default constructor
 	 */
-	OneSidedUnalignedCollimatorAperture(double w, double h, double t, double length, double x_offset_entry = 0.0,
-			double y_offset_entry = 0.0,bool side=1);
+	OneSidedUnalignedCollimatorAperture(double w, double h, double t, double length, double x_offset_entry = 0.0, double
+		y_offset_entry = 0.0, bool side = 1);
 
 	/**
 	 *  UnalignedCollimatorApertureWithErrors override of Aperture member function CheckWithinApertureBoundaries()

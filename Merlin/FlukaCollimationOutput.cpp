@@ -22,7 +22,7 @@ FlukaCollimationOutput::FlukaCollimationOutput(OutputType ot)
 void FlukaCollimationOutput::Dispose(AcceleratorComponent& currcomponent, double pos, Particle& particle, int turn)
 {
 	// If current component is a collimator we store the loss, otherwise we do not
-	if (currentComponent != &currcomponent)
+	if(currentComponent != &currcomponent)
 	{
 		currentComponent = &currcomponent;
 	}
@@ -57,20 +57,21 @@ void FlukaCollimationOutput::Dispose(AcceleratorComponent& currcomponent, double
 
 void FlukaCollimationOutput::Finalise()
 {
-	for(std::vector <LossData>::const_iterator its = DeadParticles.begin(); its != DeadParticles.end(); ++its)
+	for(std::vector<LossData>::const_iterator its = DeadParticles.begin(); its != DeadParticles.end(); ++its)
 	{
-	//	if( its->scattered.type() == 1 || its->scattered.type() == 4 )
-	//	{
+		if(its->p.type() == 1 || its->p.type() == 4)
+		{
 			OutputLosses.push_back(*its);
-	//	}
+		}
 	}
 }
 
 void FlukaCollimationOutput::Output(std::ostream* os)
 {
-	std::cout << std::endl << "FlukaCollimationOutput OutputLosses size = " << OutputLosses.size() << ", DeadParticles.size() = " << DeadParticles.size() << std::endl;
+	std::cout << std::endl << "FlukaCollimationOutput OutputLosses size = " << OutputLosses.size()
+			  << ", DeadParticles.size() = " << DeadParticles.size() << std::endl;
 	(*os) << "#\t1=icoll\t2=c_rotation\t3=s\t4=x\t5=xp\t6=y\t7=yp\t8=nabs\t9=np\t10=ntu" << std::endl;
-	for(std::vector <LossData>::const_iterator its = OutputLosses.begin(); its != OutputLosses.end(); ++its)
+	for(std::vector<LossData>::const_iterator its = OutputLosses.begin(); its != OutputLosses.end(); ++its)
 	{
 		(*os) << std::setw(16) << std::left << its->coll_id;
 		(*os) << std::setw(20) << std::left << its->angle;
@@ -79,14 +80,11 @@ void FlukaCollimationOutput::Output(std::ostream* os)
 		(*os) << std::setw(20) << std::left << its->p.xp();
 		(*os) << std::setw(20) << std::left << its->p.y();
 		(*os) << std::setw(20) << std::left << its->p.yp();
+		(*os) << std::setw(20) << std::left << its->p.type();
 		(*os) << std::setw(20) << std::left << its->p.id();
-		//(*os) << std::setw(20) << std::left << its->scattered.location();
-		//(*os) << std::setw(20) << std::left << its->scattered.type();
-		//(*os) << std::setw(20) << std::left << its->scattered.singlediffractive();
 		(*os) << std::setw(20) << std::left << its->turn;
 		(*os) << std::endl;
 	}
 }
 
-}//End namespace
-
+} //End namespace

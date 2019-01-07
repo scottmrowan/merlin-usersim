@@ -24,6 +24,7 @@
 // particle tracking mechanism (see HaloTracker.cpp and QuadIntegrator.[h,cpp]
 
 #include "RandomNG.h"
+#include "MADInterface.h"
 
 // For this example, we incapsulate the halo construction
 // and tracking in a utility class HaloTracker.
@@ -32,15 +33,13 @@
 
 #include "XTFFInterface.h"
 
-
-
 using namespace std;
 
 // --------------------------------------------------------------------
 // global functions forward declarations
 // --------------------------------------------------------------------
 
-pair<AcceleratorModel*,BeamData*> ConstructModel(const string& fname);
+pair<AcceleratorModel*, BeamData*> ConstructModel(const string& fname);
 
 // --------------------------------------------------------------------
 // Main function
@@ -52,29 +51,31 @@ int main()
 	RandomNG::init();
 
 	// Construct the BDS beamline model
-	string paths[] = {"../lattices/tesla_bds_v8.05.optics", "lattices/tesla_bds_v8.05.optics", "MerlinExamples/lattices/tesla_bds_v8.05.optics"};
+	string paths[] = {"../lattices/tesla_bds_v8.05.optics", "lattices/tesla_bds_v8.05.optics",
+					  "MerlinExamples/lattices/tesla_bds_v8.05.optics"};
 
 	string lattice_path;
-	for (size_t i=0; i<3; i++)
+	for(size_t i = 0; i < 3; i++)
 	{
 		ifstream test_file;
 		test_file.open(paths[i].c_str());
-		if (test_file)
+		if(test_file)
 		{
 			lattice_path = paths[i];
 			break;
 		}
 	}
-	pair<AcceleratorModel*,BeamData*> mb = ConstructModel(lattice_path);
+	MADInterface madi(lattice_path, beamenergy);
+	madi.TreatTypeAsDrift("RFCAVITY");
 
 	AcceleratorModel* model = mb.first;
 	BeamData* beam = mb.second;
 
 	// Construct the halo tracking object.
-	HaloTracker ht(model->GetBeamline(),*beam);
+	HaloTracker ht(model->GetBeamline(), *beam);
 
 	// set halo limits to ±5 sigma and ±5% in dp/p
-	ht.SetHaloLimitsN(5,5,5,5,0.05);
+	ht.SetHaloLimitsN(5, 5, 5, 5, 0.05);
 
 	// We want to hard collimate the halo at apertures,
 	ht.collimate_halo = true;
@@ -95,4 +96,3 @@ int main()
 
 	return 0;
 }
-

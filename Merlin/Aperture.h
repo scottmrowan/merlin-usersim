@@ -88,6 +88,26 @@ public:
 	}
 
 	/**
+	 *  function to calculate all common aperture parameters
+	 *  @param[in] aper1 the horizontal rectangular aperture parameter
+	 *  @param[in] aper2 the vertical rectangular aperture parameter
+	 *  @param[in] aper3 the horizontal elliptical aperture parameter
+	 *  @param[in] aper4 the vertical elliptical aperture parameter
+	 */
+	void CalcApertureParams(double aper1, double aper2, double aper3, double aper4)
+	{
+		minRectDim = fmin(aper1, aper2);
+		minEllipDim = fmin(aper3, aper4);
+		minDim = min({aper1, aper2, aper3, aper4});
+		maxRectDim = fmax(aper1, aper2);
+		maxEllipDim = fmax(aper3, aper4);
+		maxDim = max({aper1, aper2, aper3, aper4});
+		ellipHalfHeight2 = aper4 * aper4;
+		ellipHalfWidth2 = aper3 * aper3;
+		ellipHalfWidth2overEllipHalfHeight2 = ellipHalfWidth2 / ellipHalfHeight2;
+	}
+
+	/**
 	 *  function to set the horizontal rectangular aperture parameter
 	 *  @param[in] aper1 the horizontal rectangular aperture parameter
 	 */
@@ -227,7 +247,7 @@ public:
 
 protected:
 	/**
-	 * 	protected aperture parameters accessible only via class get/set functions
+	 *  protected aperture parameters accessible only via class get/set functions
 	 */
 
 	string apType;
@@ -247,7 +267,7 @@ protected:
 	double ellipHalfWidth2overEllipHalfHeight2;
 };
 
-class CircularAperture : public Aperture
+class CircularAperture: public Aperture
 {
 public:
 	/**
@@ -463,7 +483,8 @@ public:
 	 * gets instance of input typename-specific Aperture, checks type against ApertureFactoryInitializer list
 	 * @return constructed Aperture pointer of assigned type
 	 */
-	Aperture* getInstance(string type="RECTELLIPSE", double s=0.0, double aper1=0.0, double aper2=0.0, double aper3=0.0, double aper4=0.0);
+	Aperture* getInstance(string type = "RECTELLIPSE", double s = 0.0, double aper1 = 0.0, double aper2 = 0.0, double
+		aper3 = 0.0, double aper4 = 0.0);
 };
 
 class ApertureFactoryInitializer

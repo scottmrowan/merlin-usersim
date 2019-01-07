@@ -13,8 +13,7 @@
 
 #include "merlin_config.h"
 
-#include "Particle.h"
-//#include "ScatteredParticle.h"
+#include "PSvector.h"
 
 #include "Material.h"
 #include "DiffractiveScatter.h"
@@ -28,13 +27,13 @@
 
 /*
 
-Definition of the virtual ScatteringProcess class and
-also several child classes derived from it
+   Definition of the virtual ScatteringProcess class and
+   also several child classes derived from it
 
-Created RJB 23 October 2012
-Modified HR 07.09.2015
+   Created RJB 23 October 2012
+   Modified HR 07.09.2015
 
-*/
+ */
 
 namespace Collimation
 {
@@ -42,22 +41,24 @@ namespace Collimation
 class ScatteringProcess
 {
 public:
-	double sigma; 			/// Integrated cross section for this process
+	double sigma;           /// Integrated cross section for this process
 
 protected:
-	double E0;				/// Reference energy
-	Material* mat; 			/// Material of the collimator being hit
-	CrossSections* cs;		/// CrossSections object holding all configured cross sections
-	double t;				/// Momentum transfer
+	double E0;              /// Reference energy
+	Material* mat;          /// Material of the collimator being hit
+	CrossSections* cs;      /// CrossSections object holding all configured cross sections
+	double t;               /// Momentum transfer
 
 public:
-	virtual ~ScatteringProcess() {};
+	virtual ~ScatteringProcess()
+	{
+	}
 	// The first function must be provided for all child classes, and probably the second as well
-	virtual bool Scatter(Particle& p, double E)=0;
+	virtual bool Scatter(PSvector& p, double E) = 0;
 	virtual void Configure(Material* matin, CrossSections* CSin)
 	{
-		mat=matin;
-		cs=CSin;
+		mat = matin;
+		cs = CSin;
 	}
 	virtual std::string GetProcessType() const
 	{
@@ -66,26 +67,26 @@ public:
 };
 
 /**
-* Rutherford
-*/
-class Rutherford:public ScatteringProcess
+ * Rutherford
+ */
+class Rutherford: public ScatteringProcess
 {
 	double tmin;
 public:
 	void Configure(Material* matin, CrossSections* CSin);
-	bool Scatter(Particle& p, double E);
+	bool Scatter(PSvector& p, double E);
 	std::string GetProcessType() const
 	{
 		return "Rutherford";
 	}
 };
 
-class SixTrackRutherford:public ScatteringProcess
+class SixTrackRutherford: public ScatteringProcess
 {
 	double tmin;
 public:
 	void Configure(Material* matin, CrossSections* CSin);
-	bool Scatter(Particle& p, double E);
+	bool Scatter(PSvector& p, double E);
 	std::string GetProcessType() const
 	{
 		return "SixTrackRutherford";
@@ -93,26 +94,26 @@ public:
 };
 
 /**
-* Elastic pn
-*/
-class Elasticpn:public ScatteringProcess
+ * Elastic pn
+ */
+class Elasticpn: public ScatteringProcess
 {
 	double b_pp; /// slope
 public:
 	void Configure(Material* matin, CrossSections* CSin);
-	bool Scatter(Particle& p, double E);
+	bool Scatter(PSvector& p, double E);
 	std::string GetProcessType() const
 	{
 		return "Elastic_pn";
 	}
 };
 
-class SixTrackElasticpn:public ScatteringProcess
+class SixTrackElasticpn: public ScatteringProcess
 {
 	double b_pp; /// slope
 public:
 	void Configure(Material* matin, CrossSections* CSin);
-	bool Scatter(Particle& p, double E);
+	bool Scatter(PSvector& p, double E);
 	std::string GetProcessType() const
 	{
 		return "SixTrackElasic_pn";
@@ -120,26 +121,26 @@ public:
 };
 
 /**
-* Elastic pN
-*/
-class ElasticpN:public ScatteringProcess
+ * Elastic pN
+ */
+class ElasticpN: public ScatteringProcess
 {
 	double b_N; /// slope
 public:
 	void Configure(Material* matin, CrossSections* CSin);
-	bool Scatter(Particle& p, double E);
+	bool Scatter(PSvector& p, double E);
 	std::string GetProcessType() const
 	{
 		return "Elastic_pN";
 	}
 };
 
-class SixTrackElasticpN:public ScatteringProcess
+class SixTrackElasticpN: public ScatteringProcess
 {
 	double b_N; /// slope
 public:
 	void Configure(Material* matin, CrossSections* CSin);
-	bool Scatter(Particle& p, double E);
+	bool Scatter(PSvector& p, double E);
 	std::string GetProcessType() const
 	{
 		return "SixTrackElasic_pN";
@@ -147,14 +148,14 @@ public:
 };
 
 /**
-* Single Diffractive
-*/
-class SingleDiffractive:public ScatteringProcess
+ * Single Diffractive
+ */
+class SingleDiffractive: public ScatteringProcess
 {
 	double m_rec; /// recoil mass
 public:
 	void Configure(Material* matin, CrossSections* CSin);
-	bool Scatter(Particle& p, double E);
+	bool Scatter(PSvector& p, double E);
 	std::string GetProcessType() const
 	{
 		return "SingleDiffractive";
@@ -162,13 +163,13 @@ public:
 
 };
 
-class SixTrackSingleDiffractive:public ScatteringProcess
+class SixTrackSingleDiffractive: public ScatteringProcess
 {
 	double m_rec; /// recoil mass
 	double dp;
 public:
 	void Configure(Material* matin, CrossSections* CSin);
-	bool Scatter(Particle& p, double E);
+	bool Scatter(PSvector& p, double E);
 	std::string GetProcessType() const
 	{
 		return "SixTrackSingleDiffractive";
@@ -177,13 +178,13 @@ public:
 };
 
 /**
-* Inelastic
-*/
-class Inelastic:public ScatteringProcess
+ * Inelastic
+ */
+class Inelastic: public ScatteringProcess
 {
 public:
 	void Configure(Material* matin, CrossSections* CSin);
-	bool Scatter(Particle& p, double E);
+	bool Scatter(PSvector& p, double E);
 	std::string GetProcessType() const
 	{
 		return "Inelastic";

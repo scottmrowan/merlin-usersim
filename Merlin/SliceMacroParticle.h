@@ -8,7 +8,7 @@
 #ifndef _h_SliceMacroParticle
 #define _h_SliceMacroParticle 1
 
-#include "PhaseSpaceHeaders.h"
+#include "PSTypes.h"
 #include "Space2D.h"
 #include <iostream>
 #include <cmath>
@@ -18,43 +18,42 @@ namespace SMPTracking
 
 typedef TPSMoments<2> PSmoments4D;
 
-class SliceMacroParticle : public PSmoments4D
+class SliceMacroParticle: public PSmoments4D
 {
 public:
 
-	explicit SliceMacroParticle(double q=0);
-	SliceMacroParticle(const PhaseSpaceMoments& sigma, double ct, double dp, double q);
+	explicit SliceMacroParticle(double q = 0);
+	SliceMacroParticle(const PSmoments& sigma, double ct, double dp, double q);
 
 	/**
-	* Macroparticle charge
-	*/
+	 * Macroparticle charge
+	 */
 	double Q() const
 	{
 		return q;
 	}
 
-
 	// weighted centroid values
-	double GetChargeWeightedCentroid(PhaseSpaceCoord i) const
+	double GetChargeWeightedCentroid(PScoord i) const
 	{
-		return q*mean(i);
+		return q * mean(i);
 	}
-	Point2D GetChargeWeightedCentroid(PhaseSpaceCoord i, PhaseSpaceCoord j) const
+	Point2D GetChargeWeightedCentroid(PScoord i, PScoord j) const
 	{
-		return Point2D(q*mean(i),q*mean(j));
+		return Point2D(q * mean(i), q * mean(j));
 	}
-	Particle GetChargeWeightedCentroid() const
+	PSvector GetChargeWeightedCentroid() const
 	{
-		Particle x(*this);
-		x*=q;
+		PSvector x(*this);
+		x *= q;
 		return x;
 	}
 
-	Particle& GetCentroid()
+	PSvector& GetCentroid()
 	{
 		return *this;
 	}
-	const Particle& GetCentroid() const
+	const PSvector& GetCentroid() const
 	{
 		return *this;
 	}
@@ -65,7 +64,7 @@ public:
 
 	friend bool operator<(const SliceMacroParticle& p1, const SliceMacroParticle& p2)
 	{
-		return p1.ct()<p2.ct();
+		return p1.ct() < p2.ct();
 	}
 
 private:

@@ -9,42 +9,40 @@
 
 #include "NumericalConstants.h"
 
-
-
-Particle NormalParticleDistributionGenerator::GenerateFromDistribution() const
+PSvector NormalParticleDistributionGenerator::GenerateFromDistribution() const
 {
-	Particle p(0);
-	p.x()	= RandomGauss(1,cutoffs.x());
-	p.xp()	= RandomGauss(1,cutoffs.xp());
-	p.y()	= RandomGauss(1,cutoffs.y());
-	p.yp()	= RandomGauss(1,cutoffs.yp());
-	p.dp()	= RandomGauss(1,cutoffs.dp());
-	p.ct()	= RandomGauss(1,cutoffs.ct());
+	PSvector p(0);
+	p.x()   = RandomGauss(1, cutoffs.x());
+	p.xp()  = RandomGauss(1, cutoffs.xp());
+	p.y()   = RandomGauss(1, cutoffs.y());
+	p.yp()  = RandomGauss(1, cutoffs.yp());
+	p.dp()  = RandomGauss(1, cutoffs.dp());
+	p.ct()  = RandomGauss(1, cutoffs.ct());
 	return p;
 }
 
-Particle UniformParticleDistributionGenerator::GenerateFromDistribution() const
+PSvector UniformParticleDistributionGenerator::GenerateFromDistribution() const
 {
-	Particle p(0);
-	p.x()	= RandomNG::uniform(-1,1);
-	p.xp()	= RandomNG::uniform(-1,1);
-	p.y()	= RandomNG::uniform(-1,1);
-	p.yp()	= RandomNG::uniform(-1,1);
-	p.dp()	= RandomNG::uniform(-1,1);
-	p.ct()	= RandomNG::uniform(-1,1);
+	PSvector p(0);
+	p.x()   = RandomNG::uniform(-1, 1);
+	p.xp()  = RandomNG::uniform(-1, 1);
+	p.y()   = RandomNG::uniform(-1, 1);
+	p.yp()  = RandomNG::uniform(-1, 1);
+	p.dp()  = RandomNG::uniform(-1, 1);
+	p.ct()  = RandomNG::uniform(-1, 1);
 	return p;
 }
 
-Particle RingParticleDistributionGenerator::GenerateFromDistribution() const
+PSvector RingParticleDistributionGenerator::GenerateFromDistribution() const
 {
-	Particle p(0);
-	double u = RandomNG::uniform(-pi,pi);
-	p.x()	= cos(u);
-	p.xp()	= sin(u);
-	u = RandomNG::uniform(-pi,pi);
-	p.y()	= cos(u);
-	p.yp()	= sin(u);
-	p.dp()	= RandomNG::uniform(-1,1);
-	p.ct()	= RandomNG::uniform(-1,1);
+	PSvector p(0);
+	double u = RandomNG::uniform(-pi, pi);
+	p.x()   = cos(u);
+	p.xp()  = sin(u);
+	u = RandomNG::uniform(-pi, pi);
+	p.y()   = cos(u);
+	p.yp()  = sin(u);
+	p.dp()  = RandomNG::uniform(-1, 1);
+	p.ct()  = RandomNG::uniform(-1, 1);
 	return p;
 }

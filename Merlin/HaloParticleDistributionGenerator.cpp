@@ -9,54 +9,54 @@
 #include "RandomNG.h"
 #include "NumericalConstants.h"
 
-Particle HorizonalHalo1ParticleDistributionGenerator::GenerateFromDistribution() const
+PSvector HorizonalHalo1ParticleDistributionGenerator::GenerateFromDistribution() const
 {
-	Particle p(0);
-	double u = RandomNG::uniform(-pi,pi);
-	p.x()    = cos(u) * sqrt(halo_size);
-	p.xp()   = sin(u) * sqrt(halo_size);
+	PSvector p(0);
+	double u = RandomNG::uniform(-pi, pi);
+	p.x()    = cos(u) * halo_size;
+	p.xp()   = sin(u) * halo_size;
 	p.y()    = 0.0;
 	p.yp()   = 0.0;
-	p.dp()   = RandomNG::uniform(-1,1);
-	p.ct()   = RandomNG::uniform(-1,1);
+	p.dp()   = RandomNG::uniform(-1, 1);
+	p.ct()   = RandomNG::uniform(-1, 1);
 	return p;
 }
 
-Particle VerticalHalo1ParticleDistributionGenerator::GenerateFromDistribution() const
+PSvector VerticalHalo1ParticleDistributionGenerator::GenerateFromDistribution() const
 {
-	Particle p(0);
-	double u = RandomNG::uniform(-pi,pi);
+	PSvector p(0);
+	double u = RandomNG::uniform(-pi, pi);
 	p.x()    = 0.0;
 	p.xp()   = 0.0;
-	p.y()    = cos(u) * sqrt(halo_size);
-	p.yp()   = sin(u) * sqrt(halo_size);
-	p.dp()   = RandomNG::uniform(-1,1);
-	p.ct()   = RandomNG::uniform(-1,1);
+	p.y()    = cos(u) * halo_size;
+	p.yp()   = sin(u) * halo_size;
+	p.dp()   = RandomNG::uniform(-1, 1);
+	p.ct()   = RandomNG::uniform(-1, 1);
 	return p;
 }
 
-Particle HorizonalHalo2ParticleDistributionGenerator::GenerateFromDistribution() const
+PSvector HorizonalHalo2ParticleDistributionGenerator::GenerateFromDistribution() const
 {
-	Particle p(0);
-	double u = RandomNG::uniform(-pi,pi);
-	p.x()    = cos(u) * sqrt(halo_size);
-	p.xp()   = sin(u) * sqrt(halo_size);
-	p.y()    = RandomGauss(1,cutoffs.y());
-	p.yp()   = RandomGauss(1,cutoffs.yp());
-	p.dp()   = RandomNG::uniform(-1,1);
-	p.ct()   = RandomNG::uniform(-1,1);
+	PSvector p(0);
+	double u = RandomNG::uniform(-pi, pi);
+	p.x()    = cos(u) * halo_size;
+	p.xp()   = sin(u) * halo_size;
+	p.y()    = RandomGauss(1, cutoffs.y());
+	p.yp()   = RandomGauss(1, cutoffs.yp());
+	p.dp()   = RandomNG::uniform(-1, 1);
+	p.ct()   = RandomNG::uniform(-1, 1);
 	return p;
 }
 
-Particle VerticalHalo2ParticleDistributionGenerator::GenerateFromDistribution() const
+PSvector VerticalHalo2ParticleDistributionGenerator::GenerateFromDistribution() const
 {
-	Particle p(0);
-	double u = RandomNG::uniform(-pi,pi);
-	p.x()    = RandomGauss(1,cutoffs.x());
-	p.xp()   = RandomGauss(1,cutoffs.xp());
-	p.y()    = cos(u) * sqrt(halo_size);
-	p.yp()   = sin(u) * sqrt(halo_size);
-	p.dp()   = RandomNG::uniform(-1,1);
-	p.ct()   = RandomNG::uniform(-1,1);
+	PSvector p(0);
+	double u = RandomNG::uniform(-pi, pi);
+	p.x()    = RandomGauss(1, cutoffs.x());
+	p.xp()   = RandomGauss(1, cutoffs.xp());
+	p.y()    = cos(u) * halo_size;
+	p.yp()   = sin(u) * halo_size;
+	p.dp()   = RandomNG::uniform(-1, 1);
+	p.ct()   = RandomNG::uniform(-1, 1);
 	return p;
 }

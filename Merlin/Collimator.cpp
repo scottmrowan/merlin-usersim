@@ -12,19 +12,19 @@
 const int Collimator::ID = UniqueIndex();
 
 Collimator::Collimator(const string& id, double len) :
-		Drift(id, len), Xr(0), scatter_at_this_collimator(true)
+	Drift(id, len), Xr(0), scatter_at_this_collimator(true)
 {
 
 }
 
 Collimator::Collimator(const string& id, double len, double radLength) :
-		Drift(id, len), Xr(radLength), scatter_at_this_collimator(true)
+	Drift(id, len), Xr(radLength), scatter_at_this_collimator(true)
 {
 
 }
 
 Collimator::Collimator(const string& id, double len, Material* mat, double P0) :
-		Drift(id, len), material(mat), scatter_at_this_collimator(true)
+	Drift(id, len), material(mat), scatter_at_this_collimator(true)
 {
 
 }
@@ -53,4 +53,3 @@ ModelElement* Collimator::Copy() const
 {
 	return new Collimator(*this);
 }
-

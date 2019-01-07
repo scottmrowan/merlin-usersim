@@ -5,11 +5,11 @@
  * This file is derived from software bearing the copyright notice in merlin4_copyright.txt
  */
 
-//#include "ScatteredParticle.h"
+#include "PSvector.h"
 #include "MADInterface.h"
 #include "utils.h"
-//#include "TiltedAperture.hpp"
+#include "TiltedAperture.hpp"
 
-pair<double,double> CoulombScatterp(double x, double theta0);
-int ScatterProton(Particle& p, double x, double E0,const  Aperture* tap);
+pair<double, double> CoulombScatterp(double x, double theta0);
+int ScatterProton(PSvector& p, double x, double E0, const Aperture* tap);
 //int ScatterProtonQ(PSvectorQ& p, double x, double E0,const  Aperture* tap);

@@ -15,7 +15,7 @@
 #include "BPMVectorBuffer.h"
 #include "ConstantStrayFieldProcess.h"
 
-#define BEAMENERGY 5.0*GeV
+#define BEAMENERGY 5.0 * GeV
 
 using namespace PhysicalUnits;
 using namespace ParticleTracking;
@@ -24,14 +24,15 @@ int main()
 {
 	// Construct the AcceleratorModel
 	// from a lattice file produced by MAD
-	string paths[] = {"../lattices/MERLINFodo.lattice.txt", "lattices/MERLINFodo.lattice.txt", "MerlinExamples/lattices/MERLINFodo.lattice.txt"};
+	string paths[] = {"../lattices/MERLINFodo.lattice.txt", "lattices/MERLINFodo.lattice.txt",
+					  "MerlinExamples/lattices/MERLINFodo.lattice.txt"};
 
 	string lattice_path;
-	for (size_t i=0; i<3; i++)
+	for(size_t i = 0; i < 3; i++)
 	{
 		ifstream test_file;
 		test_file.open(paths[i].c_str());
-		if (test_file)
+		if(test_file)
 		{
 			lattice_path = paths[i];
 			break;
@@ -47,13 +48,11 @@ int main()
 
 	AcceleratorModel* theModel = madi.ConstructModel();
 
-
 	// Find the closed orbit in the ring.
-	ClosedOrbit theClosedOrbit(theModel,BEAMENERGY);
-	theClosedOrbit.AddProcess(new ConstantStrayFieldProcess(10.0,0.001));
+	ClosedOrbit theClosedOrbit(theModel, BEAMENERGY);
+	theClosedOrbit.AddProcess(new ConstantStrayFieldProcess(10.0, 0.001));
 	Particle co(0);
 	theClosedOrbit.FindClosedOrbit(co);
-
 
 	// Construct a bunch of particles
 	// to track through the lattice.
@@ -61,11 +60,9 @@ int main()
 	ParticleBunch* theBunch = new ParticleBunch(BEAMENERGY);
 	theBunch->AddParticle(co);
 
-
 	// Construct a ParticleTracker to perform the tracking
 	ParticleTracker tracker(theModel->GetBeamline(), theBunch);
-	tracker.AddProcess(new ConstantStrayFieldProcess(10.0,0.001));
-
+	tracker.AddProcess(new ConstantStrayFieldProcess(10.0, 0.001));
 
 	// Construct a BPMBuffer to record the bunch centroid at each BPM
 	BPMVectorBuffer* bpmVecBuffer = new BPMVectorBuffer();
@@ -74,19 +71,17 @@ int main()
 	// Do the tracking
 	tracker.Run();
 
-
 	// Write the tracking results to a file
 	ofstream bpmLog("StrayFieldClosedOrbit.dat");
 	vector<BPM::Data>& theBPMBuffer = bpmVecBuffer->BPMReading;
-	for(vector<BPM::Data>::iterator bpm_iter=theBPMBuffer.begin(); bpm_iter!=theBPMBuffer.end(); bpm_iter++)
+	for(vector<BPM::Data>::iterator bpm_iter = theBPMBuffer.begin(); bpm_iter != theBPMBuffer.end(); bpm_iter++)
 	{
-		bpmLog<<std::setw(14)<<(bpm_iter->x).value;
-		bpmLog<<std::setw(14)<<(bpm_iter->x).error;
-		bpmLog<<std::setw(14)<<(bpm_iter->y).value;
-		bpmLog<<std::setw(14)<<(bpm_iter->y).error;
-		bpmLog<<endl;
-	};
-
+		bpmLog << std::setw(14) << (bpm_iter->x).value;
+		bpmLog << std::setw(14) << (bpm_iter->x).error;
+		bpmLog << std::setw(14) << (bpm_iter->y).value;
+		bpmLog << std::setw(14) << (bpm_iter->y).error;
+		bpmLog << endl;
+	}
 
 	BPM::SetDefaultBuffer(nullptr);
 	delete bpmVecBuffer;
@@ -94,7 +89,7 @@ int main()
 	delete theBunch;
 	delete theModel;
 
-	cout<<"Finished!"<<endl;
+	cout << "Finished!" << endl;
 
 	return 0;
 }

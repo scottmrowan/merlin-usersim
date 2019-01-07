@@ -8,32 +8,34 @@
 #ifndef ParticleDistributionGenerator_h
 #define ParticleDistributionGenerator_h 1
 
-#include "Particle.h"
+#include "PSvector.h"
 #include "RandomNG.h"
 
 inline double RandomGauss(double variance, double cutoff)
 {
-	return cutoff==0 ? RandomNG::normal(0,variance) :  RandomNG::normal(0,variance,cutoff);
+	return cutoff == 0 ? RandomNG::normal(0, variance) : RandomNG::normal(0, variance, cutoff);
 }
 
 /**
-* Base class for distribution generators. These can be used by
-* ParticleTracking::ParticleBunch::ParticleBunch to construct bunches with
-* a given distribution.
-*
-* Derived classes must override GenerateFromDistribution(), with a function
-* that returns a single PSvector from the distribution.
-*
-*  Additional parameters can be passed to the constructors of derived classes.
-*/
+ * Base class for distribution generators. These can be used by
+ * ParticleTracking::ParticleBunch::ParticleBunch to construct bunches with
+ * a given distribution.
+ *
+ * Derived classes must override GenerateFromDistribution(), with a function
+ * that returns a single PSvector from the distribution.
+ *
+ *  Additional parameters can be passed to the constructors of derived classes.
+ */
 class ParticleDistributionGenerator
 {
 public:
 	/**
 	 * Returns a single PSvector from the distribution
 	 */
-	virtual Particle GenerateFromDistribution() const = 0;
-	virtual ~ParticleDistributionGenerator() {};
+	virtual PSvector GenerateFromDistribution() const = 0;
+	virtual ~ParticleDistributionGenerator()
+	{
+	}
 };
 
 /**
@@ -46,14 +48,20 @@ public:
 	 * @param cutoffs_ Vector of cut off points in the distribution in each coordinate.
 	 * Default zero gives no cut off.
 	 */
-	NormalParticleDistributionGenerator(Particle cutoffs_ = Particle(0)): cutoffs(cutoffs_) {};
+	NormalParticleDistributionGenerator(PSvector cutoffs_ = PSvector(0)) :
+		cutoffs(cutoffs_)
+	{
+	}
 	/**
 	 * @param cutoff Cut off point in distribution, same in each coordinate
 	 */
-	NormalParticleDistributionGenerator(double cutoff): cutoffs(Particle(cutoff)) {};
-	virtual Particle GenerateFromDistribution() const override;
+	NormalParticleDistributionGenerator(double cutoff) :
+		cutoffs(PSvector(cutoff))
+	{
+	}
+	virtual PSvector GenerateFromDistribution() const override;
 private:
-	Particle cutoffs;
+	PSvector cutoffs;
 };
 
 /**
@@ -62,7 +70,7 @@ private:
 class UniformParticleDistributionGenerator: public ParticleDistributionGenerator
 {
 public:
-	virtual Particle GenerateFromDistribution() const override;
+	virtual PSvector GenerateFromDistribution() const override;
 };
 
 /**
@@ -71,7 +79,7 @@ public:
 class RingParticleDistributionGenerator: public ParticleDistributionGenerator
 {
 public:
-	virtual Particle GenerateFromDistribution() const override;
+	virtual PSvector GenerateFromDistribution() const override;
 };
 
 #endif

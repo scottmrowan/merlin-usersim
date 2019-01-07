@@ -14,12 +14,12 @@
 #include "CollimationOutput.h"
 #include "AcceleratorComponent.h"
 #include "ParticleBunch.h"
-#include "PhaseSpaceHeaders.h"
+#include "PSTypes.h"
 
 namespace ParticleTracking
 {
 
-class FlukaCollimationOutput : public CollimationOutput
+class FlukaCollimationOutput: public CollimationOutput
 {
 
 public:
@@ -40,4 +40,3 @@ private:
 }
 
 #endif
-
