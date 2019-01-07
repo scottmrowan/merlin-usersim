@@ -65,8 +65,7 @@ int main()
 			break;
 		}
 	}
-	MADInterface madi(lattice_path, beamenergy);
-	madi.TreatTypeAsDrift("RFCAVITY");
+	pair<AcceleratorModel*, BeamData*> mb = ConstructModel(lattice_path);
 
 	AcceleratorModel* model = mb.first;
 	BeamData* beam = mb.second;
